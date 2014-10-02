@@ -75,11 +75,11 @@ class AdressBooksController < ApplicationController
   end
   
   def disable_person
-    enable_disable_entry("désactiver", "désactivée", "person_id", false)
+    enable_disable_entry("désactiver", "désactivée", "person_id", false, "persons")
   end
   
   def enable_person
-    enable_disable_entry("activer", "activée", "person_id", true)
+    enable_disable_entry("activer", "activée", "person_id", true, "persons")
   end
   
   # List companies and display create form
@@ -142,14 +142,14 @@ class AdressBooksController < ApplicationController
   end 
   
   def disable_company
-    enable_disable_entry("désactiver", "désactivée", "company_id", false)
+    enable_disable_entry("désactiver", "désactivée", "company_id", false, "companies")
   end
   
   def enable_company
-    enable_disable_entry("activer", "activée", "company_id", true)
+    enable_disable_entry("activer", "activée", "company_id", true, "companies")
   end
   
-  def enable_disable_entry(message1, message2, adress_book_type, status)
+  def enable_disable_entry(message1, message2, adress_book_type, status, return_method)
     @adress_book = AdressBook.find_by_id(params[:id])
     if @adress_book.blank?
       render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
@@ -159,7 +159,8 @@ class AdressBooksController < ApplicationController
                
       init_adress_book(adress_book_type)  
       
-      redirect_to :back
+      #render send(return_method)
+      redirect_to "/#{return_method}"
     end   
   end
   

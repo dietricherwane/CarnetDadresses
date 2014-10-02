@@ -28,7 +28,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 # User registration and authentication
-gem 'devise'
+gem 'devise', '~> 3.0.4'
 
 # To handle attr_accessible
 gem 'protected_attributes'
