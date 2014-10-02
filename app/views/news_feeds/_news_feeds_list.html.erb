@@ -1,0 +1,32 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= news_feed.title %>
+    <%= render "status_icons", news_feed: news_feed %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b>Actions:</b>
+    <a class = "form-action-link" href = "<%= edit_news_feed_path(news_feed.id) %>">
+      <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
+    </a>  
+    <a class = "form-action-link" href = "<%= news_feed.published? ? disable_news_feed_path(news_feed.id) : enable_news_feed_path(news_feed.id) %>">
+      <img src = "/images/forms/<%= news_feed.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= news_feed.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+  </p>
+  <p>
+    <b><%= NewsFeed.human_attribute_name("title") %>:</b> <%= news_feed.title %> 
+  </p>
+  <p>
+    <b><%= NewsFeed.human_attribute_name("content") %>:</b> <%= simple_format(news_feed.content) %> 
+  </p>
+  <p>
+    <b><%= NewsFeed.human_attribute_name("publication_date") %>:</b> <%= news_feed.publication_date.strftime("%d-%m-%y") %> 
+  </p>
+  <p>
+    <b><%= NewsFeed.human_attribute_name("created_by") %>:</b> <%= news_feed.user.full_name rescue nil %> 
+  </p>
+  <p>
+    <b>Créé le:</b> <%= news_feed.created_at.strftime("%d-%m-%y") + " à " + news_feed.created_at.strftime("%Hh %Mmn") %> 
+  </p>
+</div>

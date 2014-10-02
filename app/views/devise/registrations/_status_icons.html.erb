@@ -1,0 +1,10 @@
+<% if user.confirmation_token.blank? %>
+  <% if user.published? %>
+    <img src = "/images/stuff/check.png" class = "status_icons" title = "Activé" />
+  <% else %>
+    <img src = "/images/stuff/check_red.png" class = "status_icons" title = "Désactivé" />
+  <% end %>
+  
+<% else %>
+  <img src = "/images/stuff/check_blue.png" class = "status_icons" title = "En attente" />
+<% end %>

@@ -1,0 +1,15 @@
+<%= form_tag(search_person_path, method: :post) do %>
+  <div class="form-group">
+    <label for = "terms">
+      Recherche
+    </label>
+    <%= text_field_tag :terms, @terms, class: "form-control", placeholder: "Veuillez entrer des termes de recherche" %>
+  </div>       
+  
+  <div class="form-group">
+    <%= submit_tag "Valider" %>
+  </div>
+<% end %>
+
+<div class="border_divider"></div>
+

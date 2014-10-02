@@ -1,0 +1,113 @@
+<%= notification_messages! %> 
+
+<div class="page_title_wrapper">
+  <div class="container sixteen columns">
+    <div class="page_title_inner">	      			       	
+      <span class="main_t_1"> 
+        Modification des profils des Décideurs </span><span class="main_t_2">&nbsp; - &nbsp;  Modifier le profil de <%= @adress_book.full_name %> 
+      </span>
+    </div>			
+  </div><!-- End container sixteen columns -->			
+</div><!-- End page_title_wrapper -->
+
+<div class="content_shadow"></div>
+<div class="clear"></div>
+
+<div class = "container">
+  <div class = "content_wrapper_inner">
+  
+  <div class = "sixteen columns row">
+    <div class = "one_half">
+      
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Modifier le profil</h3>                                				   
+      </div>
+      <%= form_for @adress_book, url: update_person_path, method: :post do |f| %>      
+        <%= address_book_messages! %>                   
+        <div class="form-group">
+          <%= f.label :firstname %>
+          <%= f.text_field :firstname, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :lastname %>
+          <%= f.text_field :lastname, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le prénom" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :company_name %>
+          <%= f.text_field :company_name, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :sector_id %>
+          <%= f.collection_select :sector_id, @sectors, :id, :name, options ={prompt: "-Veuillez choisir le secteur d'opération-"}, html_options = {class: "form-control"} %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :sales_area_id %>
+          <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir le domaine d'activité-"}, html_options = {class: "form-control"} %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :social_status_id %>
+          <%= f.collection_select :social_status_id, @social_statuses, :id, :name, options ={prompt: "-Veuillez choisir le type d'entreprise-"}, html_options = {class: "form-control"} %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :trading_identifier %>
+          <%= f.text_field :trading_identifier, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le registre de commerce" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :phone_number %>
+          <%= f.text_field :phone_number, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le numéro fixe" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :mobile_number %>
+          <%= f.text_field :mobile_number, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le numéro mobile" %>
+        </div>        
+                  
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.email_field :email, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer l'adresse email" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :comment %>
+          <%= f.text_area :comment, class: "form-control", placeholder: "Veuillez entrer un commentaire" %>
+        </div>             
+
+        <div class="form-group">
+          <%= f.submit "Valider" %>
+        </div>
+      <% end %>
+    </div><!-- End one_half -->
+    
+    <div class = "one_half lastcolumn">
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Liste des Décideurs</h3>                                				   
+      </div>
+      
+      <!-- Search form -->
+      <%= render "search_person_form", :locals => {terms: @terms} %>      
+      <!-- Search form -->      
+            
+      <div class="accordion-items">  
+        <% unless @adress_books.blank? %>       
+          <% @adress_books.each do |adress_book| %>    
+            <div class="accordion-item">    
+              <%= render "persons_list", adress_book: adress_book %>
+            </div>
+          <% end %>
+                                	
+            <%= paginate @adress_books, :params => {:controller => :adress_books, :action => :persons} %>   
+        <% end %>    
+      </div>
+      			 
+    </div><!-- End one_half lastcolumn -->
+  </div>
+  
+  </div><!-- End content_wrapper_inner -->
+</div><!-- End container -->

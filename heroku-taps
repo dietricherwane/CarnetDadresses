@@ -1,0 +1,1 @@
+PGUSER=o1 PGPASSWORD=com99123 heroku pg:push AfriqueTrader_development HEROKU_POSTGRESQL_ROSE_URL

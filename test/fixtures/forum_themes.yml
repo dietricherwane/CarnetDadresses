@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  sector_id: 1
+  sales_area_id: 1
+  published: false
+  validated_by: 1
+  validated_at: 2014-09-28 14:50:23
+  unpublished_by: 1
+  unpublished_at: 2014-09-28 14:50:23
+
+two:
+  title: MyString
+  sector_id: 1
+  sales_area_id: 1
+  published: false
+  validated_by: 1
+  validated_at: 2014-09-28 14:50:23
+  unpublished_by: 1
+  unpublished_at: 2014-09-28 14:50:23

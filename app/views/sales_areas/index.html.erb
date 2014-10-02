@@ -1,0 +1,58 @@
+<%= notification_messages! %> 
+
+<div class="page_title_wrapper">
+  <div class="container sixteen columns">
+    <div class="page_title_inner">	      			       	
+      <span class="main_t_1"> 
+        Création et visualisation des Domaines d'Activités </span><span class="main_t_2">&nbsp; - &nbsp;  Ajouter des Domaines d'Activités au système 
+      </span>
+    </div>			
+  </div><!-- End container sixteen columns -->			
+</div><!-- End page_title_wrapper -->
+
+<div class="content_shadow"></div>
+<div class="clear"></div>
+
+<div class = "container">
+  <div class = "content_wrapper_inner">
+  
+  <div class = "sixteen columns row">
+    <div class = "one_half">
+      
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Créer un Domaine d'Activité</h3>                                				   
+      </div>
+      <%= form_for @sales_area, url: create_sales_area_path do |f| %>      
+        <%= sales_area_messages! %>                          
+        <div class="form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom du domaine d'activités" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.submit "Valider" %>
+        </div>
+      <% end %>
+    </div><!-- End one_half -->
+    
+    <div class = "one_half lastcolumn">
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Liste des Domaines d'Activités</h3>                                				   
+      </div>
+      <div class="accordion-items">
+        <% unless @sales_areas.blank? %>
+          <% @sales_areas.each do |sales_area| %>
+            <div class="accordion-item">
+              <%= render "sales_areas_list", sales_area: sales_area %>
+            </div>
+          <% end %>
+            		
+          <%= paginate @sales_areas, :params => {:controller => :sales_areas, :action => :index} %>
+        <% end %>
+      </div>
+			 
+    </div><!-- End one_half lastcolumn -->
+  </div>
+  
+  </div><!-- End content_wrapper_inner -->
+</div><!-- End container -->

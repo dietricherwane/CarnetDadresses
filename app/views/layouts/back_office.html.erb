@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US" >
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="index, follow" />
+
+<!-- page title -->
+<title>Carnet d'Adresses</title>
+
+<!-- add css stylesheets -->	
+<%= stylesheet_link_tag "style", media: "all", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "base", media: "all", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "skeleton", media: "all", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "flexslider", media: "all", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "bootstrap", media: "all", "data-turbolinks-track" => true %>
+  
+<!-- Pretty Photo -->
+<%= stylesheet_link_tag "prettyPhoto", media: "all", "data-turbolinks-track" => true %>
+
+
+<!--[if gte IE 8]>
+	<link rel="stylesheet" media="screen" type="text/css" href="css/ie8up.css" />
+<![endif]-->
+<!--[if gte IE 9]>
+	<link rel="stylesheet" media="screen" type="text/css" href="css/ie8up.css" />
+<![endif]-->
+
+
+
+<!-- mobile setting -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="images/favicon.html">
+
+
+<!-- javascript -->
+<%= javascript_include_tag 'application', "data-turbolinks-track" => true %> 
+
+<!-- google webfont font replacement  -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic,300,300italic' rel='stylesheet' type='text/css'>
+
+<%= csrf_meta_tags %>
+</head>
+<body>	
+
+
+<!-- Image Back ground and pattern Background  -->   
+<img src="/images/large/bg.jpg" alt="" id="background" />
+
+<div class="header_top_first">
+
+<div class="container sixteen columns header_top_inner">
+		
+  <div class="eight columns align_left">
+	  <div class="testimonials">
+	    <% @last_updates = LastUpdate.all.limit(10) rescue nil %>
+      <% if @last_updates %>
+	      <div class="testi_icon"></div>
+        <ul>          
+          <% @last_updates.each do |last_update| %>
+            <% @entry_type = last_update.update_entry_type %>
+            <li>
+              <div class="testi-text dro">
+                <%= last_update.created_at.strftime("%d-%m-%y") + " à " + last_update.created_at.strftime("%Hh %Mmn") %> [<%= last_update.update_status %> - <%= @entry_type %>]: <%= @entry_type == "Entreprise" ? AdressBook.find_by_id(last_update.user_id).company_full_name : AdressBook.find_by_id(last_update.user_id).full_name %>
+              </div>                                  
+            </li>
+          <% end %>  
+        </ul>	      
+      <% end %>					
+    </div>			
+  </div>
+					
+  <div class="top_info">
+    <p>			
+      <%= link_to "Déconnexion", destroy_user_session_path, :method => :delete %>           
+    </p>		
+  </div>
+						
+</div>  
+
+<div class="clear"></div>		
+</div>
+
+<div class="header_top_second">
+
+<div class="container sixteen columns header_top_second_inner">
+
+<div class="four columns align_left logo"><a href="#"><img src="images/logo.png" alt="" /></a></div>
+
+<div class="contact_head">
+   <div class="top_home_wrapper">
+    <div class="top_home_icon"></div><h6><%= current_user.company? ?	"#{user.company_full_name} - #{@social_status}"	: current_user.full_name %></h6>
+	<div class="clear"></div>
+   </div>   
+</div>
+
+</div>
+<div class="clear"></div>
+</div>
+		
+<!-- Main header -->
+<div id="main_wrapper">
+	<div class="main_wrapper_inner">
+      
+    <div class="header_menu">
+      <div class="header_top_inner">
+
+        <div class="container sixteen columns">
+
+          <div class="main_menu">
+            <nav id="dropdown">
+	            <ul class="sf-menu clearfix">								
+		            <li>
+		              <a href="/users/sign_up" class="trigger"><span><i class="icon-home"></i>Dashboard</span></a>
+		            </li>
+		            <li>
+		              <a href="#" class="trigger"><span><i class="icon-staff"></i>Annuaire</span></a>
+		              <ul>
+		                <li>
+		                  <%= link_to "Décideurs", persons_path %>
+		                </li>
+		                <li>
+		                  <%= link_to "Entreprises", companies_path %>
+		                </li>
+		              </ul>
+		            </li>
+		            <li>
+		              <a href="/news_feeds" class="trigger"><span><i class="icon-service"></i>Actualités</span></a>
+		            </li>
+		            <li>
+		              <a href="#" class="trigger"><span><i class="icon-feature"></i>Paramètres</span></a>
+		              <ul>
+		                <li>
+		                  <%= link_to "Domaines d'Activités", sales_areas_path %>
+		                </li>
+		                <li>
+		                  <%= link_to "Aide", help_path %>
+		                </li>
+		              </ul>
+		            </li>
+		            <li>
+		            </li>
+	            </ul>
+            </nav>	
+          </div><!-- end main_menu -->
+
+        </div> <!-- End sixteen columns -->
+
+      </div><!-- End header_top_inner -->
+    </div> <!-- End header_menu -->
+		 
+    <!--<div class="slider_shadow"></div>-->
+	
+    <div class="content">		
+       					
+      <div class="content_wrapper">	
+	           
+        <%= yield %>	          
+		
+      </div> <!-- End content_wrapper -->
+                 
+    </div>	<!-- End content -->
+
+
+    <footer id="footer">	
+		       
+      <div class="container">
+
+        <div class="footer_inner"> 
+			          
+          <div class="sixteen columns">
+			                  
+            <div class="four columns clearfix widget alpha">		
+            </div>			
+			
+          </div>
+
+        </div>
+                  
+      </div>
+
+    </footer> <!-- End footer -->
+
+		
+    <div id="subfooter_wrapper">
+
+      <div class="container">
+
+        <div class="subfooter">
+            	    
+          <div class="eight columns power_bt">			
+          </div>
+			
+          <div class="eight columns">
+            <div class="social_wrapper">  		
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div> <!-- End subfooter_wrapper -->
+		
+  </div> <!-- End main_wrapper_inner -->	   
+</div> <!-- End main_wrapper -->
+</body>
+</html>

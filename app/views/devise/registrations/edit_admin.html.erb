@@ -1,0 +1,78 @@
+<%= flash_messages! %>
+
+<div class="page_title_wrapper">
+  <div class="container sixteen columns">
+    <div class="page_title_inner">	      			       	
+      <span class="main_t_1"> 
+        Modification des comptes utilisateurs </span><span class="main_t_2">&nbsp; - &nbsp;  Modifier le profil de <%= @user.full_name %> 
+      </span>
+    </div>			
+  </div><!-- End container sixteen columns -->			
+</div><!-- End page_title_wrapper -->
+
+<div class="content_shadow"></div>
+<div class="clear"></div>
+
+<div class = "container">
+  <div class = "content_wrapper_inner">
+  
+  <div class = "sixteen columns row">
+    <div class = "one_half">
+      
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Modifier le compte</h3>                                				   
+      </div>
+      <%= devise_error_messages! %>
+      <%= form_for(@user, url: update_admin_path(@user.id)) do |f| %>                                 
+        <div class="form-group">
+          <%= f.label :firstname %>
+          <%= f.text_field :firstname, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer votre nom" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :lastname %>
+          <%= f.text_field :lastname, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer votre prénom" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :phone_number %>
+          <%= f.text_field :phone_number, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer votre adresse numéro fixe" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :mobile_number %>
+          <%= f.text_field :mobile_number, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer votre adresse numéro mobile" %>
+        </div>                                  
+
+        <div class="form-group">
+          <%= f.submit "Valider" %>
+        </div>
+      <% end %>
+    </div><!-- End one_half -->
+    
+    <div class = "one_half lastcolumn">
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Liste des utilisateurs</h3>                                				   
+      </div>
+      
+      <!-- Search form -->
+      <%= render "search_form", :locals => {terms: @terms} %>      
+      <!-- Search form --> 
+      
+      <div class="accordion-items">
+        <% unless @users.blank? %>
+          <% @users.each do |user| %>
+	          <div class="accordion-item">
+              <%= render user.company? ? "company_profile_details" : "profile_details", user: user %>
+            </div>	
+	        <% end %>		
+	        
+          <%= paginate @users %>
+        <% end %>
+      </div>
+			 
+    </div><!-- End one_half lastcolumn -->
+  </div>
+  
+  </div><!-- End content_wrapper_inner -->
+</div><!-- End container -->

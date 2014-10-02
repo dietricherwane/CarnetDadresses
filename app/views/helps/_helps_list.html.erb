@@ -1,0 +1,39 @@
+<% @helps.each do |help| %>
+  <div class="accordion-item">
+    <div class="accordion-item-header">
+      <a href="#">
+        Aide du site web
+      </a>
+    </div>
+    <div class="accordion-item-body">
+      <p>
+        <b><%= Help.human_attribute_name("website_content") %>:</b> <%= simple_format(help.website_content) %> 
+      </p>
+      <p>
+        <b>Modifié par:</b> <%= User.find_by_id(help.website_user_id).full_name rescue nil %> 
+      </p>
+      <p>
+        <b>Dernière modification le:</b> <%= help.website_updated_at.strftime("%d-%m-%y") + " à " + help.website_updated_at.strftime("%Hh %Mmn") rescue nil %> 
+      </p>
+    </div>
+  </div>
+  
+  <div class="accordion-item">
+    <div class="accordion-item-header">
+      <a href="#">
+        Aide du wallet
+      </a>
+    </div>
+    <div class="accordion-item-body">
+      <p>
+        <b><%= Help.human_attribute_name("wallet_content") %>:</b> <%= simple_format(help.wallet_content) %> 
+      </p>
+      <p>
+        <b>Modifié par:</b> <%= User.find_by_id(help.wallet_user_id).full_name rescue nil %> 
+      </p>
+      <p>
+        <b>Dernière modification le:</b> <%= help.wallet_updated_at.strftime("%d-%m-%y") + " à " + help.wallet_updated_at.strftime("%Hh %Mmn") rescue nil %> 
+      </p>
+    </div>
+  </div>
+<% end %>

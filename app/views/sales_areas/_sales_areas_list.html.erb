@@ -1,0 +1,26 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= sales_area.name %>
+    <%= render "status_icons", sales_area: sales_area %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b>Actions:</b>
+    <a class = "form-action-link" href = "<%= edit_sales_area_path(sales_area.id) %>">
+      <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
+    </a>  
+    <a class = "form-action-link" href = "<%= sales_area.published? ? disable_sales_area_path(sales_area.id) : enable_sales_area_path(sales_area.id) %>">
+      <img src = "/images/forms/<%= sales_area.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= sales_area.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+  </p>
+  <p>
+    <b><%= SalesArea.human_attribute_name("name") %>:</b> <%= sales_area.name %> 
+  </p>
+  <p>
+    <b><%= SalesArea.human_attribute_name("created_by") %>:</b> <%= sales_area.user.full_name rescue nil %> 
+  </p>
+  <p>
+    <b>Créé le:</b> <%= sales_area.created_at.strftime("%d-%m-%y") + " à " + sales_area.created_at.strftime("%Hh %Mmn") %> 
+  </p>
+</div>

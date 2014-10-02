@@ -1,0 +1,3 @@
+$('#news_feeds').html('<%= escape_javascript render 'news_feeds_list', :locals => {:news_feeds => @news_feeds} %>');
+
+$('#pagination').html('<%= escape_javascript(paginate(@news_feeds, :params => {:controller => :news_feeds, :action => :index}, :remote => true).to_s) %>');

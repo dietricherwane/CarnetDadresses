@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US" >
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="index, follow" />
+
+<!-- page title -->
+<title>Carnet d'Adresses</title>
+
+
+<!-- add css stylesheets -->	
+<%= stylesheet_link_tag "style", media: "all", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "base", media: "all", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "skeleton", media: "all", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "flexslider", media: "all", "data-turbolinks-track" => true %>
+<%= stylesheet_link_tag "bootstrap", media: "all", "data-turbolinks-track" => true %>
+  
+
+<!-- Pretty Photo -->
+<%= stylesheet_link_tag "prettyPhoto", media: "all", "data-turbolinks-track" => true %>
+
+
+<!--[if gte IE 8]>
+	<link rel="stylesheet" media="screen" type="text/css" href="css/ie8up.css" />
+<![endif]-->
+<!--[if gte IE 9]>
+	<link rel="stylesheet" media="screen" type="text/css" href="css/ie8up.css" />
+<![endif]-->
+
+
+
+<!-- mobile setting -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<!-- Favicon -->
+<link rel="shortcut icon" href="images/favicon.html">
+
+
+<!-- javascript -->
+<%= javascript_include_tag 'application', "data-turbolinks-track" => true %>
+
+<!-- google webfont font replacement  -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic,300,300italic' rel='stylesheet' type='text/css'>
+
+<%= csrf_meta_tags %>
+</head>
+<body>	
+
+
+<!-- Image Back ground and pattern Back ground  -->
+   
+    <!-- <div id="pattern_bg"></div>  -->
+     <img src="/images/large/bg.jpg" alt="" id="background" />
+
+<div class="header_top_first">
+		<div class="container sixteen columns header_top_inner">
+	    	<div class="eight columns align_left">
+				<div class="testimonials">
+				            <div class="testi_icon"></div>
+                        	<ul>
+									<li>
+          <div class="testi-text dro">
+            05/09-11h35   CICE:Pour les embauches, il faudra attendre. 
+          </div>                                  
+        </li>
+        <li>
+          <div class="testi-text dro">
+            06/09-15h48 	Le redressement judiciaire seule solution pour la SNCM-Veolia   
+          </div>                                  
+        </li>
+									
+                            </ul>						
+                </div>			
+			</div>
+			
+		
+	
+						
+        </div>  
+  <div class="clear"></div>		
+</div>
+
+
+		
+		
+<%= render 'layouts/session_flash_messages' %>		 
+         
+		
+		
+<!-- Main header -->
+  <div id="main_session_wrapper">
+  
+  
+  
+ 
+    <div class="main_wrapper_inner">
+      		
+      		
+      	
+      	
+      <div class="content">		
+			
+        <div class="content_session_wrapper">	
+           
+         <div class="session_first_wrapper_bg">	
+           
+           <div class="session_container"> 
+             	 
+             <div class="session_service_wrapper_holder">	                			   
+               <%= yield %>              
+             </div><!-- End service wrapper holder -->
+           </div>             
+         </div>  <!-- End first wrapper -->
+         <div class="session_content_shadow"></div>	
+
+        </div> <!-- End Content wrapper -->
+      </div>
+    </div>	<!-- End content -->
+
+      		
+  </div> <!-- End main_session_wrapper_inner -->	   
+</div> <!-- End main_wrapper -->
+
+</body>
+</html>
+
+

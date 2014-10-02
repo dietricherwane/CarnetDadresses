@@ -1,0 +1,20 @@
+<% flash.each do |key, value| %>     
+  <script type = "text/javascript">
+    $(document).on('ready page:load', function(){  
+      $("#button-close").click(function() {
+        $(".notification").hide();
+      });
+    });
+  </script>  
+  <div class="<%= flash_class(key) %> fade in">
+  <p>
+    <div id style = "float:right;">
+      <a style = "cursor: pointer; text-decoration: none;" id = "button-close">×</a>
+    </div>     
+    <span>
+      <%= value %>
+    </span>
+  </p>
+</div>  
+<% end %>
+

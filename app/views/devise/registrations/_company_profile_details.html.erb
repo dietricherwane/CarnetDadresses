@@ -1,0 +1,39 @@
+<% @social_status = user.social_status.name %>
+
+<div class="accordion-item-header">
+  <a href="#">
+    <%= user.company_full_name + " - #{@social_status}" %>
+    <%= render "status_icons", user: user %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b><%= User.human_attribute_name("profile_id") %>:</b> <%= user.profile.name %> 
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("company_name") %>:</b> <%= user.company_name %> 
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("social_status_id") %>:</b> <%= @social_status %> 
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("trading_identifier") %>:</b> <%= user.trading_identifier %> 
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("phone_number") %>:</b> <%= user.phone_number %> 
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("mobile_number") %>:</b> <%= user.mobile_number %> 
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("email") %>:</b> <%= user.email %> 
+  </p>
+  <p>
+    <b>Créé le:</b> <%= user.created_at %> 
+  </p>
+</div>
+
+
+
+
+
