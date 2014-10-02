@@ -64,7 +64,7 @@ class NewsFeedsController < ApplicationController
                
       @news_feeds = NewsFeed.all.page(params[:page]).per(10)
       
-      redirect_to :back
+      redirect_to "/news_feeds"
     end  
   end
   
