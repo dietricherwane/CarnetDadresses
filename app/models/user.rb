@@ -78,7 +78,5 @@ class User < ActiveRecord::Base
   def format_fields
     self.firstname = StringUtils.every_first_letter_uppercase(self.firstname)
     self.lastname = StringUtils.every_first_letter_uppercase(self.lastname)
-    self.company_name = StringUtils.first_letter_uppercase(self.company_name.strip)
-    self.trading_identifier = self.trading_identifier.upcase
   end
 end
