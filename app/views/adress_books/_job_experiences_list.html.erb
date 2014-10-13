@@ -1,0 +1,86 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= job_experience.company %>
+    <%= render "job_experience_status_icons", job_experience: job_experience %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b>Actions:</b>
+    <a class = "form-action-link" href = "<%= edit_person_experience_path(job_experience.id) %>">
+      <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
+    </a>  
+    <a class = "form-action-link" href = "<%= job_experience.published? ? disable_person_experience_path(job_experience.id) : enable_person_experience_path(job_experience.id) %>">
+      <img src = "/images/forms/<%= job_experience.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= job_experience.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("begin_date") %>:</b> <%= job_experience.begin_date.strftime("%m-%Y") %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("end_date") %>:</b> <%= job_experience.end_date.strftime("%m-%Y") %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("company") %>:</b> <%= job_experience.company %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("team_members") %>:</b> <%= job_experience.team_members %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("role") %>:</b> <%= job_experience.role %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("missions") %>:</b> <%= simple_format(job_experience.missions) %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("hiring_type_id") %>:</b> <%= job_experience.hiring_type.name rescue nil %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("hiring_status_id") %>:</b> <%= job_experience.hiring_status.name rescue nil %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("phone_number") %>:</b> <%= job_experience.phone_number %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("email") %>:</b> <%= job_experience.email %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("predecessor_firstname") %>:</b> <%= job_experience.predecessor_firstname %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("predecessor_lastname") %>:</b> <%= job_experience.predecessor_lastname %> 
+  </p>
+  <div class="border_divider"></div>
+  <p>
+    <b><%= JobExperience.human_attribute_name("assistant_firstname") %>:</b> <%= job_experience.assistant_firstname %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("assistant_lastname") %>:</b> <%= job_experience.assistant_lastname %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("assistant_phone_number") %>:</b> <%= job_experience.assistant_phone_number %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("assistant_email") %>:</b> <%= job_experience.assistant_email %> 
+  </p>
+  <div class="border_divider"></div>
+  <p>
+    <b><%= JobExperience.human_attribute_name("superior_title") %>:</b> <%= job_experience.superior_title %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("superior_firstname") %>:</b> <%= job_experience.superior_firstname %> 
+  </p>
+  <p>
+    <b><%= JobExperience.human_attribute_name("superior_lastname") %>:</b> <%= job_experience.superior_lastname %> 
+  </p>  
+  <div class="border_divider"></div>
+  <p>
+    <b><%= JobExperience.human_attribute_name("membership_id") %>:</b> <%= job_experience.membership.name rescue nil %> 
+  </p> 
+  <p>
+    <b><%= JobExperience.human_attribute_name("misc") %>:</b> <%= simple_format(job_experience.misc) %> 
+  </p>
+  <p>
+    <b>Créé le:</b> <%= job_experience.created_at.strftime("%d-%m-%Y") + " à " + job_experience.created_at.strftime("%Hh %Mmn") %> 
+  </p>
+</div>

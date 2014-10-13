@@ -22,7 +22,7 @@
       <div class="pb_title_wrapper">
         <h3 class="pb_title1">Créer une Actualité</h3>                                				   
       </div>
-      <%= form_for @news_feed, url: create_news_feed_path do |f| %>      
+      <%= form_for @news_feed, url: create_news_feed_path, method: :post do |f| %>      
         <%= news_feed_messages! %>                          
         <div class="form-group">
           <%= f.label :title %>

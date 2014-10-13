@@ -1,0 +1,39 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  begin_date: 2014-10-12
+  end_date: 2014-10-12
+  company: MyString
+  team_members: 1
+  role: MyString
+  hiring_status_id: 1
+  missions: MyText
+  hiring_type_id: 1
+  predecessor_firstname: MyString
+  predecessor_lastname: MyString
+  phone_number: MyString
+  email: MyString
+  superior_firstname: MyString
+  superior_lastname: MyString
+  superior_title: MyString
+  membership_id: 1
+  misc: MyText
+
+two:
+  begin_date: 2014-10-12
+  end_date: 2014-10-12
+  company: MyString
+  team_members: 1
+  role: MyString
+  hiring_status_id: 1
+  missions: MyText
+  hiring_type_id: 1
+  predecessor_firstname: MyString
+  predecessor_lastname: MyString
+  phone_number: MyString
+  email: MyString
+  superior_firstname: MyString
+  superior_lastname: MyString
+  superior_title: MyString
+  membership_id: 1
+  misc: MyText

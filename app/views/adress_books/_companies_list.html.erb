@@ -21,10 +21,7 @@
     <b><%= AdressBook.human_attribute_name("company_name") %>:</b> <%= adress_book.company_name %> 
   </p>
   <p>
-    <b><%= AdressBook.human_attribute_name("sector_id") %>:</b> <%= adress_book.sector.name %> 
-  </p>
-  <p>
-    <b><%= AdressBook.human_attribute_name("sales_area_id") %>:</b> <%= adress_book.sales_area.name rescue nil %> 
+    <b><%= AdressBook.human_attribute_name("company_shortcut") %>:</b> <%= adress_book.company_shortcut %> 
   </p>
   <p>
     <b><%= AdressBook.human_attribute_name("social_status_id") %>:</b> <%= adress_book.social_status.name rescue nil %> 
@@ -33,18 +30,52 @@
     <b><%= AdressBook.human_attribute_name("trading_identifier") %>:</b> <%= adress_book.trading_identifier %> 
   </p>
   <p>
+    <b><%= AdressBook.human_attribute_name("employees_amount") %>:</b> <%= adress_book.employees_amount %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("capital") %>:</b> <%= adress_book.capital %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("turnover") %>:</b> <%= adress_book.turnover %> 
+  </p>
+  <p>
     <b><%= AdressBook.human_attribute_name("phone_number") %>:</b> <%= adress_book.phone_number %> 
   </p>
   <p>
-    <b><%= AdressBook.human_attribute_name("mobile_number") %>:</b> <%= adress_book.mobile_number %> 
+    <b><%= AdressBook.human_attribute_name("fax") %>:</b> <%= adress_book.fax %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("website") %>:</b> <%= adress_book.website %> 
   </p>
   <p>
     <b><%= AdressBook.human_attribute_name("email") %>:</b> <%= adress_book.email %> 
   </p>
   <p>
-    <b><%= AdressBook.human_attribute_name("comment") %>:</b> <%= simple_format(adress_book.comment) %> 
+    <b><%= AdressBook.human_attribute_name("country_id") %>:</b> <%= adress_book.country.name rescue nil %> 
   </p>
   <p>
-    <b>Créé le:</b> <%= adress_book.created_at %> 
+    <b><%= AdressBook.human_attribute_name("city") %>:</b> <%= adress_book.city %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("geographical_address") %>:</b> <%= adress_book.geographical_address %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("postal_address") %>:</b> <%= adress_book.postal_address %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("sector_id") %>:</b> <%= adress_book.sector.name %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("sales_area_id") %>:</b> <%= adress_book.sales_area.name rescue nil %> 
+  </p>
+  <p>
+    <% holding = adress_book.holding %>
+    <b><%= AdressBook.human_attribute_name("holding_id") %>:</b> <%= holding.blank? ? "" : (link_to holding.name, holding_companies_path(holding.id)) %> 
+  </p> 
+  <p>
+    <b><%= AdressBook.human_attribute_name("activities") %>:</b> <%= simple_format(adress_book.activities) %> 
+  </p>
+  <p>
+    <b>Créé le:</b> <%= adress_book.created_at.strftime("%d-%m-%Y") + " à " + adress_book.created_at.strftime("%Hh %Mmn") %> 
   </p>
 </div>

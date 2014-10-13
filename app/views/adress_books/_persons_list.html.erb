@@ -15,6 +15,9 @@
     </a>
   </p>
   <p>
+    <b><%= AdressBook.human_attribute_name("civility_id") %>:</b> <%= adress_book.civility.name rescue nil %> 
+  </p>
+  <p>
     <b><%= AdressBook.human_attribute_name("profile_id") %>:</b> <%= adress_book.profile.name %> 
   </p>
   <p>
@@ -24,7 +27,23 @@
     <b><%= AdressBook.human_attribute_name("lastname") %>:</b> <%= adress_book.lastname %> 
   </p>
   <p>
+    <b><%= AdressBook.human_attribute_name("birthdate") %>:</b> <%= adress_book.birthdate.strftime("%d-%m-%Y") rescue nil %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("marital_status_id") %>:</b> <%= adress_book.marital_status.name rescue nil %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("childrens") %>:</b> <%= adress_book.childrens %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("hobbies") %>:</b> <%= simple_format(adress_book.hobbies) %> 
+  </p>
+  <div class="border_divider"></div>
+  <p>
     <b><%= AdressBook.human_attribute_name("company_name") %>:</b> <%= adress_book.company_name %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("job_role") %>:</b> <%= adress_book.job_role %> 
   </p>
   <p>
     <b><%= AdressBook.human_attribute_name("sector_id") %>:</b> <%= adress_book.sector.name %> 
@@ -32,17 +51,21 @@
   <p>
     <b><%= AdressBook.human_attribute_name("sales_area_id") %>:</b> <%= adress_book.sales_area.name rescue nil %> 
   </p>
+  <div class="border_divider"></div>
   <p>
-    <b><%= AdressBook.human_attribute_name("social_status_id") %>:</b> <%= adress_book.social_status.name rescue nil %> 
+    <b><%= AdressBook.human_attribute_name("country_id") %>:</b> <%= adress_book.country.name rescue nil %> 
   </p>
   <p>
-    <b><%= AdressBook.human_attribute_name("trading_identifier") %>:</b> <%= adress_book.trading_identifier %> 
+    <b><%= AdressBook.human_attribute_name("city") %>:</b> <%= adress_book.city %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("geographical_address") %>:</b> <%= adress_book.geographical_address %> 
+  </p>
+  <p>
+    <b><%= AdressBook.human_attribute_name("postal_address") %>:</b> <%= adress_book.postal_address %> 
   </p>
   <p>
     <b><%= AdressBook.human_attribute_name("phone_number") %>:</b> <%= adress_book.phone_number %> 
-  </p>
-  <p>
-    <b><%= AdressBook.human_attribute_name("mobile_number") %>:</b> <%= adress_book.mobile_number %> 
   </p>
   <p>
     <b><%= AdressBook.human_attribute_name("email") %>:</b> <%= adress_book.email %> 
@@ -51,6 +74,10 @@
     <b><%= AdressBook.human_attribute_name("comment") %>:</b> <%= simple_format(adress_book.comment) %> 
   </p>
   <p>
-    <b>Créé le:</b> <%= adress_book.created_at %> 
+    <b>Créé le:</b> <%= adress_book.created_at.strftime("%d-%m-%Y") + " à " + adress_book.created_at.strftime("%Hh %Mmn") %> 
+  </p>
+  <div class="border_divider"></div>
+  <p>
+    <%= link_to "Liste des formations et expériences professionnelles", complete_person_profile_path(adress_book.id) %>
   </p>
 </div>

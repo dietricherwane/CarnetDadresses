@@ -1,7 +1,5 @@
 class SocialStatus < ActiveRecord::Base
   # Modèle pour l'enregistrement des  domaines de vente relatifs aux entreprises côtées
-
-class SalesArea < ActiveRecord::Base
   include StringUtils
   
   # Relationships
@@ -32,5 +30,4 @@ class SalesArea < ActiveRecord::Base
   def format_fields
     self.name = StringUtils.first_letter_uppercase(self.name)
   end
-end
 end

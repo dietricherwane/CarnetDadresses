@@ -30,6 +30,25 @@ CarnetDadresse::Application.routes.draw do
   post "person/update/:id" => "adress_books#update_person", as: :update_person
   get "person/disable/:id" => "adress_books#disable_person", as: :disable_person
   get "person/enable/:id" => "adress_books#enable_person", as: :enable_person
+  get "person/complete_profile/:id" => "adress_books#complete_profile", as: :complete_person_profile
+  post "person/formation/create" => "adress_books#create_formation", as: :create_person_formation
+  get "person/formation/edit/:id" => "adress_books#edit_formation", as: :edit_person_formation
+  get "person/formation/disable/:id" => "adress_books#disable_formation", as: :disable_person_formation
+  get "person/formation/enable/:id" => "adress_books#enable_formation", as: :enable_person_formation
+  post "person/formation/update/:id" => "adress_books#update_formation", as: :update_person_formation
+  post "person/experience/create" => "adress_books#create_experience", as: :create_person_experience
+  get "person/experience/edit/:id" => "adress_books#edit_experience", as: :edit_person_experience
+  get "person/experience/disable/:id" => "adress_books#disable_experience", as: :disable_person_experience
+  get "person/experience/enable/:id" => "adress_books#enable_experience", as: :enable_person_experience
+  post "person/experience/update/:id" => "adress_books#update_experience", as: :update_person_experience
+  
+  get "holdings" => "holdings#index", as: :holdings
+  post "holding/create" => "holdings#create", as: :create_holding
+  get "holding/edit/:id" => "holdings#edit", as: :edit_holding
+  post "holding/update/:id" => "holdings#update", as: :update_holding
+  get "holding/disable/:id" => "holdings#disable_holding", as: :disable_holding
+  get "holding/enable/:id" => "holdings#enable_holding", as: :enable_holding
+  get "holding/companies/:id" => "holdings#companies", as: :holding_companies
   
   get "companies" => "adress_books#companies", as: :companies
   post "company/create" => "adress_books#create_company", as: :create_company

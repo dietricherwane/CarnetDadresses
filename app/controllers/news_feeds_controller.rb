@@ -7,7 +7,7 @@ class NewsFeedsController < ApplicationController
   
   def index
     @news_feed = NewsFeed.new
-    @news_feeds = NewsFeed.all.page(params[:page]).per(10)
+    @news_feeds = NewsFeed.where(published: [nil, true]).page(params[:page]).per(10)
   end
   
   def create

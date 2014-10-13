@@ -47,9 +47,9 @@ class LastUpdate < ActiveRecord::Base
   
   private
   def format_fields
-    self.firstname = StringUtils.every_first_letter_uppercase(self.firstname)
-    self.lastname = StringUtils.every_first_letter_uppercase(self.lastname)
-    self.company_name = StringUtils.first_letter_uppercase(self.company_name.strip)
-    self.trading_identifier = self.trading_identifier.upcase
+    self.firstname = StringUtils.every_first_letter_uppercase(self.firstname) rescue nil
+    self.lastname = StringUtils.every_first_letter_uppercase(self.lastname) rescue nil
+    self.company_name = StringUtils.first_letter_uppercase(self.company_name.strip) rescue nil
+    self.trading_identifier = self.trading_identifier.upcase rescue nil
   end
 end

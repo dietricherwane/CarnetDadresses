@@ -21,7 +21,7 @@
     <b><%= NewsFeed.human_attribute_name("content") %>:</b> <%= simple_format(news_feed.content) %> 
   </p>
   <p>
-    <b><%= NewsFeed.human_attribute_name("publication_date") %>:</b> <%= news_feed.publication_date.strftime("%d-%m-%y") %> 
+    <b><%= NewsFeed.human_attribute_name("publication_date") %>:</b> <%= news_feed.publication_date.strftime("%d-%m-%Y") %> 
   </p>
   <p>
     <b><%= NewsFeed.human_attribute_name("created_by") %>:</b> <%= news_feed.user.full_name rescue nil %> 

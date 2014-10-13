@@ -1,0 +1,108 @@
+<%= notification_messages! %> 
+
+<div class="page_title_wrapper">
+  <div class="container sixteen columns">
+    <div class="page_title_inner">	      			       	
+      <span class="main_t_1"> 
+        Création et visualisation des Groupes </span><span class="main_t_2">&nbsp; - &nbsp;  Ajouter des Groupes au système 
+      </span>
+    </div>			
+  </div><!-- End container sixteen columns -->			
+</div><!-- End page_title_wrapper -->
+
+<div class="content_shadow"></div>
+<div class="clear"></div>
+
+<div class = "container">
+  <div class = "content_wrapper_inner">
+  
+  <div class = "sixteen columns row">
+    <div class = "one_half">
+      
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Créer un Groupe</h3>                                				   
+      </div>
+      <%= form_for @holding, url: create_holding_path, method: :post do |f| %>      
+        <%= holding_messages! %>                          
+        <div class="form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom du groupe" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :shortcut %>
+          <%= f.text_field :shortcut, class: "form-control", placeholder: "Veuillez entrer le sigle du groupe" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :number_of_companies %>
+          <%= f.text_field :number_of_companies, class: "form-control", placeholder: "Veuillez entrer le nombre d'entreprises" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :phone_number %>
+          <%= f.text_field :phone_number, class: "form-control", placeholder: "Veuillez entrer le numéro de téléphone" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :website %>
+          <%= f.text_field :website, class: "form-control", placeholder: "Veuillez entrer le site web du groupe" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.text_field :email, class: "form-control", placeholder: "Veuillez entrer l'email du groupe" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :country_id %>
+          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "Veuillez choisir le pays", selected: (Country.find_by_name("Côte D'ivoire").id rescue nil)}, html_options = {class: "form-control"} %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :city %>
+          <%= f.text_field :city, class: "form-control", placeholder: "Veuillez entrer la ville" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :geographical_address %>
+          <%= f.text_field :geographical_address, class: "form-control", placeholder: "Veuillez entrer l'adresse géographique" %>
+        </div> 
+        
+        <div class="form-group">
+          <%= f.label :postal_address %>
+          <%= f.text_field :postal_address, class: "form-control", placeholder: "Veuillez entrer l'adresse postale" %>
+        </div> 
+        
+        <div class="form-group">
+          <%= f.label :activities %>
+          <%= f.text_area :activities, class: "form-control", placeholder: "Veuillez entrer le détail des activités" %>
+        </div> 
+
+        <div class="form-group">
+          <%= f.submit "Valider" %>
+        </div>
+      <% end %>
+    </div><!-- End one_half -->
+    
+    <div class = "one_half lastcolumn">
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Liste des Groupes</h3>                                				   
+      </div>
+      <div class="accordion-items">
+        <% unless @holdings.blank? %>
+          <% @holdings.each do |holding| %>
+            <div class="accordion-item">
+              <%= render "holdings_list", holding: holding %>
+            </div>
+          <% end %>
+            		
+          <%= paginate @holdings, :params => {:controller => :holdings, :action => :index} %>
+        <% end %>
+      </div>
+			 
+    </div><!-- End one_half lastcolumn -->
+  </div>
+  
+  </div><!-- End content_wrapper_inner -->
+</div><!-- End container -->

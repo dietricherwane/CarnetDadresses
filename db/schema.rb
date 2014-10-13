@@ -11,21 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140930160235) do
+ActiveRecord::Schema.define(version: 20141013113200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "add_fax_to_adress_books", force: true do |t|
+    t.string   "fax",        limit: 16
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "adress_books", force: true do |t|
-    t.string   "firstname",          limit: 100
-    t.string   "lastname",           limit: 100
-    t.string   "company_name",       limit: 100
-    t.string   "email",              limit: 100
-    t.string   "phone_number",       limit: 100
-    t.string   "mobile_number",      limit: 100
+    t.string   "firstname",            limit: 100
+    t.string   "lastname",             limit: 100
+    t.string   "company_name",         limit: 100
+    t.string   "email",                limit: 100
+    t.string   "phone_number",         limit: 100
+    t.string   "mobile_number",        limit: 100
     t.integer  "profile_id"
     t.integer  "social_status_id"
-    t.string   "trading_identifier", limit: 100
+    t.string   "trading_identifier",   limit: 100
     t.integer  "created_by"
     t.boolean  "published"
     t.integer  "sector_id"
@@ -33,6 +39,49 @@ ActiveRecord::Schema.define(version: 20140930160235) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "comment"
+    t.integer  "civility_id"
+    t.date     "birthdate"
+    t.integer  "marital_status_id"
+    t.integer  "childrens"
+    t.text     "hobbies"
+    t.string   "job_role"
+    t.string   "geographical_address"
+    t.string   "postal_address"
+    t.string   "city"
+    t.integer  "country_id"
+    t.string   "company_shortcut"
+    t.float    "capital"
+    t.integer  "employees_amount"
+    t.float    "turnover"
+    t.integer  "holding_id"
+    t.text     "activities"
+    t.string   "fax",                  limit: 16
+    t.string   "website"
+  end
+
+  create_table "civilities", force: true do |t|
+    t.string   "name",       limit: 10
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "published"
+  end
+
+  create_table "countries", force: true do |t|
+    t.string   "name"
+    t.boolean  "published"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "formations", force: true do |t|
+    t.string   "school",         limit: 100
+    t.string   "diploma",        limit: 150
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "adress_book_id"
+    t.integer  "user_id"
+    t.date     "formation_year"
+    t.boolean  "published"
   end
 
   create_table "forum_posts", force: true do |t|
@@ -70,12 +119,73 @@ ActiveRecord::Schema.define(version: 20140930160235) do
     t.datetime "wallet_updated_at"
   end
 
+  create_table "hiring_statuses", force: true do |t|
+    t.string   "name"
+    t.boolean  "published"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "hiring_types", force: true do |t|
+    t.string   "name"
+    t.boolean  "published"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "holdings", force: true do |t|
+    t.string   "name"
+    t.string   "shortcut"
+    t.integer  "number_of_companies"
+    t.string   "phone_number",         limit: 16
+    t.string   "website"
+    t.string   "email"
+    t.string   "geographical_address"
+    t.string   "postal_address"
+    t.integer  "country_id"
+    t.string   "city"
+    t.text     "activities"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.boolean  "published"
+  end
+
   create_table "information", force: true do |t|
     t.text     "content"
     t.boolean  "published"
     t.integer  "created_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "job_experiences", force: true do |t|
+    t.date     "begin_date"
+    t.date     "end_date"
+    t.string   "company",                limit: 100
+    t.integer  "team_members"
+    t.string   "role"
+    t.integer  "hiring_status_id"
+    t.text     "missions"
+    t.integer  "hiring_type_id"
+    t.string   "predecessor_firstname",  limit: 100
+    t.string   "predecessor_lastname",   limit: 100
+    t.string   "phone_number",           limit: 16
+    t.string   "email",                  limit: 100
+    t.string   "superior_firstname",     limit: 100
+    t.string   "superior_lastname",      limit: 100
+    t.string   "superior_title",         limit: 100
+    t.integer  "membership_id"
+    t.text     "misc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "adress_book_id"
+    t.integer  "user_id"
+    t.boolean  "published"
+    t.string   "assistant_firstname"
+    t.string   "assistant_lastname"
+    t.string   "assistant_phone_number"
+    t.string   "assistant_email"
   end
 
   create_table "last_updates", force: true do |t|
@@ -111,6 +221,19 @@ ActiveRecord::Schema.define(version: 20140930160235) do
     t.datetime "updated_at"
     t.text     "comment"
     t.text     "new_comment"
+  end
+
+  create_table "marital_statuses", force: true do |t|
+    t.string   "name",       limit: 100
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "memberships", force: true do |t|
+    t.string   "name"
+    t.boolean  "published"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "news_feeds", force: true do |t|

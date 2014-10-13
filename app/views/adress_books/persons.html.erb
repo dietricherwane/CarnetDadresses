@@ -23,7 +23,12 @@
         <h3 class="pb_title1">Créer un Décideur</h3>                                				   
       </div>
       <%= form_for @adress_book, url: create_person_path, method: :post do |f| %>      
-        <%= address_book_messages! %>                   
+        <%= address_book_messages! %>    
+        <div class="form-group">
+          <%= f.label :civility_id %>
+          <%= f.collection_select :civility_id, @civilities, :id, :name, options ={prompt: "-Veuillez choisir la civilité-"}, html_options = {class: "form-control"} %>
+        </div>
+                       
         <div class="form-group">
           <%= f.label :firstname %>
           <%= f.text_field :firstname, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom" %>
@@ -31,12 +36,40 @@
         
         <div class="form-group">
           <%= f.label :lastname %>
-          <%= f.text_field :lastname, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le prénom" %>
+          <%= f.text_field :lastname, class: "form-control", placeholder: "Veuillez entrer le prénom" %>
         </div>
         
         <div class="form-group">
+          <%= f.label :birthdate %>
+          <br />
+          <%= f.date_select :birthdate, start_year: (Date.today.year - 90), end_year: (Date.today.year - 20), class: "form-control" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :marital_status_id %>
+          <%= f.collection_select :marital_status_id, @marital_statuses, :id, :name, options ={prompt: "-Veuillez choisir le statut matrimonial-"}, html_options = {class: "form-control"} %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :childrens %>
+          <%= f.text_field :childrens, class: "form-control", placeholder: "Veuillez entrer le nombre d'enfants" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :hobbies %>
+          <%= f.text_area :hobbies, class: "form-control", placeholder: "Veuillez entrer les hobbies" %>
+        </div>
+        
+        <div class="border_divider"></div>
+        
+        <div class="form-group">
           <%= f.label :company_name %>
-          <%= f.text_field :company_name, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
+          <%= f.text_field :company_name, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :job_role %>
+          <%= f.text_field :job_role, class: "form-control", placeholder: "Veuillez entrer la fonction occupée" %>
         </div>
         
         <div class="form-group">
@@ -49,34 +82,41 @@
           <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir le domaine d'activité-"}, html_options = {class: "form-control"} %>
         </div>
         
+        <div class="border_divider"></div>
+        
         <div class="form-group">
-          <%= f.label :social_status_id %>
-          <%= f.collection_select :social_status_id, @social_statuses, :id, :name, options ={prompt: "-Veuillez choisir le type d'entreprise-"}, html_options = {class: "form-control"} %>
+          <%= f.label :country_id %>
+          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "Veuillez choisir le pays", selected: (Country.find_by_name("Côte D'ivoire").id rescue nil)}, html_options = {class: "form-control"} %>
         </div>
         
         <div class="form-group">
-          <%= f.label :trading_identifier %>
-          <%= f.text_field :trading_identifier, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le registre de commerce" %>
+          <%= f.label :city %>
+          <%= f.text_field :city, class: "form-control", placeholder: "Veuillez entrer la ville" %>
+        </div> 
+        
+        <div class="form-group">
+          <%= f.label :geographical_address %>
+          <%= f.text_field :geographical_address, class: "form-control", placeholder: "Veuillez entrer l'adresse géographique" %>
+        </div> 
+        
+        <div class="form-group">
+          <%= f.label :postal_address %>
+          <%= f.text_field :postal_address, class: "form-control", placeholder: "Veuillez entrer l'adresse postale" %>
         </div>
         
         <div class="form-group">
           <%= f.label :phone_number %>
-          <%= f.text_field :phone_number, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le numéro fixe" %>
-        </div>
-        
-        <div class="form-group">
-          <%= f.label :mobile_number %>
-          <%= f.text_field :mobile_number, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le numéro mobile" %>
-        </div>        
+          <%= f.text_field :phone_number, class: "form-control", placeholder: "Veuillez entrer le numéro de téléphone" %>
+        </div>      
                   
         <div class="form-group">
           <%= f.label :email %>
-          <%= f.email_field :email, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer l'adresse email" %>
+          <%= f.email_field :email, class: "form-control", placeholder: "Veuillez entrer l'adresse email" %>
         </div>
 
         <div class="form-group">
           <%= f.label :comment %>
-          <%= f.text_area :comment, class: "form-control", placeholder: "Veuillez entrer un commentaire" %>
+          <%= f.text_area :comment, class: "form-control", placeholder: "Veuillez détailler le parcours" %>
         </div>             
 
         <div class="form-group">

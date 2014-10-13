@@ -1,0 +1,29 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= formation.short_diploma %>
+    <%= render "formation_status_icons", formation: formation %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b>Actions:</b>
+    <a class = "form-action-link" href = "<%= edit_person_formation_path(formation.id) %>">
+      <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
+    </a>  
+    <a class = "form-action-link" href = "<%= formation.published? ? disable_person_formation_path(formation.id) : enable_person_formation_path(formation.id) %>">
+      <img src = "/images/forms/<%= formation.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= formation.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+  </p>
+  <p>
+    <b><%= Formation.human_attribute_name("formation_year") %>:</b> <%= formation.formation_year.strftime("%Y") %> 
+  </p>
+  <p>
+    <b><%= Formation.human_attribute_name("school") %>:</b> <%= formation.school %> 
+  </p>
+  <p>
+    <b><%= Formation.human_attribute_name("diploma") %>:</b> <%= formation.diploma %> 
+  </p>
+  <p>
+    <b>Créé le:</b> <%= formation.created_at.strftime("%d-%m-%y") + " à " + formation.created_at.strftime("%Hh %Mmn") %> 
+  </p>
+</div>

@@ -12,9 +12,11 @@ class User < ActiveRecord::Base
   belongs_to :sector
   has_many :last_updates
   has_many :news_feeds
+  has_many :formations
+  has_many :job_experiences
   
   # Scopes
-  default_scope order("created_at DESC")
+  default_scope {order("created_at DESC")}
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

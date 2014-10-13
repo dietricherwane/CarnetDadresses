@@ -1,0 +1,59 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= holding.name %>
+    <%= render "holding_status_icons", holding: holding %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b>Actions:</b>
+    <a class = "form-action-link" href = "<%= edit_holding_path(holding.id) %>">
+      <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
+    </a>  
+    <a class = "form-action-link" href = "<%= holding.published? ? disable_holding_path(holding.id) : enable_holding_path(holding.id) %>">
+      <img src = "/images/forms/<%= holding.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= holding.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("name") %>:</b> <%= holding.name %> 
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("shortcut") %>:</b> <%= holding.shortcut %> 
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("number_of_companies") %>:</b> <%= holding.number_of_companies %> 
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("phone_number") %>:</b> <%= holding.phone_number %> 
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("website") %>:</b> <%= holding.website %> 
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("email") %>:</b> <%= holding.email %> 
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("country_id") %>:</b> <%= holding.country.name rescue nil %> 
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("city") %>:</b> <%= holding.city %> 
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("geographical_address") %>:</b> <%= holding.geographical_address %> 
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("postal_address") %>:</b> <%= holding.postal_address %> 
+  </p>
+  <p>
+    <b><%= Holding.human_attribute_name("activities") %>:</b> <%= simple_format(holding.activities) %> 
+  </p>
+  <p>
+    <%= link_to "La liste des entreprises membres", holding_companies_path(holding.id) %>
+  </p>
+  <p>
+    <b>Créé le:</b> <%= holding.created_at.strftime("%d-%m-%Y") + " à " + holding.created_at.strftime("%Hh %Mmn") %> 
+  </p>
+  <p>
+    <%#= link_to "Liste des formations et expériences professionnelles", complete_person_profile_path(holding.id) %>
+  </p>
+</div>
