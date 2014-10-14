@@ -11,16 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141013113200) do
+ActiveRecord::Schema.define(version: 20141014085106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "add_fax_to_adress_books", force: true do |t|
-    t.string   "fax",        limit: 16
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "adress_books", force: true do |t|
     t.string   "firstname",            limit: 100
