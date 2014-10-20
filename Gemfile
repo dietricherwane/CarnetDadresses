@@ -34,7 +34,7 @@ gem 'devise', '~> 3.0.4'
 gem 'protected_attributes'
 
 # To handle file upload
-gem "paperclip"
+gem "paperclip", "~> 4.2"
 
 # To have a wysiwyg editor
 gem "wysihat-engine"

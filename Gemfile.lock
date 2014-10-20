@@ -171,7 +171,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   kaminari
-  paperclip
+  paperclip (~> 4.2)
   pg
   protected_attributes
   rails (= 4.0.7)

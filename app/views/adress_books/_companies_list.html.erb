@@ -1,6 +1,6 @@
 <div class="accordion-item-header">
   <a href="#">
-    <%= adress_book.company_full_name %>
+    <%= adress_book.full_name %>
     <%= render "status_icons", adress_book: adress_book %>
   </a>
 </div>
@@ -64,9 +64,6 @@
   </p>
   <p>
     <b><%= AdressBook.human_attribute_name("sector_id") %>:</b> <%= adress_book.sector.name %> 
-  </p>
-  <p>
-    <b><%= AdressBook.human_attribute_name("sales_area_id") %>:</b> <%= adress_book.sales_area.name rescue nil %> 
   </p>
   <p>
     <% holding = adress_book.holding %>

@@ -1,3 +1,5 @@
+<%= javascript_include_tag "adress_books_persons"  if CarnetDadresse::Application.assets.find_asset("adress_books_persons.js") %>
+
 <%= notification_messages! %> 
 
 <div class="page_title_wrapper">
@@ -23,7 +25,24 @@
         <h3 class="pb_title1">Modifier le profil</h3>                                				   
       </div>
       <%= form_for @adress_book, url: update_person_path, method: :post do |f| %>      
-        <%= address_book_messages! %> 
+        <%= address_book_messages! %>
+        <div class="form-group">
+          <%= f.label :avatar %>
+          <%= f.file_field :avatar, class: "form-control", placeholder: "Veuillez choisir une photo" %>
+        </div>
+        
+        <div class="form-group">
+          <%= label_tag "Titre" %>
+          <%= collection_select(:post, :address_book_title_category_id, @address_book_title_categories, :id, :name, options ={prompt: "-Veuillez choisir une catégorie-", selected: (@adress_book.address_book_title.address_book_title_category.id rescue nil)}, html_options = {class: "form-control"}) %>
+        </div>
+        
+        <div class="form-group">
+          <div id = "address_book_titles">
+            <%= f.collection_select :address_book_title_id, @address_book_titles, :id, :name, options ={prompt: "-Veuillez choisir un titre-"}, html_options = {class: "form-control"} %>
+          </div>
+          
+        </div>
+         
         <div class="form-group">
           <%= f.label :civility_id %>
           <%= f.collection_select :civility_id, @civilities, :id, :name, options ={prompt: "-Veuillez choisir la civilité-"}, html_options = {class: "form-control"} %>
@@ -62,8 +81,8 @@
         <div class="border_divider"></div>
         
         <div class="form-group">
-          <%= f.label :company_name %>
-          <%= f.text_field :company_name, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
+          <%= f.label :company_id %>
+          <%= f.collection_select :company_id, @companies, :id, :name, options ={prompt: "-Veuillez choisir l'entreprise-"}, html_options = {class: "form-control"} %>
         </div>
         
         <div class="form-group">
@@ -71,22 +90,17 @@
           <%= f.text_field :job_role, class: "form-control", placeholder: "Veuillez entrer la fonction occupée" %>
         </div>
         
-        <div class="form-group">
+        <!--<div class="form-group">
           <%= f.label :sector_id %>
-          <%= f.collection_select :sector_id, @sectors, :id, :name, options ={prompt: "-Veuillez choisir le secteur d'opération-"}, html_options = {class: "form-control"} %>
-        </div>
-        
-        <div class="form-group">
-          <%= f.label :sales_area_id %>
-          <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir le domaine d'activité-"}, html_options = {class: "form-control"} %>
-        </div>
+          <%= f.collection_select :sector_id, @sectors, :id, :name, options ={prompt: "-Veuillez choisir le secteur d'opération-", selected: (Sector.find_by_name("Privé").id rescue nil)}, html_options = {class: "form-control", disabled: true} %>
+        </div>-->
         
         <div class="border_divider"></div>
         
-        <div class="form-group">
+        <!--<div class="form-group">
           <%= f.label :country_id %>
-          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "Veuillez choisir le pays", selected: (Country.find_by_name("Côte D'ivoire").id rescue nil)}, html_options = {class: "form-control"} %>
-        </div>
+          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "Veuillez choisir le pays", selected: (Country.find_by_name("Côte D'ivoire").id rescue nil)}, html_options = {class: "form-control", disabled: true} %>
+        </div>-->
         
         <div class="form-group">
           <%= f.label :city %>

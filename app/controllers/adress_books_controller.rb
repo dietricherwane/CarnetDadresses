@@ -7,9 +7,15 @@ class AdressBooksController < ApplicationController
   
   # List persons and display create form
   def persons
+    @company = Company.new
+    @holding = Holding.new
+    @holdings = Holding.where(published: [nil, true])
+    @companies = Company.all
+    
     @adress_book = AdressBook.new
     @civilities = Civility.all
     @countries = Country.all
+    @address_book_title_categories = AddressBookTitleCategory.all
     @marital_statuses = MaritalStatus.all
     init_adress_book("person_id")
   end
@@ -17,8 +23,11 @@ class AdressBooksController < ApplicationController
   # Create a person
   def create_person
     init_adress_book("person_id")
+    @company = Company.new
+    @companies = Company.all
+    @holdings = Holding.where(published: [nil, true])
     
-    @adress_book = AdressBook.new(params[:adress_book].merge(created_by: current_user.id, profile_id: Profile.person_id))
+    @adress_book = AdressBook.new(params[:adress_book].merge(created_by: current_user.id, profile_id: Profile.person_id, sector_id: Sector.find_by_name("Privé").id, country_id: Country.find_by_name("Côte D'ivoire").id))
     if @adress_book.save
       # Creates an entry in the logs
       LastUpdate.create(params[:adress_book].merge(created_by: current_user.id, profile_id: Profile.person_id, update_type_id: UpdateType.create_type_id, user_id: @adress_book.id))
@@ -28,6 +37,7 @@ class AdressBooksController < ApplicationController
     else
       @civilities = Civility.all
       @marital_statuses = MaritalStatus.all
+      @address_book_title_categories = AddressBookTitleCategory.all
       @countries = Country.all
       flash.now[:error] = @adress_book.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join      
       render :persons
@@ -47,8 +57,11 @@ class AdressBooksController < ApplicationController
   
   def edit_person
     @adress_book = AdressBook.find_by_id(params[:id])
+    @companies = Company.all
     @civilities = Civility.all
     @marital_statuses = MaritalStatus.all
+    @address_book_title_categories = AddressBookTitleCategory.all
+    @address_book_titles = AddressBookTitle.where("address_book_title_category_id = #{@adress_book.address_book_title.address_book_title_category_id}") rescue []
     @countries = Country.all
     init_adress_book("person_id")
     
@@ -81,6 +94,9 @@ class AdressBooksController < ApplicationController
       init_adress_book("person_id")   
       @civilities = Civility.all
       @marital_statuses = MaritalStatus.all
+      @companies = Company.all
+      @address_book_title_categories = AddressBookTitleCategory.all
+      @address_book_titles = AddressBookTitle.where("address_book_title_category_id = #{@adress_book.address_book_title.address_book_title_category_id}") rescue []
       @countries = Country.all
       
       render :edit_person, id: @adress_book.id
@@ -118,6 +134,17 @@ class AdressBooksController < ApplicationController
       flash.now[:error] = @adress_book.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join      
     end
     render :companies
+  end
+  
+  def js_create_company
+    @adress_book = AdressBook.new(params[:adress_book].merge(created_by: current_user.id, profile_id: Profile.company_id))
+    respond_to do |format|
+      if @adress_book.save
+        format.js   { render action: 'persons', status: :created, location: @adress_book }
+      else
+        format.js   { render json: @adress_book.errors, status: :unprocessable_entity }
+      end
+    end
   end
   
   def search_company
@@ -190,7 +217,6 @@ class AdressBooksController < ApplicationController
     @adress_books = AdressBook.where(profile_id: Profile.send(entry)).page(params[:page]).per(10)
     @sectors = Sector.where(published: [true, nil])
     @social_statuses = SocialStatus.where(published: [nil, true])
-    @sales_areas = SalesArea.where(published: [nil, true])
   end
   
   def create_adress_book_entry(entry, label)

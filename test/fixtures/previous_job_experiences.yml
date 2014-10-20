@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  begin_date: 2014-10-20
+  end_date: 2014-10-20
+  company_name: MyString
+  role: MyString
+  membership_id: 1
+  user_id: 1
+  published: false
+
+two:
+  begin_date: 2014-10-20
+  end_date: 2014-10-20
+  company_name: MyString
+  role: MyString
+  membership_id: 1
+  user_id: 1
+  published: false

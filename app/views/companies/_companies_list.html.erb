@@ -1,0 +1,78 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= company.full_name %>
+    <%= render "status_icons", company: company %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b>Actions:</b>
+    <a class = "form-action-link" href = "<%= edit_company_path(company.id) %>">
+      <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
+    </a>  
+    <a class = "form-action-link" href = "<%= company.published? ? disable_company_path(company.id) : enable_company_path(company.id) %>">
+      <img src = "/images/forms/<%= company.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= company.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+  </p>
+  <p>
+    <%= image_tag company.logo.url(:thumb) rescue nil %>
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("name") %>:</b> <%= company.name %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("shortcut") %>:</b> <%= company.shortcut %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("social_status_id") %>:</b> <%= company.social_status.name rescue nil %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("trading_identifier") %>:</b> <%= company.trading_identifier %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("employees_amount") %>:</b> <%= company.employees_amount %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("capital") %>:</b> <%= company.capital %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("turnover") %>:</b> <%= company.turnover %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("phone_number") %>:</b> <%= company.phone_number %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("fax") %>:</b> <%= company.fax %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("website") %>:</b> <%= company.website %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("email") %>:</b> <%= company.email %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("country_id") %>:</b> <%= company.country.name rescue nil %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("city") %>:</b> <%= company.city %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("geographical_address") %>:</b> <%= company.geographical_address %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("postal_address") %>:</b> <%= company.postal_address %> 
+  </p>
+  <p>
+    <b><%= Company.human_attribute_name("sector_id") %>:</b> <%= company.sector.name %> 
+  </p>
+  <p>
+    <% holding = company.holding %>
+    <b><%= Company.human_attribute_name("holding_id") %>:</b> <%= holding.blank? ? "" : (link_to holding.name, holding_companies_path(holding.id)) %> 
+  </p> 
+  <p>
+    <b><%= Company.human_attribute_name("activities") %>:</b> <%= simple_format(company.activities) %> 
+  </p>
+  <p>
+    <b>Créé le:</b> <%= company.created_at.strftime("%d-%m-%Y") + " à " + company.created_at.strftime("%Hh %Mmn") %> 
+  </p>
+</div>

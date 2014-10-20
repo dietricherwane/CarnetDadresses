@@ -15,7 +15,7 @@ class HoldingsController < ApplicationController
     @holdings = Holding.all.page(params[:page]).per(10)
     @countries = Country.all
     
-    @holding = Holding.new(params[:holding].merge(user_id: current_user.id))
+    @holding = Holding.new(params[:holding].merge(user_id: current_user.id, country_id: Country.find_by_name("Côte D'ivoire").id))
     if @holding.save
       @holding = Holding.new
       flash.now[:success] = "Le groupe a été correctement créée."
@@ -24,6 +24,17 @@ class HoldingsController < ApplicationController
     end
     
     render :index
+  end
+  
+  def js_create
+    @holding = Holding.new(params[:holding].merge(user_id: current_user.id, country_id: Country.find_by_name("Côte D'ivoire").id))
+    respond_to do |format|
+      if @holding.save
+        format.js   { render text: "ok", status: 200 }
+      else
+        format.js   { render json: @holding.errors, status: :unprocessable_entity }
+      end
+    end
   end
   
   def edit
@@ -80,6 +91,17 @@ class HoldingsController < ApplicationController
       @adress_books = @holding.adress_books.page(params[:page]).per(10) 
       @countries = Country.all
     end
+  end
+  
+  def get_holdings
+    @holdings_options = "<select id = 'company_holding_id' class = 'form-control' name = 'company[holding_id]'><option>-Veuillez choisir un groupe-</option>"
+    @holdings = Holding.where(validated_by: [nil, true], published: [nil, true])
+    unless @holdings.blank?
+      @holdings.each do |holding|
+        @holdings_options << "<option value='#{holding.id}'>#{holding.name}</option>"
+      end
+    end
+    render :text => @holdings_options << "</select>"
   end
   
 end

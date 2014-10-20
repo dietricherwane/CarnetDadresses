@@ -12,9 +12,9 @@ class Formation < ActiveRecord::Base
   
   # Renaming attributes into more friendly text
   HUMANIZED_ATTRIBUTES = {
-    :formation_year => "L'année", 
-    :school => "L'école ou université",
-    :diploma => "Le diplôme obtenu" 
+    :formation_year => "Année", 
+    :school => "Ecole",
+    :diploma => "Diplôme" 
   }
   
   # Using friendly attribute name if it exists and default name otherwise

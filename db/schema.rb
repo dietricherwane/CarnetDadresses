@@ -11,21 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141014085106) do
+ActiveRecord::Schema.define(version: 20141020102051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "address_book_title_categories", force: true do |t|
+    t.string   "name"
+    t.boolean  "published"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "address_book_titles", force: true do |t|
+    t.string   "name"
+    t.boolean  "published"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "address_book_title_category_id"
+  end
+
   create_table "adress_books", force: true do |t|
-    t.string   "firstname",            limit: 100
-    t.string   "lastname",             limit: 100
-    t.string   "company_name",         limit: 100
-    t.string   "email",                limit: 100
-    t.string   "phone_number",         limit: 100
-    t.string   "mobile_number",        limit: 100
+    t.string   "firstname",             limit: 100
+    t.string   "lastname",              limit: 100
+    t.string   "company_name",          limit: 100
+    t.string   "email",                 limit: 100
+    t.string   "phone_number",          limit: 100
+    t.string   "mobile_number",         limit: 100
     t.integer  "profile_id"
     t.integer  "social_status_id"
-    t.string   "trading_identifier",   limit: 100
+    t.string   "trading_identifier",    limit: 100
     t.integer  "created_by"
     t.boolean  "published"
     t.integer  "sector_id"
@@ -49,8 +64,15 @@ ActiveRecord::Schema.define(version: 20141014085106) do
     t.float    "turnover"
     t.integer  "holding_id"
     t.text     "activities"
-    t.string   "fax",                  limit: 16
+    t.string   "fax",                   limit: 16
     t.string   "website"
+    t.integer  "address_book_title_id"
+    t.string   "employment_company"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.integer  "company_id"
   end
 
   create_table "civilities", force: true do |t|
@@ -58,6 +80,37 @@ ActiveRecord::Schema.define(version: 20141014085106) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "published"
+  end
+
+  create_table "companies", force: true do |t|
+    t.string   "name"
+    t.string   "shortcut"
+    t.integer  "social_status_id"
+    t.string   "trading_identifier"
+    t.string   "employees_amount"
+    t.string   "capital"
+    t.string   "turnover"
+    t.string   "phone_number",         limit: 20
+    t.string   "fax",                  limit: 20
+    t.string   "website"
+    t.string   "email"
+    t.integer  "country_id"
+    t.string   "city"
+    t.string   "geographical_address"
+    t.string   "postal_address"
+    t.integer  "sector_id"
+    t.integer  "holding_id"
+    t.string   "activities"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.integer  "sales_area_id"
+    t.boolean  "published"
+    t.integer  "created_by"
+    t.boolean  "validated_by"
   end
 
   create_table "countries", force: true do |t|
@@ -143,6 +196,8 @@ ActiveRecord::Schema.define(version: 20141014085106) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.boolean  "published"
+    t.integer  "created_by"
+    t.integer  "validated_by"
   end
 
   create_table "information", force: true do |t|
@@ -237,6 +292,18 @@ ActiveRecord::Schema.define(version: 20141014085106) do
     t.boolean  "published"
     t.integer  "user_id"
     t.string   "picture"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "previous_job_experiences", force: true do |t|
+    t.date     "begin_date"
+    t.date     "end_date"
+    t.string   "company_name"
+    t.string   "role"
+    t.integer  "membership_id"
+    t.integer  "user_id"
+    t.boolean  "published"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

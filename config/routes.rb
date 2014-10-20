@@ -44,19 +44,23 @@ CarnetDadresse::Application.routes.draw do
   
   get "holdings" => "holdings#index", as: :holdings
   post "holding/create" => "holdings#create", as: :create_holding
+  post "holding/js_create" => "holdings#js_create", as: :js_create_holding
   get "holding/edit/:id" => "holdings#edit", as: :edit_holding
   post "holding/update/:id" => "holdings#update", as: :update_holding
   get "holding/disable/:id" => "holdings#disable_holding", as: :disable_holding
   get "holding/enable/:id" => "holdings#enable_holding", as: :enable_holding
   get "holding/companies/:id" => "holdings#companies", as: :holding_companies
+  get "js_holdings" => "holdings#get_holdings"
   
-  get "companies" => "adress_books#companies", as: :companies
-  post "company/create" => "adress_books#create_company", as: :create_company
-  post "company/search" => "adress_books#search_company", as: :search_company
-  get "company/edit/:id" => "adress_books#edit_company", as: :edit_company
-  post "company/update/:id" => "adress_books#update_company", as: :update_company
-  get "company/disable/:id" => "adress_books#disable_company", as: :disable_company
-  get "company/enable/:id" => "adress_books#enable_company", as: :enable_company
+  get "companies" => "companies#companies", as: :companies
+  post "company/create" => "companies#create", as: :create_company
+  post "company/js_create" => "companies#js_create", as: :js_create_company
+  post "company/search" => "companies#search_company", as: :search_company
+  get "company/edit/:id" => "companies#edit", as: :edit_company
+  post "company/update/:id" => "companies#update", as: :update_company
+  get "company/disable/:id" => "companies#disable_company", as: :disable_company
+  get "company/enable/:id" => "companies#enable_company", as: :enable_company
+  get "js_companies" => "companies#get_companies"
   
   get "adress_book/edit/:id" => "adress_books#edit", as: :edit_adress_book
   post "adress_book/update/:id" => "adress_book#update", as: :update_adress_book
@@ -74,6 +78,8 @@ CarnetDadresse::Application.routes.draw do
   post "sales_area/update/:id" => "sales_areas#update", as: :update_sales_area
   get "sales_area/disable/:id" => "sales_areas#disable_sales_area", as: :disable_sales_area
   get "sales_area/enable/:id" => "sales_areas#enable_sales_area", as: :enable_sales_area
+  
+  get "address_book_titles" => "address_book_titles#titles"
   
   get "help" => "helps#index", as: :help
   post "help/create" => "helps#create", as: :create_help

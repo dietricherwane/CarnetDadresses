@@ -6,6 +6,7 @@ class SalesArea < ActiveRecord::Base
   # Relationships
   has_many :users
   belongs_to :user
+  has_many :companies
   
   attr_accessible :name, :user_id, :published, :created_at
   

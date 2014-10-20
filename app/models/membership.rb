@@ -1,6 +1,7 @@
 class Membership < ActiveRecord::Base 
   # Relationships
   has_many :job_experiences
+  has_many :previous_job_experiences
   
   attr_accessible :name, :published
   

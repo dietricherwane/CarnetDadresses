@@ -15,6 +15,9 @@
     </a>
   </p>
   <p>
+    <%= image_tag adress_book.avatar.url(:thumb) rescue nil %>
+  </p>
+  <p>
     <b><%= AdressBook.human_attribute_name("civility_id") %>:</b> <%= adress_book.civility.name rescue nil %> 
   </p>
   <p>
@@ -40,16 +43,13 @@
   </p>
   <div class="border_divider"></div>
   <p>
-    <b><%= AdressBook.human_attribute_name("company_name") %>:</b> <%= adress_book.company_name %> 
+    <b><%= AdressBook.human_attribute_name("company_id") %>:</b> <%= adress_book.company.name rescue nil %> 
   </p>
   <p>
     <b><%= AdressBook.human_attribute_name("job_role") %>:</b> <%= adress_book.job_role %> 
   </p>
   <p>
     <b><%= AdressBook.human_attribute_name("sector_id") %>:</b> <%= adress_book.sector.name %> 
-  </p>
-  <p>
-    <b><%= AdressBook.human_attribute_name("sales_area_id") %>:</b> <%= adress_book.sales_area.name rescue nil %> 
   </p>
   <div class="border_divider"></div>
   <p>

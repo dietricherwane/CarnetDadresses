@@ -1,0 +1,113 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">        
+        <h4 class="modal-title" id="myModalLabel">Créer une entreprise</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for @company, url: js_create_company_path, remote: true do |f| %>      
+          <%#= company_messages! %>
+          <div class="form-group">
+            <%= f.label :logo %>
+            <%= f.file_field :logo, class: "form-control", placeholder: "Veuillez choisir un logo" %>
+          </div>
+                                  
+          <div class="form-group">
+            <%= f.label :name %>
+            <%= f.text_field :name, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :shortcut %>
+            <%= f.text_field :shortcut, class: "form-control", placeholder: "Veuillez entrer le sigle de l'entreprise" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :social_status_id %>
+            <%= f.collection_select :social_status_id, @social_statuses, :id, :name, options ={prompt: "-Veuillez choisir le type d'entreprise-"}, html_options = {class: "form-control"} %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :trading_identifier %>
+            <%= f.text_field :trading_identifier, class: "form-control", placeholder: "Veuillez entrer le registre de commerce" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :employees_amount %>
+            <%= f.text_field :employees_amount, class: "form-control", placeholder: "Veuillez entrer le nombre d'employés" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :capital %>
+            <%= f.text_field :capital, class: "form-control", placeholder: "Veuillez entrer le capital de l'entreprise" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :turnover %>
+            <%= f.text_field :turnover, class: "form-control", placeholder: "Veuillez entrer le chiffre d'affaires" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :phone_number %>
+            <%= f.text_field :phone_number, class: "form-control", placeholder: "Veuillez entrer le numéro de téléphone" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :fax %>
+            <%= f.text_field :fax, class: "form-control", placeholder: "Veuillez entrer le numéro de fax" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :website %>
+            <%= f.email_field :website, class: "form-control", placeholder: "Veuillez entrer le site web" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :email %>
+            <%= f.email_field :email, class: "form-control", placeholder: "Veuillez entrer l'adresse email" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :city %>
+            <%= f.text_field :city, class: "form-control", placeholder: "Veuillez entrer la ville" %>
+          </div> 
+          
+          <div class="form-group">
+            <%= f.label :geographical_address %>
+            <%= f.text_field :geographical_address, class: "form-control", placeholder: "Veuillez entrer l'adresse géographique" %>
+          </div> 
+          
+          <div class="form-group">
+            <%= f.label :postal_address %>
+            <%= f.text_field :postal_address, class: "form-control", placeholder: "Veuillez entrer l'adresse postale" %>
+          </div>           
+          
+          <div class="form-group">
+            <div id = "holdings">
+              <%= f.label :holding_id %>
+              <%= f.collection_select :holding_id, @holdings, :id, :name, options ={prompt: "-Veuillez choisir le groupe-"}, html_options = {class: "form-control"} %>
+            </div>
+          </div>  
+          
+          <div class="form-group">
+            <a class="button" data-toggle="modal" data-target="#myGroupModal">
+              Créer un groupe
+            </a>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :activities %>
+            <%= f.text_area :activities, class: "form-control", placeholder: "Veuillez détailler les activités" %>
+          </div>             
+
+          <div class="form-group">
+            <%= f.submit "Valider" %>
+          </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>

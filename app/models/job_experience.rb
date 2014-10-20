@@ -15,27 +15,27 @@ class JobExperience < ActiveRecord::Base
   
   # Renaming attributes into more friendly text
   HUMANIZED_ATTRIBUTES = {
-    :begin_date => "La date de début",
-    :end_date => "La date de fin",
-    :company => "Le nom de l'entreprise",
-    :team_members => "Le nombre de membres de l'équipe",
-    :role => "La fonction",
-    :membership_id => "Vous étiez membre du",
-    :phone_number => "Le numéro de téléphone",
-    :email => "L'email",
-    :hiring_type_id => "Le type de contrat",
-    :hiring_status_id => "Le statut",
-    :missions => "Les missions",
-    :predecessor_firstname => "Le nom du prédecesseur",
-    :predecessor_lastname => "Le prénom du prédecesseur",
-    :assistant_firstname => "Le nom de l'assistant(e)",
-    :assistant_lastname => "Le prénom de l'assistant(e)",
-    :assistant_phone_number => "Le numéro de téléphone de l'assistant(e)",
-    :assistant_email => "L'email de l'assistant(e)",
-    :superior_title => "Le titre du supérieur",
-    :superior_firstname => "Le nom du supérieur",
-    :superior_lastname => "Le prénom du supérieur",
-    :misc => "Informations_complémentaires"
+    :begin_date => "Début",
+    :end_date => "Fin",
+    :company => "Entreprise",
+    :team_members => "Effectif de votre équipe",
+    :role => "Fonction",
+    :membership_id => "Au sein de votre société vous êtes membre du",
+    :phone_number => "Ligne directe",
+    :email => "Email professionnel",
+    :hiring_type_id => "Type d'embauche",
+    :hiring_status_id => "Statut",
+    :missions => "Missions et réalisations",
+    :predecessor_firstname => "Nom du prédecesseur",
+    :predecessor_lastname => "Prénom du prédecesseur",
+    :assistant_firstname => "Nom de l'assistant(e)",
+    :assistant_lastname => "Prénom de l'assistant(e)",
+    :assistant_phone_number => "Ligne directe",
+    :assistant_email => "Email",
+    :superior_title => "Titre du supérieur",
+    :superior_firstname => "Nom du supérieur",
+    :superior_lastname => "Prénom du supérieur",
+    :misc => "Informations diverses (pertinentes pour votre profil)"
   }
   
   # Using friendly attribute name if it exists and default name otherwise

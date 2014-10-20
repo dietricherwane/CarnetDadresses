@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  shortcut: MyString
+  social_status_id: 1
+  trading_identifier: MyString
+  employees_amount: MyString
+  capital: MyString
+  turnover: MyString
+  phone_number: MyString
+  fax: MyString
+  website: MyString
+  email: MyString
+  country_id: 1
+  city: MyString
+  geographical_address: MyString
+  postal_address: MyString
+  sector_id: 1
+  holding_id: 1
+  activities: MyString
+
+two:
+  name: MyString
+  shortcut: MyString
+  social_status_id: 1
+  trading_identifier: MyString
+  employees_amount: MyString
+  capital: MyString
+  turnover: MyString
+  phone_number: MyString
+  fax: MyString
+  website: MyString
+  email: MyString
+  country_id: 1
+  city: MyString
+  geographical_address: MyString
+  postal_address: MyString
+  sector_id: 1
+  holding_id: 1
+  activities: MyString

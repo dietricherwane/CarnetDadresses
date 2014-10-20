@@ -1,3 +1,5 @@
+<%= javascript_include_tag "adress_books_persons"  if CarnetDadresse::Application.assets.find_asset("adress_books_persons.js") %>
+
 <%= notification_messages! %> 
 
 <div class="page_title_wrapper">
@@ -22,8 +24,24 @@
       <div class="pb_title_wrapper">
         <h3 class="pb_title1">Créer un Décideur</h3>                                				   
       </div>
-      <%= form_for @adress_book, url: create_person_path, method: :post do |f| %>      
-        <%= address_book_messages! %>    
+      <%= form_for @adress_book, url: create_person_path, html: { multipart: true }, method: :post do |f| %>      
+        <%= address_book_messages! %> 
+        <div class="form-group">
+          <%= f.label :avatar %>
+          <%= f.file_field :avatar, class: "form-control", placeholder: "Veuillez choisir une photo" %>
+        </div>
+          
+        <div class="form-group">
+          <%= label_tag "Titre" %>
+          <%= collection_select(:post, :address_book_title_category_id, @address_book_title_categories, :id, :name, options ={prompt: "-Veuillez choisir une catégorie-"}, html_options = {class: "form-control"}) %>
+        </div>
+        
+        <div class="form-group">
+          <div id = "address_book_titles">
+          
+          </div>
+        </div>
+         
         <div class="form-group">
           <%= f.label :civility_id %>
           <%= f.collection_select :civility_id, @civilities, :id, :name, options ={prompt: "-Veuillez choisir la civilité-"}, html_options = {class: "form-control"} %>
@@ -61,33 +79,36 @@
         </div>
         
         <div class="border_divider"></div>
+                
+        <div class="form-group">
+          <div id = "companies">
+            <%= f.label :company_id %>
+            <%= f.collection_select :company_id, @companies, :id, :name, options ={prompt: "-Veuillez choisir une entreprise-"}, html_options = {class: "form-control"} %>
+          </div>
+        </div>        
         
         <div class="form-group">
-          <%= f.label :company_name %>
-          <%= f.text_field :company_name, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
-        </div>
+          <a class="button" data-toggle="modal" data-target="#myModal">
+            Créer une entreprise
+          </a>
+        </div>  
         
         <div class="form-group">
           <%= f.label :job_role %>
           <%= f.text_field :job_role, class: "form-control", placeholder: "Veuillez entrer la fonction occupée" %>
         </div>
         
-        <div class="form-group">
+        <!--<div class="form-group">
           <%= f.label :sector_id %>
-          <%= f.collection_select :sector_id, @sectors, :id, :name, options ={prompt: "-Veuillez choisir le secteur d'opération-"}, html_options = {class: "form-control"} %>
-        </div>
-        
-        <div class="form-group">
-          <%= f.label :sales_area_id %>
-          <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir le domaine d'activité-"}, html_options = {class: "form-control"} %>
-        </div>
+          <%= f.collection_select :sector_id, @sectors, :id, :name, options ={prompt: "-Veuillez choisir le secteur d'opération-", selected: (Sector.find_by_name("Privé").id rescue nil)}, html_options = {class: "form-control", disabled: true} %>
+        </div>-->
         
         <div class="border_divider"></div>
         
-        <div class="form-group">
+        <!--<div class="form-group">
           <%= f.label :country_id %>
-          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "Veuillez choisir le pays", selected: (Country.find_by_name("Côte D'ivoire").id rescue nil)}, html_options = {class: "form-control"} %>
-        </div>
+          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "Veuillez choisir le pays", selected: (Country.find_by_name("Côte D'ivoire").id rescue nil)}, html_options = {class: "form-control", disabled: true} %>
+        </div>-->
         
         <div class="form-group">
           <%= f.label :city %>
@@ -151,3 +172,11 @@
   
   </div><!-- End content_wrapper_inner -->
 </div><!-- End container -->
+
+<!-- Create company form -->
+  <%= render "create_company_modal", :locals => {company: @company} %>      
+<!-- Create company form -->
+
+<!-- Create group form -->
+  <%= render "create_group_modal", :locals => {holding: @holding} %>      
+<!-- Create group form -->

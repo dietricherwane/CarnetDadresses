@@ -3,6 +3,7 @@ class Sector < ActiveRecord::Base
   
   # Relationships
   has_many :users
+  has_many :companies
   
   attr_accessible :name, :published
   

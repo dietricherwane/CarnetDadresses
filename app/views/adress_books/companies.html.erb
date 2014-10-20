@@ -31,7 +31,7 @@
         
         <div class="form-group">
           <%= f.label :company_shortcut %>
-          <%= f.text_field :company_shortcut, class: "form-control", placeholder: "Veuillez entrer le sige de l'entreprise" %>
+          <%= f.text_field :company_shortcut, class: "form-control", placeholder: "Veuillez entrer le sigle de l'entreprise" %>
         </div>
         
         <div class="form-group">
@@ -81,7 +81,7 @@
         
         <div class="form-group">
           <%= f.label :country_id %>
-          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "Veuillez choisir le pays", selected: (Country.find_by_name("Côte D'ivoire").id rescue nil)}, html_options = {class: "form-control"} %>
+          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "Veuillez choisir le pays", selected: (Country.find_by_name("Côte D'ivoire").id rescue nil)}, html_options = {class: "form-control", disabled: true} %>
         </div>
         
         <div class="form-group">
@@ -101,13 +101,8 @@
         
         <div class="form-group">
           <%= f.label :sector_id %>
-          <%= f.collection_select :sector_id, @sectors, :id, :name, options ={prompt: "-Veuillez choisir le secteur d'opération-"}, html_options = {class: "form-control"} %>
-        </div>
-        
-        <div class="form-group">
-          <%= f.label :sales_area_id %>
-          <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir le domaine d'activité-"}, html_options = {class: "form-control"} %>
-        </div>      
+          <%= f.collection_select :sector_id, @sectors, :id, :name, options ={prompt: "-Veuillez choisir le secteur d'opération-", selected: (Sector.find_by_name("Privé").id rescue nil)}, html_options = {class: "form-control", disabled: true} %>
+        </div>            
         
         <div class="form-group">
           <%= f.label :holding_id %>

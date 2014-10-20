@@ -69,9 +69,9 @@ class ApplicationController < ActionController::Base
       @fields.each do |field|
         @sql << "#{field} ILIKE '%#{term}%' OR "
       end
-      @tables.each do |table|
-        @sql << fetch_from_side_table(table, term)
-      end
+      #@tables.each do |table|
+        #@sql << fetch_from_side_table(table, term)
+      #end
       
       @sql = @sql[0..-4] << ") AND "
     end

@@ -18,11 +18,19 @@ UpdateType.create([{name: "create", user_id: 1}, {name: "update", user_id: 1}])
 
 HiringType.create([{name: "CDD"}, {name: "CDI"}])
 
-HiringStatus.create([{name: "Salarié"}])
+HiringStatus.create([{name: "Salarié (e)"}, {name: "Associé (e)"}, {name: "Actionnaire"}, {name: "Autre"}])
 
 Membership.create([{name: "Comité de Direction"}, {name: "Comité d'Administration"}, {name: "Comité d'Audit"}, {name: "Aucun"}])
 
 Civility.create([{name: "M."}, {name: "Mme"}])
 
 MaritalStatus.create([{name: "Marié(e)"}, {name: "Célibataire"}, {name: "Divorcé(e)"}, {name: "Veuf(ve)"}])
+
+AddressBookTitleCategory.create([{name: "Honorifique"}, {name: "Professionnel"}, {name: "Réligieux"}])
+
+AddressBookTitleCategory.find_by_name("Honorifique").address_book_titles.create([{name: "Baron"}])
+
+AddressBookTitleCategory.find_by_name("Professionnel").address_book_titles.create([{name: "Capitaine"}, {name: "Colonel"}, {name: "Colonel Major"}, {name: "Commandant"}, {name: "Docteur"}, {name: "Général"}, {name: "Lieutenant"}, {name: "Lieutenant Colonel"}, {name: "Maître"}, {name: "Professeur"}, {name: "SEM"}, {name: "Sergent"}])
+
+AddressBookTitleCategory.find_by_name("Réligieux").address_book_titles.create([{name: "Abbé"}, {name: "El Hadj"}, {name: "Imam"}, {name: "Mgr"}, {name: "Père"}, {name: "Révérend"}])
 

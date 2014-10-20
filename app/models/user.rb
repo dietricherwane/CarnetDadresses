@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :news_feeds
   has_many :formations
   has_many :job_experiences
+  has_many :previous_job_experiences
   
   # Scopes
   default_scope {order("created_at DESC")}

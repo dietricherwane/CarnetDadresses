@@ -2,6 +2,7 @@ class Country < ActiveRecord::Base
   # Relationships
   has_many :adress_books
   has_many :holdings
+  has_many :companies
   
   # Scopes
   default_scope {order("name ASC")}
