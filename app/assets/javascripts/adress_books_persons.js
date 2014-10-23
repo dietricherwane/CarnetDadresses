@@ -1,26 +1,29 @@
 $(document).on('ready page:load', function(){
   $("#post_address_book_title_category_id").change(function() {
     var category = this.options[this.selectedIndex];
-    $(this).getComboBoxValues(category.value, "#address_book_titles", "/address_book_titles"); 	
+    $(this).getComboBoxValues(category.value, "#address_book_titles", "/address_book_titles");
   });
-    
-  
+
+  $("#company_sales_area_id").change(function() {
+    var sub_sales_area = this.options[this.selectedIndex];
+    $(this).getComboBoxValues(sub_sales_area.value, "#sub_sales_areas", "/sales_area/sub_sales_areas");
+  });
 });
 
 $.fn.getComboBoxValues = function(selected_value, target_tag, url) {
-  $.ajax({      
+  $.ajax({
     url: url,
     data: selected_value,
     dataType: "text",
-    error: function(xhr, textStatus, errorThrown){  
+    error: function(xhr, textStatus, errorThrown){
     	alert("Une erreur s'est produite: " + errorThrown);
     },
     success: function(response, response_status, xhr) {
       $(target_tag).children().remove();
-      $(response).appendTo(target_tag);        
+      $(response).appendTo(target_tag);
     }
   });
-} 
+}
 
 //////////////////////Create company modal/////////////////////////////////////
 $(document).on("ajax:error", "#new_company", function(event, xhr, status, error) {
@@ -28,11 +31,11 @@ $(document).on("ajax:error", "#new_company", function(event, xhr, status, error)
     alert("L'entreprise a été enregistrée.");
     $(event.data).clear_previous_errors();
     $('#myModal').modal('hide');
-    $(event.data).getComboBoxValues(1, "#companies", "/js_companies"); 	
+    $(event.data).getComboBoxValues(1, "#companies", "/js_companies");
   }
   else{
     $(event.data).render_form_errors($.parseJSON(xhr.responseText), "company");
-  }  
+  }
 });
 //////////////////////Create company modal/////////////////////////////////////
 
@@ -43,11 +46,11 @@ $(document).on("ajax:error", "#new_holding", function(event, xhr, status, error)
     $(event.data).clear_previous_errors();
     $('#myGroupModal').modal('hide');
     $('#myModal').modal('hide');
-    $(event.data).getComboBoxValues(1, "#holdings", "/js_holdings"); 	
+    $(event.data).getComboBoxValues(1, "#holdings", "/js_holdings");
   }
   else{
     $(event.data).render_form_errors($.parseJSON(xhr.responseText), "holding");
-  }  
+  }
 });
 //////////////////////Create Holding modal/////////////////////////////////////
 
@@ -59,14 +62,14 @@ $.fn.render_form_errors = function(errors, model){
     $input = $('#new_' + model + ' input[name="' + model + '[' + field + ']"]');
     $select = $('#new_' + model + ' select[name="' + model + '[' + field + ']"]');
     $textarea = $('#new_' + model + ' textarea[name="' + model + '[' + field + ']"]')
-    
+
     $input.addClass('error');
     $select.addClass('error');
     $textarea.addClass('error');
   });
 }
 
-$.fn.clear_previous_errors = function(){ 
+$.fn.clear_previous_errors = function(){
   $('.form-control.error').each(function(){
     $(this).removeClass('error');
   });

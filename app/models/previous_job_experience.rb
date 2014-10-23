@@ -1,9 +1,10 @@
 class PreviousJobExperience < ActiveRecord::Base
   # Relationships
-  belongs_to :memberships
+  belongs_to :membership
   belongs_to :user
+  belongs_to :adress_book
   
-  attr_accessible :begin_date, :end_date, :company_name, :role, :membership_id, :published
+  attr_accessible :begin_date, :end_date, :company_name, :role, :membership_id, :published, :adress_book_id, :user_id
   
   # Scopes
   default_scope {order("end_date DESC")}
@@ -23,7 +24,7 @@ class PreviousJobExperience < ActiveRecord::Base
   end
   
   # Validations
-  validates :begin_date, :end_date, :company, :role, :membership_id, presence: true 
+  validates :begin_date, :end_date, :company_name, :role, :membership_id, :user_id, :adress_book_id, presence: true 
   
   # Custom functions
   def published?

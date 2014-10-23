@@ -1,0 +1,82 @@
+<%= notification_messages! %> 
+
+<div class="page_title_wrapper">
+  <div class="container sixteen columns">
+    <div class="page_title_inner">	      			       	
+      <span class="main_t_1"> 
+        Compléter le profil des Décideurs </span><span class="main_t_2">&nbsp; - &nbsp;  Compléter le profil de <%= link_to @adress_book.full_name, edit_person_path(@adress_book.id) %> 
+      </span>
+    </div>			
+  </div><!-- End container sixteen columns -->			
+</div><!-- End page_title_wrapper -->
+
+<div class="content_shadow"></div>
+<div class="clear"></div>
+
+<div class = "container">
+  <div class = "content_wrapper_inner">
+  
+  <div class = "sixteen columns row">
+    <div class = "one_half">
+      
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Modifier une expérience</h3>                                				   
+      </div>
+      <%= form_for @previous_job_experience, url: update_person_previous_experience_path, method: :post do |f| %>      
+        <%= previous_job_experience_messages! %>   
+        <%= hidden_field_tag :adress_book_id, @adress_book.id %>                     
+        <div class="form-group">
+            <%= f.label :begin_date %>
+            <br />
+            <%= f.date_select :begin_date, start_year: (Date.today.year - 90), end_year: Date.today.year, discard_day: true, class: "form-control" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :end_date %>
+            <br />
+            <%= f.date_select :end_date, start_year: (Date.today.year - 90), end_year: Date.today.year, discard_day: true, class: "form-control" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :company_name %>
+            <%= f.text_field :company_name, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :role %>
+            <%= f.text_field :role, class: "form-control", placeholder: "Veuillez entrer votre fonction" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :membership_id %>
+            <%= f.collection_select :membership_id, @memberships, :id, :name, options ={prompt: "Veuillez définir l'appartenance"}, html_options = {class: "form-control"} %>
+          </div>
+
+        <div class="form-group">
+          <%= f.submit "Valider" %>
+        </div>
+      <% end %>
+    </div><!-- End one_half -->
+    
+    <div class = "one_half lastcolumn">
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Liste des Expériences</h3>                                				   
+      </div>     
+            
+      <div class="accordion-items">  
+        <% unless @previous_job_experiences.blank? %>       
+          <% @previous_job_experiences.each do |previous_job_experience| %>    
+            <div class="accordion-item">    
+              <%= render "previous_job_experiences_list", previous_job_experience: previous_job_experience %>
+            </div>
+          <% end %>
+                                	
+            <%= paginate @previous_job_experiences, :params => {:controller => :adress_books, :action => :complete_profile} %>   
+        <% end %>    
+      </div>
+      			 
+    </div><!-- End one_half lastcolumn -->
+  </div>
+  
+  </div><!-- End content_wrapper_inner -->
+</div><!-- End container -->

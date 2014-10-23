@@ -1,0 +1,2 @@
+class PreviousJobExperiencesController < ApplicationController
+end

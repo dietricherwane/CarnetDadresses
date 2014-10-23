@@ -1,0 +1,2 @@
+class AdressBookHobbiesController < ApplicationController
+end

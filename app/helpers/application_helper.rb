@@ -7,7 +7,7 @@ module ApplicationHelper
     when :alert then "notification warning"
     end
   end
-  
+
   def session_flash_class(level)
     case level
     when :notice then "session_notification notice"
@@ -16,11 +16,11 @@ module ApplicationHelper
     when :alert then "session_notification warning"
     end
   end
-  
-  def field_class(my_object, my_field) 
+
+  def field_class(my_object, my_field)
     if my_object.errors.blank?
       "form-control"
-    else      
+    else
       if my_object.valid?
         "form-control"
       else
@@ -28,11 +28,11 @@ module ApplicationHelper
       end
     end
   end
-	
+
 	def go_back()
     link_to('Revenir en arrière', 'javascript:history.go(-1);', :class => 'cancel')
   end
-  
+
   def flash_messages!
     [:notice, :error, :success, :alert].each do |key|
       if flash[key]
@@ -40,10 +40,10 @@ module ApplicationHelper
         @message = flash[key]
       end
     end
-    
+
     messages!
   end
-  
+
   def error_messages!
     [:error, :alert].each do |key|
       if flash[key]
@@ -51,10 +51,10 @@ module ApplicationHelper
         @message = flash[key]
       end
     end
-    
+
     messages!
   end
-  
+
   def notification_messages!
     [:notice, :success].each do |key|
       if flash[key]
@@ -62,31 +62,31 @@ module ApplicationHelper
         @message = flash[key]
       end
     end
-    
+
     messages!
   end
-  
+
   def messages!
     return "" if @message.blank?
-    
+
     html = <<-HTML
     <script type = "text/javascript">
-      $(document).on('ready page:load', function(){  
+      $(document).on('ready page:load', function(){
         $("#button-close").click(function() {
           $(".notification").hide();
         });
       });
-    </script>  
+    </script>
     <div class="#{flash_class(@key)} fade in">
       <p>
         <div id style = "float:right;">
           <a style = "cursor: pointer; text-decoration: none;" id = "button-close">×</a>
-        </div>     
+        </div>
         <span>
           #{@message}
         </span>
       </p>
-    </div>     
+    </div>
     HTML
 
     html.html_safe

@@ -1,0 +1,60 @@
+<%= notification_messages! %> 
+
+<div class="page_title_wrapper">
+  <div class="container sixteen columns">
+    <div class="page_title_inner">	      			       	
+      <span class="main_t_1"> 
+        Compléter le profil des Décideurs </span><span class="main_t_2">&nbsp; - &nbsp;  Compléter le profil de <%= link_to @adress_book.full_name, edit_person_path(@adress_book.id) %> 
+      </span>
+    </div>			
+  </div><!-- End container sixteen columns -->			
+</div><!-- End page_title_wrapper -->
+
+<div class="content_shadow"></div>
+<div class="clear"></div>
+
+<div class = "container">
+  <div class = "content_wrapper_inner">
+  
+  <div class = "sixteen columns row">
+    <div class = "one_half">
+      
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Modifier un hobby</h3>                                				   
+      </div>
+      <%= form_for @adress_book_hobby, url: update_person_hobby_path, method: :post do |f| %>      
+        <%= adress_book_hobby_messages! %>   
+        <%= hidden_field_tag :adress_book_id, @adress_book.id %>                     
+        <div class="form-group">
+          <%= f.label :hobby_id %>
+          <%= f.collection_select :hobby_id, @hobbies, :id, :name, options ={prompt: "Veuillez choisir un hobby"}, html_options = {class: "form-control"} %>
+        </div>
+
+        <div class="form-group">
+          <%= f.submit "Valider" %>
+        </div>
+      <% end %>
+    </div><!-- End one_half -->
+    
+    <div class = "one_half lastcolumn">
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Liste des Hobby</h3>                                				   
+      </div>     
+            
+      <div class="accordion-items">  
+        <% unless @adress_book_hobbies.blank? %>       
+          <% @adress_book_hobbies.each do |adress_book_hobby| %>    
+            <div class="accordion-item">    
+              <%= render "adress_book_hobbies_list", adress_book_hobby: adress_book_hobby %>
+            </div>
+          <% end %>
+                                	
+            <%= paginate @adress_book_hobbies, :params => {:controller => :adress_books, :action => :complete_profile} %>   
+        <% end %>    
+      </div>
+      			 
+    </div><!-- End one_half lastcolumn -->
+  </div>
+  
+  </div><!-- End content_wrapper_inner -->
+</div><!-- End container -->

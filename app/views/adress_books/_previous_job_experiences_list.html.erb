@@ -1,0 +1,36 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= previous_job_experience.company_name %>
+    <%= render "previous_job_experience_status_icons", previous_job_experience: previous_job_experience %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b>Actions:</b>
+    <a class = "form-action-link" href = "<%= edit_person_previous_experience_path(previous_job_experience.id) %>">
+      <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
+    </a>  
+    <a class = "form-action-link" href = "<%= previous_job_experience.published? ? disable_person_previous_experience_path(previous_job_experience.id) : enable_person_previous_experience_path(previous_job_experience.id) %>">
+      <img src = "/images/forms/<%= previous_job_experience.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= previous_job_experience.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+  </p>
+  <p>
+    <b><%= PreviousJobExperience.human_attribute_name("begin_date") %>:</b> <%= previous_job_experience.begin_date.strftime("%m-%Y") %> 
+  </p>
+  <p>
+    <b><%= PreviousJobExperience.human_attribute_name("end_date") %>:</b> <%= previous_job_experience.end_date.strftime("%m-%Y") %> 
+  </p>
+  <p>
+    <b><%= PreviousJobExperience.human_attribute_name("company_name") %>:</b> <%= previous_job_experience.company_name %> 
+  </p>
+  <p>
+    <b><%= PreviousJobExperience.human_attribute_name("role") %>:</b> <%= previous_job_experience.role %> 
+  </p>
+  <div class="border_divider"></div>
+  <p>
+    <b><%= PreviousJobExperience.human_attribute_name("membership_id") %>:</b> <%= previous_job_experience.membership.name rescue nil %> 
+  </p> 
+  <p>
+    <b>Créé le:</b> <%= previous_job_experience.created_at.strftime("%d-%m-%Y") + " à " + previous_job_experience.created_at.strftime("%Hh %Mmn") %> 
+  </p>
+</div>

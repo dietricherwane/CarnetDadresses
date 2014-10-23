@@ -37,9 +37,11 @@ gem 'protected_attributes'
 gem "paperclip", "~> 4.2"
 
 # To have a wysiwyg editor
-gem "wysihat-engine"
+#gem "wysihat-engine"
 # https://github.com/galetahub/ckeditor
-#gem 'ckeditor'
+
+gem 'ckeditor_rails'
+#gem 'tinymce-rails'
 
 # To get bourse infos
 gem 'yahoo-finance'

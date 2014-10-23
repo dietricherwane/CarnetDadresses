@@ -15,6 +15,5 @@
 // require turbolinks
 
 //= require_tree ../../../vendor/assets/javascripts/.
+//= require ckeditor-jquery
 // require_tree .
-
-

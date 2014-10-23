@@ -1,15 +1,15 @@
 <%= javascript_include_tag "adress_books_persons"  if CarnetDadresse::Application.assets.find_asset("adress_books_persons.js") %>
 
-<%= notification_messages! %> 
+<%= notification_messages! %>
 
 <div class="page_title_wrapper">
   <div class="container sixteen columns">
-    <div class="page_title_inner">	      			       	
-      <span class="main_t_1"> 
-        Modification des profils des Décideurs </span><span class="main_t_2">&nbsp; - &nbsp;  Modifier le profil de <%= @adress_book.full_name %> 
+    <div class="page_title_inner">
+      <span class="main_t_1">
+        Modification des profils des Décideurs </span><span class="main_t_2">&nbsp; - &nbsp;  Modifier le profil de <%= @adress_book.full_name %>
       </span>
-    </div>			
-  </div><!-- End container sixteen columns -->			
+    </div>
+  </div><!-- End container sixteen columns -->
 </div><!-- End page_title_wrapper -->
 
 <div class="content_shadow"></div>
@@ -17,111 +17,109 @@
 
 <div class = "container">
   <div class = "content_wrapper_inner">
-  
+
   <div class = "sixteen columns row">
     <div class = "one_half">
-      
+
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Modifier le profil</h3>                                				   
+        <h3 class="pb_title1">Modifier le profil</h3>
       </div>
-      <%= form_for @adress_book, url: update_person_path, method: :post do |f| %>      
+      <%= form_for @adress_book, url: update_person_path, method: :post do |f| %>
         <%= address_book_messages! %>
         <div class="form-group">
           <%= f.label :avatar %>
           <%= f.file_field :avatar, class: "form-control", placeholder: "Veuillez choisir une photo" %>
         </div>
-        
+
         <div class="form-group">
           <%= label_tag "Titre" %>
           <%= collection_select(:post, :address_book_title_category_id, @address_book_title_categories, :id, :name, options ={prompt: "-Veuillez choisir une catégorie-", selected: (@adress_book.address_book_title.address_book_title_category.id rescue nil)}, html_options = {class: "form-control"}) %>
         </div>
-        
+
         <div class="form-group">
           <div id = "address_book_titles">
             <%= f.collection_select :address_book_title_id, @address_book_titles, :id, :name, options ={prompt: "-Veuillez choisir un titre-"}, html_options = {class: "form-control"} %>
           </div>
-          
+
         </div>
-         
+
         <div class="form-group">
           <%= f.label :civility_id %>
           <%= f.collection_select :civility_id, @civilities, :id, :name, options ={prompt: "-Veuillez choisir la civilité-"}, html_options = {class: "form-control"} %>
-        </div>                  
+        </div>
         <div class="form-group">
           <%= f.label :firstname %>
           <%= f.text_field :firstname, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :lastname %>
           <%= f.text_field :lastname, class: "form-control", placeholder: "Veuillez entrer le prénom" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :birthdate %>
           <br />
           <%= f.date_select :birthdate, start_year: (Date.today.year - 90), end_year: (Date.today.year - 20), class: "form-control" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :marital_status_id %>
           <%= f.collection_select :marital_status_id, @marital_statuses, :id, :name, options ={prompt: "-Veuillez choisir le statut matrimonial-"}, html_options = {class: "form-control"} %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :childrens %>
           <%= f.text_field :childrens, class: "form-control", placeholder: "Veuillez entrer le nombre d'enfants" %>
         </div>
-        
-        <div class="form-group">
-          <%= f.label :hobbies %>
-          <%= f.text_area :hobbies, class: "form-control", placeholder: "Veuillez entrer les hobbies" %>
-        </div>
-        
+
         <div class="border_divider"></div>
-        
+
+        <div class="form-group">
+          <div id = "companies">
+            <%= f.label :sales_area_id %>
+            <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir votre secteur d'activités-"}, html_options = {class: "form-control"} %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div id = "sub_sales_areas">
+            <%= f.collection_select :sub_sales_area_id, @sub_sales_areas, :id, :name, options ={prompt: "-Veuillez choisir un sous domaine-"}, html_options = {class: "form-control"} %>
+          </div>
+        </div>
+
         <div class="form-group">
           <%= f.label :company_id %>
           <%= f.collection_select :company_id, @companies, :id, :name, options ={prompt: "-Veuillez choisir l'entreprise-"}, html_options = {class: "form-control"} %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :job_role %>
           <%= f.text_field :job_role, class: "form-control", placeholder: "Veuillez entrer la fonction occupée" %>
         </div>
-        
-        <!--<div class="form-group">
-          <%= f.label :sector_id %>
-          <%= f.collection_select :sector_id, @sectors, :id, :name, options ={prompt: "-Veuillez choisir le secteur d'opération-", selected: (Sector.find_by_name("Privé").id rescue nil)}, html_options = {class: "form-control", disabled: true} %>
-        </div>-->
-        
+
         <div class="border_divider"></div>
-        
-        <!--<div class="form-group">
-          <%= f.label :country_id %>
-          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "Veuillez choisir le pays", selected: (Country.find_by_name("Côte D'ivoire").id rescue nil)}, html_options = {class: "form-control", disabled: true} %>
-        </div>-->
-        
+
         <div class="form-group">
           <%= f.label :city %>
           <%= f.text_field :city, class: "form-control", placeholder: "Veuillez entrer la ville" %>
-        </div> 
-        
+        </div>
+
         <div class="form-group">
           <%= f.label :geographical_address %>
           <%= f.text_field :geographical_address, class: "form-control", placeholder: "Veuillez entrer l'adresse géographique" %>
-        </div> 
-        
+        </div>
+
         <div class="form-group">
           <%= f.label :postal_address %>
           <%= f.text_field :postal_address, class: "form-control", placeholder: "Veuillez entrer l'adresse postale" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :phone_number %>
           <%= f.text_field :phone_number, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le numéro de téléphone" %>
-        </div>        
-                  
+        </div>
+
         <div class="form-group">
           <%= f.label :email %>
           <%= f.email_field :email, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer l'adresse email" %>
@@ -130,43 +128,43 @@
         <div class="form-group">
           <%= f.label :comment %>
           <%= f.text_area :comment, class: "form-control", placeholder: "Veuillez détailler le parcours" %>
-        </div>        
-        
+        </div>
+
         <div class="border_divider"></div>
-        
+
         <div class="form-group">
-          <%= link_to "Liste des formations et expériences professionnelles", complete_person_profile_path(@adress_book.id) %>
-        </div>    
+          <%= link_to "Hobby - Formations - Expériences - Fonction", complete_person_profile_path(@adress_book.id) %>
+        </div>
 
         <div class="form-group">
           <%= f.submit "Valider" %>
         </div>
       <% end %>
     </div><!-- End one_half -->
-    
+
     <div class = "one_half lastcolumn">
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Liste des Décideurs</h3>                                				   
+        <h3 class="pb_title1">Liste des Décideurs</h3>
       </div>
-      
+
       <!-- Search form -->
-      <%= render "search_person_form", :locals => {terms: @terms} %>      
-      <!-- Search form -->      
-            
-      <div class="accordion-items">  
-        <% unless @adress_books.blank? %>       
-          <% @adress_books.each do |adress_book| %>    
-            <div class="accordion-item">    
+      <%= render "search_person_form", :locals => {terms: @terms} %>
+      <!-- Search form -->
+
+      <div class="accordion-items">
+        <% unless @adress_books.blank? %>
+          <% @adress_books.each do |adress_book| %>
+            <div class="accordion-item">
               <%= render "persons_list", adress_book: adress_book %>
             </div>
           <% end %>
-                                	
-            <%= paginate @adress_books, :params => {:controller => :adress_books, :action => :persons} %>   
-        <% end %>    
+
+            <%= paginate @adress_books, :params => {:controller => :adress_books, :action => :persons} %>
+        <% end %>
       </div>
-      			 
+
     </div><!-- End one_half lastcolumn -->
   </div>
-  
+
   </div><!-- End content_wrapper_inner -->
 </div><!-- End container -->

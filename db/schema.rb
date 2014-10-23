@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141020102051) do
+ActiveRecord::Schema.define(version: 20141023183426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,15 @@ ActiveRecord::Schema.define(version: 20141020102051) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "address_book_title_category_id"
+  end
+
+  create_table "adress_book_hobbies", force: true do |t|
+    t.integer  "adress_book_id"
+    t.integer  "hobby_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.boolean  "published"
   end
 
   create_table "adress_books", force: true do |t|
@@ -73,6 +82,7 @@ ActiveRecord::Schema.define(version: 20141020102051) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.integer  "company_id"
+    t.integer  "sub_sales_area_id"
   end
 
   create_table "civilities", force: true do |t|
@@ -111,6 +121,7 @@ ActiveRecord::Schema.define(version: 20141020102051) do
     t.boolean  "published"
     t.integer  "created_by"
     t.boolean  "validated_by"
+    t.integer  "sub_sales_area_id"
   end
 
   create_table "countries", force: true do |t|
@@ -153,6 +164,8 @@ ActiveRecord::Schema.define(version: 20141020102051) do
     t.datetime "unpublished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
+    t.text     "content"
   end
 
   create_table "helps", force: true do |t|
@@ -180,6 +193,13 @@ ActiveRecord::Schema.define(version: 20141020102051) do
     t.datetime "updated_at"
   end
 
+  create_table "hobbies", force: true do |t|
+    t.string   "name"
+    t.boolean  "published"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "holdings", force: true do |t|
     t.string   "name"
     t.string   "shortcut"
@@ -198,6 +218,17 @@ ActiveRecord::Schema.define(version: 20141020102051) do
     t.boolean  "published"
     t.integer  "created_by"
     t.integer  "validated_by"
+  end
+
+  create_table "images", force: true do |t|
+    t.string   "alt"
+    t.string   "hint"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "information", force: true do |t|
@@ -306,6 +337,7 @@ ActiveRecord::Schema.define(version: 20141020102051) do
     t.boolean  "published"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "adress_book_id"
   end
 
   create_table "profiles", force: true do |t|
@@ -335,6 +367,14 @@ ActiveRecord::Schema.define(version: 20141020102051) do
     t.string   "name",       limit: 100
     t.boolean  "published"
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sub_sales_areas", force: true do |t|
+    t.string   "name"
+    t.boolean  "published"
+    t.integer  "sales_area_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

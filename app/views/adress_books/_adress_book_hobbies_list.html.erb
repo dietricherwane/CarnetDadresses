@@ -1,0 +1,22 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= adress_book_hobby.hobby.name %>
+    <%= render "adress_book_hobby_status_icons", adress_book_hobby: adress_book_hobby %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b>Actions:</b>
+    <a class = "form-action-link" href = "<%= edit_person_hobby_path(adress_book_hobby.id) %>">
+      <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
+    </a>  
+    <a class = "form-action-link" href = "<%= adress_book_hobby.published? ? disable_person_hobby_path(adress_book_hobby.id) : enable_person_hobby_path(adress_book_hobby.id) %>">
+      <img src = "/images/forms/<%= adress_book_hobby.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= adress_book_hobby.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+  </p>
+  <p>
+    <b><%= AdressBookHobby.human_attribute_name("hobby_id") %>:</b> <%= adress_book_hobby.hobby.name rescue nil %> 
+  </p>
+    <b>Créé le:</b> <%= adress_book_hobby.created_at.strftime("%d-%m-%y") + " à " + adress_book_hobby.created_at.strftime("%Hh %Mmn") %> 
+  </p>
+</div>

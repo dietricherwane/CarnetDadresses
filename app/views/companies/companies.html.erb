@@ -1,13 +1,15 @@
-<%= notification_messages! %> 
+<%= javascript_include_tag "companies"  if CarnetDadresse::Application.assets.find_asset("companies.js") %>
+
+<%= notification_messages! %>
 
 <div class="page_title_wrapper">
   <div class="container sixteen columns">
-    <div class="page_title_inner">	      			       	
-      <span class="main_t_1"> 
-        Création et visualisation des Entreprises </span><span class="main_t_2">&nbsp; - &nbsp;  Ajouter des Entreprises au système 
+    <div class="page_title_inner">
+      <span class="main_t_1">
+        Création et visualisation des Entreprises </span><span class="main_t_2">&nbsp; - &nbsp;  Ajouter des Entreprises au système
       </span>
-    </div>			
-  </div><!-- End container sixteen columns -->			
+    </div>
+  </div><!-- End container sixteen columns -->
 </div><!-- End page_title_wrapper -->
 
 <div class="content_shadow"></div>
@@ -15,129 +17,142 @@
 
 <div class = "container">
   <div class = "content_wrapper_inner">
-  
+
   <div class = "sixteen columns row">
     <div class = "one_half">
-      
+
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Créer une Entreprise</h3>                                				   
+        <h3 class="pb_title1">Créer une Entreprise</h3>
       </div>
-      <%= form_for @company, url: create_company_path do |f| %>      
-        <%= company_messages! %> 
+      <%= form_for @company, url: create_company_path do |f| %>
+        <%= company_messages! %>
         <div class="form-group">
           <%= f.label :logo %>
           <%= f.file_field :logo, class: "form-control", placeholder: "Veuillez choisir un logo" %>
         </div>
-                                   
+
         <div class="form-group">
           <%= f.label :name %>
           <%= f.text_field :name, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :shortcut %>
           <%= f.text_field :shortcut, class: "form-control", placeholder: "Veuillez entrer le sigle de l'entreprise" %>
         </div>
-        
+
+        <div class="form-group">
+          <div id = "companies">
+            <%= f.label :sales_area_id %>
+            <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir votre secteur d'activités-"}, html_options = {class: "form-control"} %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div id = "sub_sales_areas">
+
+          </div>
+        </div>
+
         <div class="form-group">
           <%= f.label :social_status_id %>
           <%= f.collection_select :social_status_id, @social_statuses, :id, :name, options ={prompt: "-Veuillez choisir le type d'entreprise-"}, html_options = {class: "form-control"} %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :trading_identifier %>
           <%= f.text_field :trading_identifier, class: "form-control", placeholder: "Veuillez entrer le registre de commerce" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :employees_amount %>
           <%= f.text_field :employees_amount, class: "form-control", placeholder: "Veuillez entrer le nombre d'employés" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :capital %>
           <%= f.text_field :capital, class: "form-control", placeholder: "Veuillez entrer le capital de l'entreprise" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :turnover %>
           <%= f.text_field :turnover, class: "form-control", placeholder: "Veuillez entrer le chiffre d'affaires" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :phone_number %>
           <%= f.text_field :phone_number, class: "form-control", placeholder: "Veuillez entrer le numéro de téléphone" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :fax %>
           <%= f.text_field :fax, class: "form-control", placeholder: "Veuillez entrer le numéro de fax" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :website %>
           <%= f.email_field :website, class: "form-control", placeholder: "Veuillez entrer le site web" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :email %>
           <%= f.email_field :email, class: "form-control", placeholder: "Veuillez entrer l'adresse email" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :city %>
           <%= f.text_field :city, class: "form-control", placeholder: "Veuillez entrer la ville" %>
-        </div> 
-        
+        </div>
+
         <div class="form-group">
           <%= f.label :geographical_address %>
           <%= f.text_field :geographical_address, class: "form-control", placeholder: "Veuillez entrer l'adresse géographique" %>
-        </div> 
-        
+        </div>
+
         <div class="form-group">
           <%= f.label :postal_address %>
           <%= f.text_field :postal_address, class: "form-control", placeholder: "Veuillez entrer l'adresse postale" %>
-        </div>           
-        
+        </div>
+
         <div class="form-group">
           <%= f.label :holding_id %>
           <%= f.collection_select :holding_id, @holdings, :id, :name, options ={prompt: "-Veuillez choisir le groupe-"}, html_options = {class: "form-control"} %>
-        </div>  
+        </div>
 
         <div class="form-group">
           <%= f.label :activities %>
           <%= f.text_area :activities, class: "form-control", placeholder: "Veuillez détailler les activités" %>
-        </div>             
+        </div>
 
         <div class="form-group">
           <%= f.submit "Valider" %>
         </div>
       <% end %>
     </div><!-- End one_half -->
-    
+
     <div class = "one_half lastcolumn">
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Liste des Entreprises</h3>                                				   
+        <h3 class="pb_title1">Liste des Entreprises</h3>
       </div>
-      
+
       <!-- Search form -->
-      <%= render "search_company_form", :locals => {terms: @terms} %>      
-      <!-- Search form -->      
-      
-      <div class="accordion-items">  
-        <% unless @companies.blank? %>       
+      <%= render "search_company_form", :locals => {terms: @terms} %>
+      <!-- Search form -->
+
+      <div class="accordion-items">
+        <% unless @companies.blank? %>
           <% @companies.each do |company| %>
-            <div class="accordion-item">    
+            <div class="accordion-item">
               <%= render "companies_list", company: company %>
             </div>
           <% end %>
-                                	
-          <%= paginate @companies, :params => {:controller => :companies, :action => :companies} %>   
-        <% end %>    
+
+          <%= paginate @companies, :params => {:controller => :companies, :action => :companies} %>
+        <% end %>
       </div>
-			 
+
     </div><!-- End one_half lastcolumn -->
   </div>
-  
+
   </div><!-- End content_wrapper_inner -->
 </div><!-- End container -->

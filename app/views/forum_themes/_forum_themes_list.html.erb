@@ -1,0 +1,41 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= forum_theme.title %>
+    <%= render "forum_theme_status_icons", forum_theme: forum_theme %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b>Actions:</b>
+    <a class = "form-action-link" href = "<%= edit_forum_theme_path(forum_theme.id) %>">
+      <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
+    </a>
+    <a class = "form-action-link" href = "<%= forum_theme.published? ? disable_forum_theme_path(forum_theme.id) : enable_forum_theme_path(forum_theme.id) %>">
+      <img src = "/images/forms/<%= forum_theme.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= forum_theme.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+  </p>
+  <p>
+    <b><%= ForumThemes.human_attribute_name("title") %>:</b> <%= forum_theme.title %>
+  </p>
+  <p>
+    <b><%= ForumThemes.human_attribute_name("content") %>:</b> <%= simple_format(forum_theme.content) %>
+  </p>
+  <p>
+    <b><%= ForumThemes.human_attribute_name("user_id") %>:</b> <%= forum_theme.user.full_name %>
+  </p>
+  <p>
+    <b><%= ForumThemes.human_attribute_name("created_at") %>:</b> <%= forum_theme.created_at.strftime("%d-%m-%Y") + " à " + forum_theme.created_at.strftime("%Hh %Mmn") %>
+  </p>
+  <p>
+    <b><%= ForumThemes.human_attribute_name("validated_by") %>:</b> <%= User.find_by_id(forum_theme.validated_by).full_name rescue nil %>
+  </p>
+  <p>
+    <b><%= ForumThemes.human_attribute_name("validated_at") %>:</b> <%= (forum_theme.validated_at.strftime("%d-%m-%Y") rescue nil) %>  <% (forum_theme.validated_at.strftime("%Hh %Mmn") rescue nil) %>
+  </p>
+  <p>
+    <b><%= ForumThemes.human_attribute_name("unpublished_by") %>:</b> <%= User.find_by_id(forum_theme.unpublished_by).full_name rescue nil %>
+  </p>
+  <p>
+    <b><%= ForumThemes.human_attribute_name("unpublished_at") %>:</b> <%= (forum_theme.unpublished_at.strftime("%d-%m-%Y") rescue nil) %>  <% (forum_theme.unpublished_at.strftime("%Hh %Mmn") rescue nil) %>
+  </p>
+</div>

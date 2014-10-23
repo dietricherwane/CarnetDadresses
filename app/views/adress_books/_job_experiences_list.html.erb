@@ -10,9 +10,6 @@
     <a class = "form-action-link" href = "<%= edit_person_experience_path(job_experience.id) %>">
       <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
     </a>  
-    <a class = "form-action-link" href = "<%= job_experience.published? ? disable_person_experience_path(job_experience.id) : enable_person_experience_path(job_experience.id) %>">
-      <img src = "/images/forms/<%= job_experience.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= job_experience.published? ? 'Désactiver' : 'Activer' %>" />
-    </a>
   </p>
   <p>
     <b><%= JobExperience.human_attribute_name("begin_date") %>:</b> <%= job_experience.begin_date.strftime("%m-%Y") %> 

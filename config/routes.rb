@@ -1,6 +1,6 @@
 CarnetDadresse::Application.routes.draw do
   root :to => redirect("/users/sign_in")
-  
+
   #mount Ckeditor::Engine => '/ckeditor'
   resource :wysihat_files
   #get "home/index"
@@ -10,7 +10,7 @@ CarnetDadresse::Application.routes.draw do
   # You can have the root of your site routed with "root"
 
   devise_for :users, :controllers => {:registrations => "devise/registrations", :sessions => "devise/sessions", :passwords => "devise/passwords"}
-  
+
   devise_scope :user do
   	get 'users/sign_up' => 'devise/registrations#new', :as => :admin_dashboard
   	get "admin/edit/:id" => "devise/registrations#edit_admin", as: :edit_admin
@@ -21,8 +21,8 @@ CarnetDadresse::Application.routes.draw do
   	#get 'users' => 'devise/registrations#new'
   	#get "user/edit_profile/:id" => "devise/registrations#edit", :as => :edit_user_profile
   	#patch 'user/update_profile' => 'devise/registrations#update_profile', :as => :update_user_profile
-  end 
-  
+  end
+
   get "persons" => "adress_books#persons", as: :persons
   post "person/create" => "adress_books#create_person", as: :create_person
   post "person/search" => "adress_books#search_person", as: :search_person
@@ -41,7 +41,17 @@ CarnetDadresse::Application.routes.draw do
   get "person/experience/disable/:id" => "adress_books#disable_experience", as: :disable_person_experience
   get "person/experience/enable/:id" => "adress_books#enable_experience", as: :enable_person_experience
   post "person/experience/update/:id" => "adress_books#update_experience", as: :update_person_experience
-  
+  post "person/previous_experience/create" => "adress_books#create_previous_experience", as: :create_person_previous_experience
+  get "person/previous_experience/edit/:id" => "adress_books#edit_previous_experience", as: :edit_person_previous_experience
+  get "person/previous_experience/disable/:id" => "adress_books#disable_previous_experience", as: :disable_person_previous_experience
+  get "person/previous_experience/enable/:id" => "adress_books#enable_previous_experience", as: :enable_person_previous_experience
+  post "person/previous_experience/update/:id" => "adress_books#update_previous_experience", as: :update_person_previous_experience
+  post "person/hobby/create" => "adress_books#create_hobby", as: :create_person_hobby
+  get "person/hobby/edit/:id" => "adress_books#edit_hobby", as: :edit_person_hobby
+  get "person/hobby/disable/:id" => "adress_books#disable_hobby", as: :disable_person_hobby
+  get "person/hobby/enable/:id" => "adress_books#enable_hobby", as: :enable_person_hobby
+  post "person/hobby/update/:id" => "adress_books#update_hobby", as: :update_person_hobby
+
   get "holdings" => "holdings#index", as: :holdings
   post "holding/create" => "holdings#create", as: :create_holding
   post "holding/js_create" => "holdings#js_create", as: :js_create_holding
@@ -51,7 +61,7 @@ CarnetDadresse::Application.routes.draw do
   get "holding/enable/:id" => "holdings#enable_holding", as: :enable_holding
   get "holding/companies/:id" => "holdings#companies", as: :holding_companies
   get "js_holdings" => "holdings#get_holdings"
-  
+
   get "companies" => "companies#companies", as: :companies
   post "company/create" => "companies#create", as: :create_company
   post "company/js_create" => "companies#js_create", as: :js_create_company
@@ -61,26 +71,34 @@ CarnetDadresse::Application.routes.draw do
   get "company/disable/:id" => "companies#disable_company", as: :disable_company
   get "company/enable/:id" => "companies#enable_company", as: :enable_company
   get "js_companies" => "companies#get_companies"
-  
+
   get "adress_book/edit/:id" => "adress_books#edit", as: :edit_adress_book
   post "adress_book/update/:id" => "adress_book#update", as: :update_adress_book
-  
+
   get "news_feeds" => "news_feeds#index", as: :news_feeds
   post "news_feed/create" => "news_feeds#create", as: :create_news_feed
   get "news_feed/edit/:id" => "news_feeds#edit", as: :edit_news_feed
   post "news_feed/update/:id" => "news_feeds#update", as: :update_news_feed
   get "news_feed/disable/:id" => "news_feeds#disable_news_feed", as: :disable_news_feed
   get "news_feed/enable/:id" => "news_feeds#enable_news_feed", as: :enable_news_feed
-  
+
+  get "forum_themes" => "forum_themes#index", as: :forum_themes
+  post "forum_theme/create" => "forum_themes#create", as: :create_forum_theme
+  get "forum_theme/edit/:id" => "forum_themes#edit", as: :edit_forum_theme
+  post "forum_theme/update/:id" => "forum_themes#update", as: :update_forum_theme
+  get "forum_theme/disable/:id" => "forum_themes#disable_forum_theme", as: :disable_forum_theme
+  get "forum_theme/enable/:id" => "forum_themes#enable_forum_theme", as: :enable_forum_theme
+
   get "sales_areas" => "sales_areas#index", as: :sales_areas
   post "sales_area/create" => "sales_areas#create", as: :create_sales_area
   get "sales_area/edit/:id" => "sales_areas#edit", as: :edit_sales_area
   post "sales_area/update/:id" => "sales_areas#update", as: :update_sales_area
   get "sales_area/disable/:id" => "sales_areas#disable_sales_area", as: :disable_sales_area
   get "sales_area/enable/:id" => "sales_areas#enable_sales_area", as: :enable_sales_area
-  
+  get "sales_area/sub_sales_areas" => "sales_areas#sub_sales_areas"
+
   get "address_book_titles" => "address_book_titles#titles"
-  
+
   get "help" => "helps#index", as: :help
   post "help/create" => "helps#create", as: :create_help
   # Example of regular route:

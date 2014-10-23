@@ -34,3 +34,5 @@ AddressBookTitleCategory.find_by_name("Professionnel").address_book_titles.creat
 
 AddressBookTitleCategory.find_by_name("Réligieux").address_book_titles.create([{name: "Abbé"}, {name: "El Hadj"}, {name: "Imam"}, {name: "Mgr"}, {name: "Père"}, {name: "Révérend"}])
 
+Hobby.create([{name: "Art"}, {name: "Badminton"}, {name: "Baseball"}, {name: "Basketball"}, {name: "Beach soccer"}, {name: "Beach volley"}, {name: "Boxe"}, {name: "Bricolage"}, {name: "Cinema"}, {name: "Cricket"},{name: "Football"}, {name: "Football américain"}, {name: "Football en salle"}, {name: "Golf"}, {name: "Handball"}, {name: "Hockey"}, {name: "Jeux vidéos"}, {name: "Jogging"}, {name: "Lecture"}, {name: "Natation"}, {name: "Randonnée"}, {name: "Rugby"}, {name: "Shopping"}, {name: "Spectacle"}, {name: "Sport de combat"}, {name: "Sport en salle"}, {name: "Squash"}, {name: "Tennis"}, {name: "Tennis de table"}, {name: "Theâtre"}, {name: "Volleyball"}, {name: "Voyage"}, {name: "Waterpolo"}])
+

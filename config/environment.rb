@@ -5,7 +5,11 @@ require File.expand_path('../application', __FILE__)
 CarnetDadresse::Application.initialize!
 
 ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
-  html = %(#{html_tag.gsub(/class=".*?"/, "class='form-control error'")}).html_safe
+  if html_tag.match(/class="ckeditor"/).blank?
+    html = %(#{html_tag.gsub(/class=".*?"/, "class='form-control error'")}).html_safe
+  else
+    html = html_tag.html_safe
+  end
   form_fields = ['textarea', 'input', 'select']
   html
 end
