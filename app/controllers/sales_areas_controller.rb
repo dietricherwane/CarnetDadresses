@@ -64,7 +64,7 @@ class SalesAreasController < ApplicationController
 
       @sales_areas = SalesArea.all.page(params[:page]).per(10)
 
-      redirect_to :back
+      redirect_to sales_areas_path
     end
   end
 

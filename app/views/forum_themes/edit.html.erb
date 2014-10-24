@@ -24,7 +24,7 @@
       <div class="pb_title_wrapper">
         <h3 class="pb_title1">Modifier un thème</h3>
       </div>
-      <%= form_for @forum_theme, url: create_forum_theme_path, method: :post do |f| %>
+      <%= form_for @forum_theme, url: update_forum_theme_path, method: :post do |f| %>
         <%= forum_theme_messages! %>
         <div class="form-group">
           <%= f.label :title %>

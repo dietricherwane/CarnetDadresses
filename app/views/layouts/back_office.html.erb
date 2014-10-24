@@ -111,8 +111,16 @@
           <div class="main_menu">
             <nav id="dropdown">
 	            <ul class="sf-menu clearfix">
-		            <li>
-		              <a href="/users/sign_up" class="trigger"><span><i class="icon-home"></i>Dashboard</span></a>
+	              <li>
+	                <a href="#" class="trigger"><span><i class="icon-home"></i>Dashboard</span></a>
+	                <ul>
+		                <li>
+		                  <a href="/users/sign_up">Administrateurs</a>
+		                </li>
+		                <li>
+		                  <a href="/users/dashboard">Abonnés</a>
+		                </li>
+		              </ul>
 		            </li>
 		            <li>
 		              <a href="#" class="trigger"><span><i class="icon-staff"></i>Annuaire</span></a>
@@ -135,15 +143,15 @@
 		              <a href="/news_feeds" class="trigger"><span><i class="icon-service"></i>Actualités</span></a>
 		            </li>
 		            <li>
+		              <a href="/forum_themes" class="trigger"><span><i class="icon-blog"></i>Forum</span></a>
+		            </li>
+		            <li>
 		              <a href="#" class="trigger"><span><i class="icon-feature"></i>Paramètres</span></a>
 		              <ul>
 		                <li>
 		                  <%= link_to "Aide", help_path %>
 		                </li>
 		              </ul>
-		            </li>
-		            <li>
-		              <a href="/forum_themes" class="trigger"><span><i class="icon-blog"></i>Forum</span></a>
 		            </li>
 		            <li>
 		            </li>

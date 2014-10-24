@@ -4,20 +4,20 @@ class ForumThemes < ActiveRecord::Base
   belongs_to :user
 
   # Scopes
-  default_scope {order("validated_at DESC")}
+  default_scope {order("created_at DESC")}
 
-  attr_accessible :title, :content, :user_id, :validated_by, :validated_at, :unpublished_by, :unpublished_at, :created_at
+  attr_accessible :title, :content, :user_id, :validated_by, :validated_at, :unpublished_by, :unpublished_at, :created_at, :published
 
   # Renaming attributes into more friendly text
   HUMANIZED_ATTRIBUTES = {
     :title => "Titre",
     :content => "Contenu",
     :user_id => "Posté par",
-    :created_at => "Posté à",
+    :created_at => "Posté le",
     :validated_by => "Validé par",
     :validated_at => "Validé le",
     :unpublished_by => "Désactivé par",
-    :unpublished_at => "Désactivé à"
+    :unpublished_at => "Désactivé le"
   }
 
   # Using friendly attribute name if it exists and default name otherwise

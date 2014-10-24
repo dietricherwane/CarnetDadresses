@@ -23,6 +23,13 @@ CarnetDadresse::Application.routes.draw do
   	#patch 'user/update_profile' => 'devise/registrations#update_profile', :as => :update_user_profile
   end
 
+  get "users/dashboard" => "users#index_dashboard", as: :list_users
+  get "user/enable/:id" => "users#enable_user", as: :enable_user
+  get "user/disable/:id" => "users#disable_user", as: :disable_user
+  get "user/registrations/:user_id" => "users#registrations", as: :user_registrations
+
+  get "registration/admin_create/:user_id" => "registrations#admin_create", as: :admin_create_registration
+
   get "persons" => "adress_books#persons", as: :persons
   post "person/create" => "adress_books#create_person", as: :create_person
   post "person/search" => "adress_books#search_person", as: :search_person
@@ -88,6 +95,10 @@ CarnetDadresse::Application.routes.draw do
   post "forum_theme/update/:id" => "forum_themes#update", as: :update_forum_theme
   get "forum_theme/disable/:id" => "forum_themes#disable_forum_theme", as: :disable_forum_theme
   get "forum_theme/enable/:id" => "forum_themes#enable_forum_theme", as: :enable_forum_theme
+  get "forum_theme/posts/:id" => "forum_themes#forum_posts", as: :forum_theme_posts
+
+  get "forum_post/disable/:id" => "forum_posts#disable_forum_post", as: :disable_forum_post
+  get "forum_post/enable/:id" => "forum_posts#enable_forum_post", as: :enable_forum_post
 
   get "sales_areas" => "sales_areas#index", as: :sales_areas
   post "sales_area/create" => "sales_areas#create", as: :create_sales_area

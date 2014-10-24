@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141023183426) do
+ActiveRecord::Schema.define(version: 20141024125444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,9 +148,11 @@ ActiveRecord::Schema.define(version: 20141023183426) do
     t.boolean  "unpublished"
     t.datetime "unpublished_at"
     t.integer  "unpublished_by"
-    t.integer  "forum_theme_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "forum_themes_id"
+    t.integer  "user_id"
+    t.boolean  "published"
   end
 
   create_table "forum_themes", force: true do |t|
@@ -348,6 +350,19 @@ ActiveRecord::Schema.define(version: 20141023183426) do
     t.datetime "updated_at"
   end
 
+  create_table "registrations", force: true do |t|
+    t.integer  "user_id"
+    t.date     "expires_at"
+    t.boolean  "published"
+    t.integer  "created_by"
+    t.integer  "unpublished_by"
+    t.string   "unpublished_at"
+    t.string   "datetime"
+    t.string   "transaction_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sales_areas", force: true do |t|
     t.string   "name",       limit: 100
     t.boolean  "published"
@@ -422,6 +437,11 @@ ActiveRecord::Schema.define(version: 20141023183426) do
     t.string   "shortcut",               limit: 15
     t.text     "comment"
     t.string   "logo"
+    t.string   "role"
+    t.integer  "validated_by"
+    t.datetime "validated_at"
+    t.integer  "unpublished_by"
+    t.datetime "unpublished_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

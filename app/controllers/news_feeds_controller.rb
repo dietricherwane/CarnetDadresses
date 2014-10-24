@@ -62,8 +62,6 @@ class NewsFeedsController < ApplicationController
       @news_feed.update_attributes(published: status)
       flash[:success] = "L'Actualité a été #{message}."
 
-      @news_feeds = NewsFeed.all.page(params[:page]).per(10)
-
       redirect_to "/news_feeds"
     end
   end

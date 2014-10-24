@@ -1,0 +1,50 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= user.full_name %>
+    <%= render "status_icons", user: user %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b>Actions:</b>
+    <a class = "form-action-link" href = "<%= user.published? ? disable_user_path(user.id) : enable_user_path(user.id) %>">
+      <img src = "/images/forms/<%= user.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= user.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+    <a class = "form-action-link" href = "<%= admin_create_registration_path(user.id) %>" data-confirm = "Êtes vous sûr de vouloir prolonger le délais d'une année?">
+      <img src = "/images/forms/add.png" class = "form-action-image" title = "Ajouter une année" />
+    </a>
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("profile_id") %>:</b> <%= user.profile.name %>
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("firstname") %>:</b> <%= user.firstname %>
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("lastname") %>:</b> <%= user.lastname %>
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("phone_number") %>:</b> <%= user.phone_number %>
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("mobile_number") %>:</b> <%= user.mobile_number %>
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("email") %>:</b> <%= user.email %>
+  </p>
+  <p>
+    <b>Créé le:</b> <%= user.created_at %>
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("validated_by") %>:</b> <%= User.find_by_id(user.validated_by).full_name rescue nil %>
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("validated_at") %>:</b> <%= (user.validated_at.strftime("%d-%m-%Y") rescue nil) %>  <% (user.validated_at.strftime("%Hh %Mmn") rescue nil) %>
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("unpublished_by") %>:</b> <%= User.find_by_id(user.unpublished_by).full_name rescue nil %>
+  </p>
+  <p>
+    <b><%= User.human_attribute_name("unpublished_at") %>:</b> <%= (user.unpublished_at.strftime("%d-%m-%Y") rescue nil) %>  <% (user.unpublished_at.strftime("%Hh %Mmn") rescue nil) %>
+  </p>
+</div>

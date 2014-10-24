@@ -76,19 +76,6 @@
         <div class="border_divider"></div>
 
         <div class="form-group">
-          <div id = "companies">
-            <%= f.label :sales_area_id %>
-            <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir votre secteur d'activités-"}, html_options = {class: "form-control"} %>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div id = "sub_sales_areas">
-            <%= f.collection_select :sub_sales_area_id, @sub_sales_areas, :id, :name, options ={prompt: "-Veuillez choisir un sous domaine-"}, html_options = {class: "form-control"} %>
-          </div>
-        </div>
-
-        <div class="form-group">
           <%= f.label :company_id %>
           <%= f.collection_select :company_id, @companies, :id, :name, options ={prompt: "-Veuillez choisir l'entreprise-"}, html_options = {class: "form-control"} %>
         </div>

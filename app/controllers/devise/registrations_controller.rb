@@ -2,15 +2,15 @@ class Devise::RegistrationsController < DeviseController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
   before_filter :sign_out_disabled_users
   prepend_before_filter :authenticate_scope!
-  
+
   layout :layout_used
-  
+
   # GET /resource/sign_up
   def new
     @profiles = Profile.where(published: [nil, true], shortcut: "ADM")
     @social_statuses = SocialStatus.where(published: [nil, true])
-    @users = User.all.page(params[:page]).per(10)
-    
+    @users = User.where(profile_id: Profile.admin_id).page(params[:page]).per(10)
+
     build_resource({})
     respond_with self.resource
   end
@@ -20,7 +20,7 @@ class Devise::RegistrationsController < DeviseController
     @profiles = Profile.where(published: [nil, true], shortcut: "ADM")
     @social_statuses = SocialStatus.where(published: [nil, true])
     @users = User.all.page(params[:page]).per(10)
-    
+
     build_resource(params[:user])
     #build_resource(sign_up_params)
 
@@ -41,39 +41,39 @@ class Devise::RegistrationsController < DeviseController
       respond_with resource
     end
   end
-  
+
   # Edit an admin profile
   def edit_admin
     @user = User.find_by_id(params[:id])
     @users = User.all.page(params[:page]).per(10)
-    
+
     unless @user
       render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
-    end  
+    end
   end
-  
+
   # Update an admin profile
   def update_admin
     @user = User.find_by_id(params[:id])
     if @user.blank?
       render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
-    else      
+    else
       @user.update_attributes(params[:user])
       @user.errors.full_messages.blank? ? flash.now[:success] = "Le profil a été mis à jour." : false
-      @users = User.all.page(params[:page]).per(10)    
+      @users = User.all.page(params[:page]).per(10)
       render :edit_admin, id: @user.id
-    end     
+    end
   end
-  
+
   # Search an admin
   def search_admin
     @profiles = Profile.where(published: [nil, true], shortcut: "ADM")
     @social_statuses = SocialStatus.where(published: [nil, true])
     @user = User.new
-    
+
     @fields = ["firstname", "lastname", "phone_number", "mobile_number", "email"]
     @terms = params[:terms].strip.split
-    
+
     # executes a search function in application_controller to return results
     search_function
 
@@ -81,15 +81,15 @@ class Devise::RegistrationsController < DeviseController
     flash.now[:success] = "#{@users.count} résultat#{@users.count > 1 ? "s" : ""} de recherche."
     @users = @users.page(params[:page]).per(10)
   end
-  
+
   def disable_user
     enable_disable_user("désactiver", "désactivé", false)
   end
-  
+
   def enable_user
     enable_disable_user("activer", "activé", true)
   end
-  
+
   def enable_disable_user(message1, message2, status)
     @user = User.find_by_id(params[:id])
     if @user.blank?
@@ -97,19 +97,19 @@ class Devise::RegistrationsController < DeviseController
     else
       if @user.id == current_user.id
         flash.now[:alert] = "Vous ne pouvez pas #{message1} votre propre compte."
-      else      
+      else
         @user.update_attributes(published: status)
-        flash.now[:success] = "Le compte a été #{message2}."          
+        flash.now[:success] = "Le compte a été #{message2}."
       end
       @profiles = Profile.where(published: [nil, true], shortcut: "ADM")
       @social_statuses = SocialStatus.where(published: [nil, true])
       @users = User.all.page(params[:page]).per(10)
       @user = User.new
-      
+
       render :new
-    end   
+    end
   end
-  
+
   def format_term(term)
     return term.split.to_s.sub("[", "(").sub("]", ")")
   end

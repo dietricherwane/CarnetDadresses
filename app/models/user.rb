@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   has_many :previous_job_experiences
   has_many :adress_book_hobbies
   has_many :forum_themes
+  has_many :forum_posts
+  has_many :registrations
 
   # Scopes
   default_scope {order("created_at DESC")}
@@ -39,7 +41,12 @@ class User < ActiveRecord::Base
     :trading_identifier => "Le régistre de commerce",
     :password => "Le mot de passe",
     :password_confirmation => "La confirmation de mot de passe",
-    :company_name => "Le nom de l'entreprise"
+    :company_name => "Le nom de l'entreprise",
+    :role => "Fonction",
+    :validated_by => "Activé par",
+    :validated_at => "Activé le",
+    :unpublished_by => "Désactivé par",
+    :unpublished_at => "Désactivé le"
   }
 
   # Using friendly attribute name if it exists and default name otherwise
@@ -47,11 +54,11 @@ class User < ActiveRecord::Base
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end
 
-  attr_accessible :email, :firstname, :lastname, :phone_number, :mobile_number, :profile_id, :published, :social_status_id, :trading_identifier, :company_name, :created_by, :password, :password_confirmation, :confirmation_token, :sector_id, :sales_area_id, :comment
+  attr_accessible :email, :firstname, :lastname, :phone_number, :mobile_number, :profile_id, :published, :social_status_id, :trading_identifier, :company_name, :created_by, :password, :password_confirmation, :confirmation_token, :sector_id, :sales_area_id, :comment, :role, :validated_by, :validated_at, :unpublished_by, :unpublished_at
 
   # Validations
   validates :firstname, :lastname, presence: true, unless: :company?
-  validates :phone_number, :profile_id, presence: true
+  validates :mobile_number, :profile_id, presence: true
   validates :social_status_id, :trading_identifier, :company_name, presence: true, if: :company?
   validates :company_name, length: {in: 2..50}, if: :company?
   validates :firstname, :lastname, length: {in: 2..50}, unless: :company?
@@ -77,6 +84,10 @@ class User < ActiveRecord::Base
 
   def admin?
     profile.name == "Administrateur"
+  end
+
+  def last_registration
+    return registrations.where("expires_at > '#{Date.today}' AND published IS NOT FALSE").first
   end
 
   def self.authenticate(email, password)

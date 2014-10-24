@@ -45,4 +45,33 @@ class ForumThemesController < ApplicationController
       render :edit, id: @forum_theme.id
     end
   end
+
+  def disable_forum_theme
+    enable_disable_forum_theme("désactivé", false)
+  end
+
+  def enable_forum_theme
+    enable_disable_forum_theme("activé", true)
+  end
+
+  def enable_disable_forum_theme(message, status)
+    @forum_theme = ForumThemes.find_by_id(params[:id])
+    if @forum_theme.blank?
+      render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
+    else
+      @forum_theme.update_attributes(published: status, validated_by: (status ? current_user.id : false), validated_at: (status ? DateTime.now : nil), unpublished_by: (status ? nil : current_user.id), unpublished_at: (status ? nil : DateTime.now))
+      flash[:success] = "Le thème a été #{message}."
+
+      redirect_to "/forum_themes"
+    end
+  end
+
+  def forum_posts
+    @forum_theme = ForumThemes.find_by_id(params[:id])
+    if @forum_theme.blank?
+      render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
+    else
+      @forum_posts = @forum_theme.forum_posts.page(params[:page]).per(10)
+    end
+  end
 end

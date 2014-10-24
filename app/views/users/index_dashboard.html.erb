@@ -1,0 +1,53 @@
+<%= notification_messages! %>
+
+<div class="page_title_wrapper">
+  <div class="container sixteen columns">
+    <div class="page_title_inner">
+      <span class="main_t_1">
+        Liste des abonnés </span><span class="main_t_2">&nbsp; - &nbsp;  Administrer le profil des abonnés
+      </span>
+    </div>
+  </div><!-- End container sixteen columns -->
+</div><!-- End page_title_wrapper -->
+
+<div class="content_shadow"></div>
+<div class="clear"></div>
+
+<div class = "container">
+  <div class = "content_wrapper_inner">
+
+  <div class = "sixteen columns row">
+    <div class = "one_half">
+
+
+
+
+
+    </div><!-- End one_half -->
+
+    <div class = "one_half lastcolumn">
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Liste des utilisateurs</h3>
+      </div>
+
+      <!-- Search form -->
+      <%#= render "search_form", :locals => {terms: @terms} %>
+      <!-- Search form -->
+
+      <div class="accordion-items">
+        <% unless @users.blank? %>
+          <% @users.each do |user| %>
+	          <div class="accordion-item">
+              <%= render "users_list", user: user %>
+            </div>
+	        <% end %>
+
+          <%= paginate @users %>
+        <% end %>
+      </div>
+
+    </div><!-- End one_half lastcolumn -->
+  </div>
+
+  </div><!-- End content_wrapper_inner -->
+</div><!-- End container -->

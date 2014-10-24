@@ -1,0 +1,76 @@
+<%= notification_messages! %>
+
+<div class="content_wrapper">
+
+  <div class="page_title_wrapper">
+    <div class="container sixteen columns">
+      <div class="page_title_inner">
+        <span class="main_t_1">
+          Liste des posts </span><span class="main_t_2">&nbsp; - &nbsp;  Administrer les posts du thème: <a href = 'javascript:history.go(-1);'><%= @forum_theme.title.length > 30 ? "#{@forum_theme.title[0..30]}..." : @forum_theme.title %></a>
+        </span>
+      </div>
+    </div><!-- End container sixteen columns -->
+  </div><!-- End page_title_wrapper -->
+
+  <div class="content_shadow"></div>
+  <div class="clear"></div>
+
+  <div class="container">
+	  <div class="content_wrapper_inner">
+
+      <div class="eleven columns row left">
+        <!-- Blog loop -->
+        <% unless @forum_posts.blank? %>
+          <% @forum_posts.each do |forum_post| %>
+            <div class="eleven columns row alpha blog_post">
+
+              <div class="two columns row alpha">
+                <div class="home_time_wrap">
+                  <div class="icon_b_wrapper">
+
+                  </div>
+                  <div class="day_b_wrapper">
+                    <span class="day_b_wrapper_inner"><%= forum_post.created_at.strftime("%d") %></span>
+                  </div>
+                  <div class="date_b_wrapper_b">
+                    <span class="h_month"> <%= forum_post.created_at.strftime("%b") %> </span>
+                    <span class="y_month"> <%= forum_post.created_at.strftime("%Y") %> </span>
+                  </div>
+                </div> <!-- End Home time wrapper -->
+
+                <div class="clear"></div>
+
+                <ul class="info_inner">
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+              </div>
+
+              <div class="eight columns row offset-by-one omega">
+                <div class="p_content">
+                  <p>
+                    <b><%= ForumPost.human_attribute_name("user_id") %></b> <%= forum_post.user.full_name %> le <%= forum_post.created_at.strftime("%d-%m-%Y") + " à " + forum_post.created_at.strftime("%Hh %Mmn") %>
+                    <a class = "form-action-link" href = "<%= forum_post.published? ? disable_forum_post_path(forum_post.id) : enable_forum_post_path(forum_post.id) %>">
+      <img src = "/images/forms/<%= forum_post.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= forum_post.published? ? 'Désactiver' : 'Activer' %>" />
+    </a>
+                    <%= simple_format(forum_post.comment) %>
+                  </p>
+                </div>
+              </div>
+
+              <div class="clear"></div>
+
+              <div class="border_divider1"></div>
+            </div>
+           <% end %>
+
+          <%= paginate @forum_posts, :params => {:controller => :forum_themes, :action => :forum_posts} %>
+         <% end %>
+        <!-- End Blog loop -->
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -95,7 +95,7 @@ class AdressBooksController < ApplicationController
       @adress_book.update_attributes(published: status)
       flash[:success] = "L'entrée a été #{message2}."
 
-      init_adress_book(adress_book_type)
+      init_adress_book
 
       #render send(return_method)
       redirect_to "/#{return_method}"
@@ -136,6 +136,7 @@ class AdressBooksController < ApplicationController
   end
 
   def search(fields, terms, adress_book_type)
+=begin
     @sectors = Sector.where(published: [true, nil])
     @social_statuses = SocialStatus.where(published: [nil, true])
     @sales_areas = SalesArea.where(published: [nil, true])
@@ -145,6 +146,11 @@ class AdressBooksController < ApplicationController
     @countries = Country.all
     @holdings = Holding.where(published: [nil, true])
     @countries = Country.all
+=end
+    @adress_book = AdressBook.new
+    @company = Company.new
+    @holding = Holding.new
+    init_create_adress_book
 
     @tables = [["Sector", "sector_id"], ["SalesArea", "sales_area_id"], ["SocialStatus", "social_status_id"]]
     @fields = fields
@@ -270,6 +276,7 @@ class AdressBooksController < ApplicationController
     @job_experience = JobExperience.find_by_id(params[:id])
     @adress_book = @job_experience.adress_book
     @job_experiences = @adress_book.job_experiences.page(params[:page]).per(10)
+    init_complete_profile_combo_fields
     unless @job_experience
       render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
     end
@@ -290,6 +297,7 @@ class AdressBooksController < ApplicationController
       end
       @adress_book = AdressBook.find_by_id(params[:adress_book_id])
       @job_experiences = @adress_book.job_experiences.page(params[:page]).per(10)
+      init_complete_profile_combo_fields
     end
 
     render :edit_experience

@@ -1,0 +1,17 @@
+<div class="accordion-item-header">
+  <a href="#">
+    <%= Registration.human_attribute_name("expires_at") %> <%= registration.expires_at.strftime("%d-%m-%Y") %>
+    <%#= render "status_icons", registration: registration %>
+  </a>
+</div>
+<div class="accordion-item-body">
+  <p>
+    <b><%= Registration.human_attribute_name("transaction_id") %>:</b> <%= registration.transaction_id %>
+  </p>
+  <p>
+    <b><%= Registration.human_attribute_name("created_by") %>:</b> <%= User.find_by_id(registration.created_by).full_name rescue nil %>
+  </p>
+  <p>
+    <b><%= Registration.human_attribute_name("created_at") %>:</b> <%= registration.created_at.strftime("%d-%m-%Y") %>
+  </p>
+</div>

@@ -1,15 +1,17 @@
 <div class="accordion-item-header">
   <a href="#">
-    <%= forum_theme.title %>
+    <%= forum_theme.title.length > 30 ? "#{forum_theme.title[0..30]}..." : forum_theme.title %> <b>[<%= forum_theme.forum_posts.count %>]</b>
     <%= render "forum_theme_status_icons", forum_theme: forum_theme %>
   </a>
 </div>
 <div class="accordion-item-body">
   <p>
     <b>Actions:</b>
-    <a class = "form-action-link" href = "<%= edit_forum_theme_path(forum_theme.id) %>">
-      <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
-    </a>
+    <% if current_user.id == forum_theme.user_id %>
+      <a class = "form-action-link" href = "<%= edit_forum_theme_path(forum_theme.id) %>">
+        <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
+      </a>
+    <% end %>
     <a class = "form-action-link" href = "<%= forum_theme.published? ? disable_forum_theme_path(forum_theme.id) : enable_forum_theme_path(forum_theme.id) %>">
       <img src = "/images/forms/<%= forum_theme.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= forum_theme.published? ? 'Désactiver' : 'Activer' %>" />
     </a>
@@ -37,5 +39,8 @@
   </p>
   <p>
     <b><%= ForumThemes.human_attribute_name("unpublished_at") %>:</b> <%= (forum_theme.unpublished_at.strftime("%d-%m-%Y") rescue nil) %>  <% (forum_theme.unpublished_at.strftime("%Hh %Mmn") rescue nil) %>
+  </p>
+  <p>
+    <%= link_to "Liste des posts", forum_theme_posts_path(forum_theme.id) %>
   </p>
 </div>
