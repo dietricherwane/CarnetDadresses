@@ -147,7 +147,7 @@ class CompaniesController < ApplicationController
     company = Company.find_by_id(params[:id]).as_json
 
     if company
-      company = "[" << company.except!(*["published", "updated_at", "created_at", "id", "created_by", "validated_by"]).to_json << "]"
+      company = "[" << company.merge(logo: "#{Rails.root}#{Company.find_by_id(company["id"]).logo.url(:thumb)}").except!(*["published", "updated_at", "created_at", "id", "created_by", "validated_by"]).to_json << "]"
     else
       company = []
     end
