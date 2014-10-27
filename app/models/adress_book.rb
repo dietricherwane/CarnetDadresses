@@ -35,12 +35,8 @@ class AdressBook < ActiveRecord::Base
     :firstname => "Le nom",
     :lastname => "Le prénom",
     :phone_number => "Téléphone",
-    :mobile_number => "Le numéro de téléphone mobile",
     :profile_id => "Le profil",
-    :social_status_id => "Forme juridique",
     :sector_id => "Votre catégorie",
-    :sales_area_id => "Votre secteur d'activités",
-    :trading_identifier => "N° RCC",
     :company_name => "Raison sociale",
     :company_id => "Entreprise",
     :comment => "Parcours",
@@ -53,14 +49,6 @@ class AdressBook < ActiveRecord::Base
     :city => "Ville",
     :geographical_address => "Adresse géographique",
     :postal_address => "Adresse postale",
-    :company_shortcut => "Sigle",
-    :capital => "Capital (FCFA)",
-    :employees_amount => "Nombre d'employés",
-    :turnover => "Chiffre d'affaires",
-    :holding_id => "Filiale d'un groupe",
-    :activities => "Description de l'activité",
-    :fax => "Fax",
-    :website => "Site internet",
     :address_book_title_id => "Titre",
     :avatar => "Choisissez votre photo"
   }
@@ -70,19 +58,16 @@ class AdressBook < ActiveRecord::Base
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end
 
-  attr_accessible :email, :firstname, :lastname, :phone_number, :mobile_number, :profile_id, :published, :social_status_id, :trading_identifier, :company_name, :created_by, :sector_id, :sales_area_id, :comment, :civility_id, :birthdate, :marital_status_id, :childrens, :hobbies, :job_role, :geographical_address, :postal_address, :city, :country_id, :company_shortcut, :capital, :employees_amount, :turnover, :holding_id, :activities, :fax, :website, :address_book_title_id, :company_id, :avatar
+  attr_accessible :email, :firstname, :lastname, :phone_number, :profile_id, :published, :company_name, :created_by, :sector_id, :comment, :civility_id, :birthdate, :marital_status_id, :childrens, :job_role, :geographical_address, :postal_address, :city, :country_id, :address_book_title_id, :company_id, :avatar
 
   # Validations
-  validates :firstname, :lastname, :email, :civility_id, :birthdate, :marital_status_id, :childrens, :job_role, :sales_area_id, :city, :country_id, :comment, :company_id, presence: true, unless: :company?
+  validates :firstname, :lastname, :email, :civility_id, :birthdate, :marital_status_id, :childrens, :job_role, :city, :country_id, :comment, :company_id, presence: true, unless: :company?
   validates :firstname, :lastname, :company_name, length: {in: 2..50, allow_blank: true}
   validates :profile_id, :created_by, :sector_id, presence: true
-  validates :company_name, :phone_number, :activities, :city, :country_id, :company_shortcut, :sales_area_id, :social_status_id, :trading_identifier, :fax, :geographical_address, :postal_address, presence: true, if: :company?
   validates :childrens, numericality: {greater_than: -1}, unless: :company?
-  #validates :social_status_id, :trading_identifier, :company_name, :sector_id, :sales_area_id, presence: true, if: :company?
-  validates :phone_number, :fax, :trading_identifier, length: {in: 6..15, allow_blank: true}
+  validates :phone_number, length: {in: 6..15, allow_blank: true}
   validates :email, format: {with: /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i, multiline: true}
   validates :email, uniqueness: true
-  validates :website, format: {with: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, multiline: true, allow_blank: true}
 
   # Utils
   def full_name

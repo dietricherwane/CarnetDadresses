@@ -112,6 +112,19 @@ CarnetDadresse::Application.routes.draw do
 
   get "help" => "helps#index", as: :help
   post "help/create" => "helps#create", as: :create_help
+
+  ################################API###############################################
+
+  get "api/v1/persons/find_per_first_letter/:letter" => "adress_books#api_find_per_first_letter"
+
+  get "api/v1/civility/:id" => "civilities#api_show"
+
+  get "api/v1/marital_status/:id" => "marital_statuses#api_show"
+
+  get "api/v1/title/:id" => "address_book_titles#api_show"
+
+  get "api/v1/company/:id" => "companies#api_show"
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

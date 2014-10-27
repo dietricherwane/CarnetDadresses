@@ -1,7 +1,9 @@
 class CompaniesController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  before_filter :sign_out_disabled_users
-  prepend_before_filter :authenticate_user!
+  @@api_functions = [:api_show]
+
+  before_filter :sign_out_disabled_users, except: @@api_functions
+  prepend_before_filter :authenticate_user!, except: @@api_functions
 
   layout :layout_used
 
@@ -139,5 +141,17 @@ class CompaniesController < ApplicationController
     @companies = Company.where(@sql)
     flash.now[:success] = "#{@companies.count} résultat#{@companies.count > 1 ? "s" : ""} de recherche."
     @companies = @companies.page(params[:page]).per(10)
+  end
+
+  def api_show
+    company = Company.find_by_id(params[:id]).as_json
+
+    if company
+      company = "[" << company.except!(*["published", "updated_at", "created_at", "id", "created_by", "validated_by"]).to_json << "]"
+    else
+      company = []
+    end
+
+    render json: company
   end
 end

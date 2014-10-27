@@ -1,7 +1,9 @@
 class AdressBooksController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  before_filter :sign_out_disabled_users
-  prepend_before_filter :authenticate_user!
+  @@api_functions = [:api_find_per_first_letter]
+
+  before_filter :sign_out_disabled_users, except: @@api_functions
+  prepend_before_filter :authenticate_user!, except: @@api_functions
 
   layout :layout_used
 
@@ -490,6 +492,24 @@ class AdressBooksController < ApplicationController
     @hiring_statuses = HiringStatus.all
     @hiring_types = HiringType.all
     @hobbies = Hobby.all
+  end
+
+  ################################API###########################################
+
+  def api_find_per_first_letter
+    adress_books = AdressBook.where("firstname ILIKE '#{params[:letter]}%' AND published IS NOT FALSE").as_json
+    my_hash = "["
+    adress_books.each do |adress_book|
+      my_hash << adress_book.except!(*["profile_id", "created_by"]).to_json << ","
+    end
+    my_hash = my_hash[0..(my_hash.length - 2)]
+    my_hash << "]"
+
+    api_render(my_hash)
+  end
+
+  def api_render(rendered_object)
+    render json: rendered_object
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141024125444) do
+ActiveRecord::Schema.define(version: 20141027063912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,14 +46,10 @@ ActiveRecord::Schema.define(version: 20141024125444) do
     t.string   "company_name",          limit: 100
     t.string   "email",                 limit: 100
     t.string   "phone_number",          limit: 100
-    t.string   "mobile_number",         limit: 100
     t.integer  "profile_id"
-    t.integer  "social_status_id"
-    t.string   "trading_identifier",    limit: 100
     t.integer  "created_by"
     t.boolean  "published"
     t.integer  "sector_id"
-    t.integer  "sales_area_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "comment"
@@ -61,20 +57,11 @@ ActiveRecord::Schema.define(version: 20141024125444) do
     t.date     "birthdate"
     t.integer  "marital_status_id"
     t.integer  "childrens"
-    t.text     "hobbies"
     t.string   "job_role"
     t.string   "geographical_address"
     t.string   "postal_address"
     t.string   "city"
     t.integer  "country_id"
-    t.string   "company_shortcut"
-    t.float    "capital"
-    t.integer  "employees_amount"
-    t.float    "turnover"
-    t.integer  "holding_id"
-    t.text     "activities"
-    t.string   "fax",                   limit: 16
-    t.string   "website"
     t.integer  "address_book_title_id"
     t.string   "employment_company"
     t.string   "avatar_file_name"
