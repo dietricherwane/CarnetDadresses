@@ -512,4 +512,67 @@ class AdressBooksController < ApplicationController
     render json: rendered_object
   end
 
+  def api_hobbies
+    adress_book = AdressBook.find_by_id(params[:id])
+    if adress_book
+      hobbies = adress_book.hobbies.where(published: [true, nil]).as_json rescue nil
+      if hobbies
+        my_hash = "["
+        hobbies.each do |hobby|
+          my_hash << hobby.except!(*["published", "id", "created_at", "updated_at"]).to_json << ","
+        end
+        my_hash = my_hash[0..(my_hash.length - 2)]
+        my_hash << "]"
+      else
+        my_hash = []
+      end
+    else
+      my_hash = []
+    end
+
+    render json: my_hash
+  end
+
+  def api_formations
+    adress_book = AdressBook.find_by_id(params[:id])
+    if adress_book
+      formations = adress_book.formations.where(published: [true, nil]).as_json rescue nil
+      if formations
+        my_hash = "["
+        formations.each do |formation|
+          my_hash << formation.except!(*["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"]).to_json << ","
+        end
+        my_hash = my_hash[0..(my_hash.length - 2)]
+        my_hash << "]"
+      else
+        my_hash = []
+      end
+    else
+      my_hash = []
+    end
+
+    render json: my_hash
+  end
+
+  def api_job
+    adress_book = AdressBook.find_by_id(params[:id])
+    if adress_book
+      jobs = adress_book.job_experiences.where(published: [true, nil]).as_json rescue nil
+      if jobs
+        my_hash = "["
+        jobs.each do |job|
+          my_hash << job.except!(*["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"]).to_json << ","
+        end
+        my_hash = my_hash[0..(my_hash.length - 2)]
+        my_hash << "]"
+      else
+        my_hash = []
+      end
+    else
+      my_hash = []
+    end
+
+    render json: my_hash
+  end
+
 end
