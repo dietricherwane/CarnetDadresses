@@ -32,8 +32,8 @@ class AdressBook < ActiveRecord::Base
   # Renaming attributes into more friendly text
   HUMANIZED_ATTRIBUTES = {
     :email => "Email",
-    :firstname => "Le nom",
-    :lastname => "Le prénom",
+    :firstname => "Nom",
+    :lastname => "Prénoms",
     :phone_number => "Téléphone",
     :profile_id => "Le profil",
     :sector_id => "Votre catégorie",
@@ -43,8 +43,8 @@ class AdressBook < ActiveRecord::Base
     :civility_id => "Civilité",
     :birthdate => "Date de naissance",
     :marital_status_id => "Statut matrimonial",
-    :childrens => "Le nombre d'enfants",
-    :job_role => "La fonction occupée",
+    :childrens => "Nombre d'enfants",
+    :job_role => "Fonction occupée",
     :country_id => "Pays",
     :city => "Ville",
     :geographical_address => "Adresse géographique",
@@ -97,6 +97,5 @@ class AdressBook < ActiveRecord::Base
     self.firstname = StringUtils.every_first_letter_uppercase(self.firstname) rescue nil
     self.lastname = StringUtils.every_first_letter_uppercase(self.lastname) rescue nil
     self.company_name = StringUtils.first_letter_uppercase(self.company_name) rescue nil
-    self.trading_identifier = self.trading_identifier.upcase rescue nil
   end
 end

@@ -125,6 +125,14 @@ CarnetDadresse::Application.routes.draw do
 
   get "api/v1/company/:id" => "companies#api_show"
 
+  get "api/v1/social_status/:id" => "social_statuses#api_show"
+
+  get "api/v1/holding/:id" => "holdings#api_show"
+
+  get "api/v1/sales_area/:id" => "sales_areas#api_show"
+
+  get "api/v1/sub_sales_area/:id" => "sub_sales_areas#api_show"
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

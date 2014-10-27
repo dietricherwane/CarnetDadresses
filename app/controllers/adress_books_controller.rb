@@ -500,7 +500,7 @@ class AdressBooksController < ApplicationController
     adress_books = AdressBook.where("firstname ILIKE '#{params[:letter]}%' AND published IS NOT FALSE").as_json
     my_hash = "["
     adress_books.each do |adress_book|
-      my_hash << adress_book.except!(*["profile_id", "created_by"]).to_json << ","
+      my_hash << adress_book.except!(*["profile_id", "created_by"]).merge(avatar: "#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}").to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
     my_hash << "]"

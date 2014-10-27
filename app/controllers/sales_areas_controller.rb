@@ -1,7 +1,9 @@
 class SalesAreasController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  before_filter :sign_out_disabled_users
-  prepend_before_filter :authenticate_user!
+  @@api_functions = [:api_show]
+
+  before_filter :sign_out_disabled_users, except: @@api_functions
+  prepend_before_filter :authenticate_user!, except: @@api_functions
 
   layout :layout_used
 
@@ -77,5 +79,17 @@ class SalesAreasController < ApplicationController
       end
     end
     render :text => @sub_sales_areas_options << "</select>"
+  end
+
+  def api_show
+    sales_area = SalesArea.find_by_id(params[:id]).as_json
+
+    if sales_area
+      sales_area = "[" << sales_area.except!(*["published", "user_id", "id", "created_at", "updated_at"]).to_json << "]"
+    else
+      sales_area = []
+    end
+
+    render json: sales_area
   end
 end

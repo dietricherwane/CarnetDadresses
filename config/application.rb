@@ -23,7 +23,7 @@ module CarnetDadresse
     config.serve_static_assets = true
     config.assets.initialize_on_precompile = false
     config.assets.precompile += %w(custom.css hover.css users.css works.css styleie9.css)
-    
+
     # Loading modules from lib folder
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
     #config.autoload_paths += %W(#{config.root}/app/models/ckeditor)
