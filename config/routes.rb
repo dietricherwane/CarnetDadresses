@@ -115,6 +115,7 @@ CarnetDadresse::Application.routes.draw do
 
   ################################API###############################################
 
+  get "api/v1/persons/list" => "adress_books#api_persons_list"
   get "api/v1/persons/find_per_first_letter/:letter" => "adress_books#api_find_per_first_letter"
   get "api/v1/person/hobbies/:id" => "adress_books#api_hobbies"
   get "api/v1/person/formations/:id" => "adress_books#api_formations"

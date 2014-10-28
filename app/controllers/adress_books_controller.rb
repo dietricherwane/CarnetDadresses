@@ -496,6 +496,18 @@ class AdressBooksController < ApplicationController
 
   ################################API###########################################
 
+  def api_persons_list
+    adress_books = AdressBook.where("published IS NOT FALSE").as_json
+    my_hash = "["
+    adress_books.each do |adress_book|
+      my_hash << adress_book.merge(avatar: "#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}").except!(*["profile_id", "created_by"]).to_json << ","
+    end
+    my_hash = my_hash[0..(my_hash.length - 2)]
+    my_hash << "]"
+
+    api_render(my_hash)
+  end
+
   def api_find_per_first_letter
     adress_books = AdressBook.where("firstname ILIKE '#{params[:letter]}%' AND published IS NOT FALSE").as_json
     my_hash = "["
