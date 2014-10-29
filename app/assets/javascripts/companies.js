@@ -18,8 +18,9 @@ $.fn.getComboBoxValues = function(selected_value, target_tag, url) {
       $(response).appendTo(target_tag);
     }
   });
+}
 
-  //////////////////////Create Holding modal/////////////////////////////////////
+//////////////////////Create Holding modal/////////////////////////////////////
 $(document).on("ajax:error", "#new_holding", function(event, xhr, status, error) {
   if(xhr.responseText.replace(/ /g,'') == "ok"){
     alert("Le groupe a été enregistré.");
@@ -52,5 +53,4 @@ $.fn.clear_previous_errors = function(){
   $('.form-control.error').each(function(){
     $(this).removeClass('error');
   });
-}
 }
