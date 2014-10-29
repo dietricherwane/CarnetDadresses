@@ -1,7 +1,9 @@
 class ForumThemesController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  before_filter :sign_out_disabled_users
-  prepend_before_filter :authenticate_user!
+  @@api_functions = [:api_show]
+
+  before_filter :sign_out_disabled_users, except: @@api_functions
+  prepend_before_filter :authenticate_user!, except: @@api_functions
 
   layout :layout_used
 
@@ -73,5 +75,17 @@ class ForumThemesController < ApplicationController
     else
       @forum_posts = @forum_theme.forum_posts.page(params[:page]).per(10)
     end
+  end
+
+  def api_show
+    forum_themes = ForumThemes.where("published IS NOT FALSE").as_json
+    my_hash = "["
+    forum_themes.each do |forum_theme|
+      my_hash << forum_theme.merge!(posts_number: (ForumThemes.find_by_id(forum_theme["id"]).forum_posts.count rescue 0)).except!(*["published", "sector_id", "sales_area_id", "validated_by", "validated_at", "unpublished_by", "unpublished_at", "updated_at"]).to_json << ","
+    end
+    my_hash = my_hash[0..(my_hash.length - 2)]
+    my_hash << "]"
+
+    render json: my_hash
   end
 end

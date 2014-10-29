@@ -126,6 +126,7 @@ CarnetDadresse::Application.routes.draw do
   get "api/v1/marital_status/:id" => "marital_statuses#api_show"
 
   get "api/v1/company/:id" => "companies#api_show"
+  get "api/v1/companies/list" => "companies#api_list"
 
   get "api/v1/title/:id" => "address_book_titles#api_show"
 
@@ -142,6 +143,12 @@ CarnetDadresse::Application.routes.draw do
   get "api/v1/hiring_type/:id" => "hiring_types#api_show"
 
   get "api/v1/membership/:id" => "memberships#api_show"
+
+  get "api/v1/news_feeds" => "news_feeds#api_show"
+
+  get "api/v1/forum_themes" => "forum_themes#api_show"
+
+  get "api/v1/forum_posts/:forum_theme_id" => "forum_posts#api_list"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

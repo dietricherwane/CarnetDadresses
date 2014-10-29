@@ -1,7 +1,9 @@
 class NewsFeedsController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  before_filter :sign_out_disabled_users
-  prepend_before_filter :authenticate_user!
+  @@api_functions = [:api_show]
+
+  before_filter :sign_out_disabled_users, except: @@api_functions
+  prepend_before_filter :authenticate_user!, except: @@api_functions
 
   layout :layout_used
 
@@ -66,11 +68,16 @@ class NewsFeedsController < ApplicationController
     end
   end
 
-  def duke
-    User.authenticate("dietricherwane@yahoo.fr", "dukenukemdie")
-    @current_user = current_user.id rescue nil
+  def api_show
+    news_feeds = NewsFeed.where("published IS NOT FALSE").limit(5).as_json
+    my_hash = "["
+    news_feeds.each do |news_feed|
+      my_hash << news_feed.except!(*["user_id", "published", "id", "picture", "created_at", "updated_at"]).to_json << ","
+    end
+    my_hash = my_hash[0..(my_hash.length - 2)]
+    my_hash << "]"
 
-    render text: "ok or not #{@current_user}"
+    render json: my_hash
   end
 
 end

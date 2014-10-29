@@ -8,6 +8,10 @@ $(document).on('ready page:load', function(){
     var sub_sales_area = this.options[this.selectedIndex];
     $(this).getComboBoxValues(sub_sales_area.value, "#sub_sales_areas", "/sales_area/sub_sales_areas");
   });
+
+  $("#myGroupModalId").click(function() {
+    $('#myModal').modal('hide');
+  });
 });
 
 $.fn.getComboBoxValues = function(selected_value, target_tag, url) {

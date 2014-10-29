@@ -1,6 +1,6 @@
 class CompaniesController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  @@api_functions = [:api_show]
+  @@api_functions = [:api_show, :api_list]
 
   before_filter :sign_out_disabled_users, except: @@api_functions
   prepend_before_filter :authenticate_user!, except: @@api_functions
@@ -84,6 +84,7 @@ class CompaniesController < ApplicationController
   end
 
   def init_company
+    @holding = Holding.new
     @holdings = Holding.where(published: [nil, true])
     @countries = Country.all
     @companies = Company.all.page(params[:page]).per(10)
@@ -147,11 +148,23 @@ class CompaniesController < ApplicationController
     company = Company.find_by_id(params[:id]).as_json
 
     if company
-      company = "[" << company.merge(logo: "#{Rails.root}#{Company.find_by_id(company["id"]).logo.url(:thumb)}").except!(*["published", "updated_at", "created_at", "id", "created_by", "validated_by"]).to_json << "]"
+      company = "[" << company.merge(logo: "#{Rails.root}#{Company.find_by_id(company["id"]).logo.url(:thumb)}").except!(*["published", "updated_at", "created_at", "id", "created_by", "validated_by", "sector_id"]).to_json << "]"
     else
       company = []
     end
 
     render json: company
+  end
+
+  def api_list
+    companies = Company.where("published IS NOT FALSE").as_json
+    my_hash = "["
+    companies.each do |company|
+      my_hash << company.merge(logo: "#{Rails.root}#{Company.find_by_id(company["id"]).logo.url(:thumb)}").except!(*["id", "published", "created_at", "sector_id", "created_by", "validated_by", "updated_at"]).to_json << ","
+    end
+    my_hash = my_hash[0..(my_hash.length - 2)]
+    my_hash << "]"
+
+    render json: my_hash
   end
 end
