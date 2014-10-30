@@ -1,6 +1,6 @@
 class AdressBooksController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  @@api_functions = [:api_find_per_first_letter, :api_persons_list, :api_hobbies, :formations, :job]
+  @@api_functions = [:api_find_per_first_letter, :api_persons_list, :api_person, :api_hobbies, :formations, :job]
 
   before_filter :sign_out_disabled_users, except: @@api_functions
   prepend_before_filter :authenticate_user!, except: @@api_functions
@@ -496,6 +496,18 @@ class AdressBooksController < ApplicationController
 
   ################################API###########################################
 
+  def api_person
+    adress_book = AdressBook.find_by_id(params[:id])
+    my_hash = "["
+    if adress_book
+      adress_book = adress_book.as_json
+      my_hash << adress_book.merge(avatar: "#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}").except!(*["profile_id", "created_by"]).to_json
+    end
+    my_hash << "]"
+
+    api_render(my_hash)
+  end
+
   def api_persons_list
     adress_books = AdressBook.where("published IS NOT FALSE").as_json
     my_hash = "["
@@ -574,6 +586,27 @@ class AdressBooksController < ApplicationController
         my_hash = "["
         jobs.each do |job|
           my_hash << job.except!(*["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"]).to_json << ","
+        end
+        my_hash = my_hash[0..(my_hash.length - 2)]
+        my_hash << "]"
+      else
+        my_hash = []
+      end
+    else
+      my_hash = []
+    end
+
+    render json: my_hash
+  end
+
+  def api_previous_jobs
+    adress_book = AdressBook.find_by_id(params[:id])
+    if adress_book
+      previous_jobs = adress_book.previous_job_experiences.where(published: [true, nil]).as_json rescue nil
+      if previous_jobs
+        my_hash = "["
+        previous_jobs.each do |previous_job|
+          my_hash << previous_job.except!(*["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"]).to_json << ","
         end
         my_hash = my_hash[0..(my_hash.length - 2)]
         my_hash << "]"
