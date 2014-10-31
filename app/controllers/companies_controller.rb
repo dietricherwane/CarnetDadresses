@@ -148,7 +148,7 @@ class CompaniesController < ApplicationController
     company = Company.find_by_id(params[:id]).as_json
 
     if company
-      company = "[" << company.merge(logo: "#{Rails.root}#{Company.find_by_id(company["id"]).logo.url(:thumb)}").except!(*["published", "updated_at", "created_at", "id", "created_by", "validated_by", "sector_id"]).to_json << "]"
+      company = "[" << company.merge(api_additional_fields_to_merge(company)).except!(*api_fields_to_except).to_json << "]"
     else
       company = []
     end
@@ -160,11 +160,19 @@ class CompaniesController < ApplicationController
     companies = Company.where("published IS NOT FALSE").as_json
     my_hash = "["
     companies.each do |company|
-      my_hash << company.merge(logo: "#{Rails.root}#{Company.find_by_id(company["id"]).logo.url(:thumb)}").except!(*["id", "published", "created_at", "sector_id", "created_by", "validated_by", "updated_at"]).to_json << ","
+      my_hash << company.merge(api_additional_fields_to_merge(company)).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
     my_hash << "]"
 
     render json: my_hash
+  end
+
+  def api_additional_fields_to_merge(company)
+    return {logo: "#{Rails.root}#{Company.find_by_id(company["id"]).logo.url(:thumb)}", social_status: (SocialStatus.find_by_id(company["social_status_id"]).name rescue nil), holding: (Holding.find_by_id(company["holding_id"]).name rescue nil), sales_area: (SalesArea.find_by_id(company["sales_area_id"]).name rescue nil), sub_sales_area: (SubSalesArea.find_by_id(company["sub_sales_area_id"]).name rescue nil)}
+  end
+
+  def api_fields_to_except
+    return ["id", "published", "created_at", "sector_id", "created_by", "validated_by", "updated_at", "country_id", "logo_file_name", "logo_content_type", "logo_file_size", "logo_updated_at"]
   end
 end
