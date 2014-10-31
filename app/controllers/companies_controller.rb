@@ -173,6 +173,6 @@ class CompaniesController < ApplicationController
   end
 
   def api_fields_to_except
-    return ["id", "published", "created_at", "sector_id", "created_by", "validated_by", "updated_at", "country_id", "logo_file_name", "logo_content_type", "logo_file_size", "logo_updated_at"]
+    return ["published", "created_at", "sector_id", "created_by", "validated_by", "updated_at", "country_id", "logo_file_name", "logo_content_type", "logo_file_size", "logo_updated_at"]
   end
 end
