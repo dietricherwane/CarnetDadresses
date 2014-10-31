@@ -501,7 +501,7 @@ class AdressBooksController < ApplicationController
     my_hash = "["
     if adress_book
       adress_book = adress_book.as_json
-      my_hash << adress_book.merge(avatar: "#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}").except!(*["profile_id", "created_by"]).to_json
+      my_hash << adress_book.merge(api_additional_fields_to_merge(adress_book)).except!(*api_fields_to_except).to_json
     end
     my_hash << "]"
 
@@ -512,7 +512,7 @@ class AdressBooksController < ApplicationController
     adress_books = AdressBook.where("published IS NOT FALSE").as_json
     my_hash = "["
     adress_books.each do |adress_book|
-      my_hash << adress_book.merge(avatar: "#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}").except!(*["profile_id", "created_by"]).to_json << ","
+      my_hash << adress_book.merge(api_additional_fields_to_merge(adress_book)).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
     my_hash << "]"
@@ -524,7 +524,7 @@ class AdressBooksController < ApplicationController
     adress_books = AdressBook.where("firstname ILIKE '#{params[:letter]}%' AND published IS NOT FALSE").as_json
     my_hash = "["
     adress_books.each do |adress_book|
-      my_hash << adress_book.merge(avatar: "#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}").except!(*["profile_id", "created_by"]).to_json << ","
+      my_hash << adress_book.merge(api_additional_fields_to_merge(adress_book)).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
     my_hash << "]"
@@ -618,6 +618,14 @@ class AdressBooksController < ApplicationController
     end
 
     render json: my_hash
+  end
+
+  def api_additional_fields_to_merge(adress_book)
+    return {avatar: "#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}", civility: (Civility.find_by_id(adress_book["civility_id"]).name rescue nil), marital_status: (MaritalStatus.find_by_id(adress_book["marital_status_id"]).name rescue nil), title: (AdressBookTitle.find_by_id(adress_book["adress_book_title_id"]).name rescue nil)}
+  end
+
+  def api_fields_to_except
+    return ["profile_id", "created_by", "sector_id", "country_id", "company_name", "employment_company", "avatar_file_name", "avatar_content_type", "avatar_file_size", "avatar_updated_at", "sub_sales_area_id"]
   end
 
 end
