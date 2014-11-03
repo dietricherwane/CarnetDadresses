@@ -9,7 +9,7 @@ CarnetDadresse::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
 
-  devise_for :users, :controllers => {:registrations => "devise/registrations", :sessions => "devise/sessions", :passwords => "devise/passwords"}
+  devise_for :users, :controllers => {:registrations => "devise/registrations", :sessions => "devise/sessions", :passwords => "devise/passwords", :confirmations => "devise/confirmations"}
 
   devise_scope :user do
   	get 'users/sign_up' => 'devise/registrations#new', :as => :admin_dashboard
@@ -18,6 +18,9 @@ CarnetDadresse::Application.routes.draw do
   	post "admin/search" => "devise/registrations#search_admin", as: :search_admin
   	get "admin/disable/:id" => "devise/registrations#disable_user", as: :disable_admin
   	get "admin/enable/:id" => "devise/registrations#enable_user", as: :enable_admin
+
+  	get "api/v1/user/:firstname/:lastname/:email/:phone_number/:mobile_number/:password/:password_confirmation" => "devise/registrations#api_create", :constraints => {:email => /[^\/]+/}
+  	get "api/v1/user/:firstname/:lastname/:email/:mobile_number/:password/:password_confirmation" => "devise/registrations#api_create", :constraints => {:email => /[^\/]+/}
   	#get 'users' => 'devise/registrations#new'
   	#get "user/edit_profile/:id" => "devise/registrations#edit", :as => :edit_user_profile
   	#patch 'user/update_profile' => 'devise/registrations#update_profile', :as => :update_user_profile
@@ -27,6 +30,7 @@ CarnetDadresse::Application.routes.draw do
   get "user/enable/:id" => "users#enable_user", as: :enable_user
   get "user/disable/:id" => "users#disable_user", as: :disable_user
   get "user/registrations/:user_id" => "users#registrations", as: :user_registrations
+  get "api/v1/user/authentication_token/:email/:password" => "users#api_get_authentication_token", :constraints => {:email => /[^\/]+/}
 
   get "registration/admin_create/:user_id" => "registrations#admin_create", as: :admin_create_registration
 
@@ -149,8 +153,12 @@ CarnetDadresse::Application.routes.draw do
   get "api/v1/news_feeds" => "news_feeds#api_show"
 
   get "api/v1/forum_themes" => "forum_themes#api_show"
+  get "api/v1/forum_themes/:user_id" => "forum_themes#api_show_per_user"
+  get "api/v1/forum_theme/create/:title/:content/:authentication_token" => "forum_themes#api_create"
 
   get "api/v1/forum_posts/:forum_theme_id" => "forum_posts#api_list"
+  get "api/v1/forum_posts/:forum_theme_id/:user_id" => "forum_posts#api_list_per_user"
+  get "api/v1/forum_post/create/:forum_theme_id/:comment/:authentication_token" => "forum_posts#api_create"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

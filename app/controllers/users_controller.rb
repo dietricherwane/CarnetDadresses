@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  before_filter :sign_out_disabled_users
-  prepend_before_filter :authenticate_user!
+  @@api_functions = [:get_authentication_token]
+
+  before_filter :sign_out_disabled_users, except: @@api_functions
+  prepend_before_filter :authenticate_scope!, except: @@api_functions
 
   layout :layout_used
 
@@ -41,5 +43,20 @@ class UsersController < ApplicationController
     else
       render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
     end
+  end
+
+  def api_get_authentication_token
+    user = User.authenticate(params[:email], params[:password])
+    if user
+      if user.confirmation_token.blank?
+        message = user.authentication_token
+      else
+        message = "[" << {errors: "Veuillez activer votre compte en cliquant sur le lien de confirmation reçu par mail."}.to_json.to_s << "]"
+      end
+    else
+      message = "[" << {errors: "Veuillez vérifier la combinaison login/mot de passe."}.to_json.to_s << "]"
+    end
+
+    render json: message
   end
 end

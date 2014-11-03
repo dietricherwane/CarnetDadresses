@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable
+         :recoverable, :rememberable, :trackable, :validatable, :lockable, :token_authenticatable#, :confirmable
 
   # Renaming attributes into more friendly text
   HUMANIZED_ATTRIBUTES = {
@@ -54,14 +54,12 @@ class User < ActiveRecord::Base
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end
 
-  attr_accessible :email, :firstname, :lastname, :phone_number, :mobile_number, :profile_id, :published, :social_status_id, :trading_identifier, :company_name, :created_by, :password, :password_confirmation, :confirmation_token, :sector_id, :sales_area_id, :comment, :role, :validated_by, :validated_at, :unpublished_by, :unpublished_at
+  attr_accessible :email, :firstname, :lastname, :phone_number, :mobile_number, :profile_id, :published, :social_status_id, :trading_identifier, :company_name, :created_by, :password, :password_confirmation, :confirmation_token, :sector_id, :sales_area_id, :comment, :role, :validated_by, :validated_at, :unpublished_by, :unpublished_at, :authentication_token
 
   # Validations
-  validates :firstname, :lastname, presence: true, unless: :company?
+  validates :firstname, :lastname, presence: true
   validates :mobile_number, :profile_id, presence: true
-  validates :social_status_id, :trading_identifier, :company_name, presence: true, if: :company?
-  validates :company_name, length: {in: 2..50}, if: :company?
-  validates :firstname, :lastname, length: {in: 2..50}, unless: :company?
+  validates :firstname, :lastname, length: {in: 2..50}
   validates :phone_number, :mobile_number, length: {in: 6..15, allow_blank: true}
 
   # Utils

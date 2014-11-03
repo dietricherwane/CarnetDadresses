@@ -78,4 +78,14 @@ class ApplicationController < ActionController::Base
     @sql = @sql[0..-5]
 	end
 
+	def authenticate_user_from_token!(authentication_token)
+	  user = User.find_by_authentication_token(authentication_token)
+
+	  if Devise.secure_compare((user.authentication_token rescue nil), authentication_token)
+	    true
+	  else
+	    render json: "[" << {errors: "Vous n'avez pas pu être authentifié."}.to_json.to_s << "]"
+	  end
+	end
+
 end

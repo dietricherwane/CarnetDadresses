@@ -2,4 +2,4 @@
 
 <p>Vous pouvez confirmer votre inscription au site web Carnet d'Adresses en cliquant sur le lien ci dessous:</p>
 
-<p><%= link_to 'Confirmer mon compte', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>
+<p><%= link_to 'Confirmer mon compte', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) rescue link_to 'Confirmer mon compte', "http://#{CarnetDadresse::Application.config.action_mailer.default_url_options[:host]}/users/confirmation?confirmation_token=#{@resource.confirmation_token}" %></p>

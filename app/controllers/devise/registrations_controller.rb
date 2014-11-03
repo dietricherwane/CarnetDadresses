@@ -1,7 +1,9 @@
 class Devise::RegistrationsController < DeviseController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  before_filter :sign_out_disabled_users
-  prepend_before_filter :authenticate_scope!
+  @@api_functions = [:api_create]
+
+  before_filter :sign_out_disabled_users, except: @@api_functions
+  prepend_before_filter :authenticate_scope!, except: @@api_functions
 
   layout :layout_used
 
@@ -18,13 +20,13 @@ class Devise::RegistrationsController < DeviseController
   # POST /resource
   def create
     @profiles = Profile.where(published: [nil, true], shortcut: "ADM")
-    @social_statuses = SocialStatus.where(published: [nil, true])
     @users = User.all.page(params[:page]).per(10)
 
     build_resource(params[:user])
     #build_resource(sign_up_params)
 
     if resource.save
+      resource.ensure_authentication_token!
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_up(resource_name, resource)
@@ -40,6 +42,27 @@ class Devise::RegistrationsController < DeviseController
       clean_up_passwords resource
       respond_with resource
     end
+  end
+
+  def api_create
+    user_profile = Profile.find_by_id(Profile.user_id) rescue nil
+
+    build_resource(params.merge(profile_id: user_profile.id))
+
+    if resource.save
+      resource.ensure_authentication_token!
+      message = "[" << resource.as_json.except(*api_fields_to_except).to_json << "]"
+    else
+      expire_session_data_after_sign_in!
+      message = "[" << {errors: resource.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
+    end
+    clean_up_passwords resource
+
+    render json: message
+  end
+
+  def api_fields_to_except
+    return ["id", "profile_id", "published", "updated_at", "created_by", "validated_by", "validated_at", "unpublished_by", "unpublished_at"]
   end
 
   # Edit an admin profile

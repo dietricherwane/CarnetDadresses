@@ -1,7 +1,8 @@
 class ForumThemesController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  @@api_functions = [:api_show]
+  @@api_functions = [:api_show, :api_create, :api_show_per_user]
 
+  before_filter only: [:api_create] do |s| authenticate_user_from_token!(params[:authentication_token]) end
   before_filter :sign_out_disabled_users, except: @@api_functions
   prepend_before_filter :authenticate_user!, except: @@api_functions
 
@@ -81,11 +82,38 @@ class ForumThemesController < ApplicationController
     forum_themes = ForumThemes.where("published IS NOT FALSE").as_json
     my_hash = "["
     forum_themes.each do |forum_theme|
-      my_hash << forum_theme.merge!(posts_number: (ForumThemes.find_by_id(forum_theme["id"]).forum_posts.count rescue 0)).except!(*["published", "sector_id", "sales_area_id", "validated_by", "validated_at", "unpublished_by", "unpublished_at", "updated_at"]).to_json << ","
+      my_hash << forum_theme.merge!(number_of_posts: (ForumThemes.find_by_id(forum_theme["id"]).forum_posts.count rescue 0)).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
     my_hash << "]"
 
     render json: my_hash
+  end
+
+  def api_show_per_user
+    forum_themes = ForumThemes.where("user_id = #{params[:user_id].to_i} AND published IS NOT FALSE").as_json
+    my_hash = "["
+    forum_themes.each do |forum_theme|
+      my_hash << forum_theme.merge!(number_of_posts: (ForumThemes.find_by_id(forum_theme["id"]).forum_posts.count rescue 0)).except!(*api_fields_to_except).to_json << ","
+    end
+    my_hash = my_hash[0..(my_hash.length - 2)]
+    my_hash << "]"
+
+    render json: my_hash
+  end
+
+  def api_create
+    forum_theme = ForumThemes.new(title: URI.unescape(params[:title]), content: URI.unescape(params[:content]), published: false, user_id: (User.find_by_authentication_token(params[:authentication_token]).id rescue nil))
+    if forum_theme.save
+      message = "[" << forum_theme.as_json.except(*api_fields_to_except).to_json << "]"
+    else
+      message = "[" << {errors: forum_theme.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
+    end
+
+    render json: message
+  end
+
+  def api_fields_to_except
+    return ["published", "updated_at", "validated_by", "validated_at", "unpublished_by", "unpublished_at", "user_id", "sector_id", "sales_area_id"]
   end
 end
