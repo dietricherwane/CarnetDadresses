@@ -1,6 +1,6 @@
 class CompaniesController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  @@api_functions = [:api_show, :api_list]
+  @@api_functions = [:api_show, :api_list, :api_find_per_first_letter]
 
   before_filter :sign_out_disabled_users, except: @@api_functions
   prepend_before_filter :authenticate_user!, except: @@api_functions
@@ -142,6 +142,22 @@ class CompaniesController < ApplicationController
     @companies = Company.where(@sql)
     flash.now[:success] = "#{@companies.count} résultat#{@companies.count > 1 ? "s" : ""} de recherche."
     @companies = @companies.page(params[:page]).per(10)
+  end
+
+  def api_find_per_first_letter
+    companies = Company.where("name ILIKE '#{params[:letter]}%' AND published IS NOT FALSE").as_json
+    my_hash = "["
+    companies.each do |company|
+      my_hash << company.merge(api_additional_fields_to_merge(company)).except!(*api_fields_to_except).to_json << ","
+    end
+    my_hash = my_hash[0..(my_hash.length - 2)]
+    my_hash << "]"
+
+    render json: my_hash
+  end
+
+  def api_render(rendered_object)
+    render json: rendered_object
   end
 
   def api_show
