@@ -132,7 +132,7 @@ CarnetDadresse::Application.routes.draw do
   get "api/v1/marital_status/:id" => "marital_statuses#api_show"
 
   get "api/v1/company/:id" => "companies#api_show"
-  get "api/v1/companies/:letter" => "companies#api_find_per_first_letter"
+  get "api/v1/companies/find_per_first_letter/:letter" => "companies#api_find_per_first_letter"
   get "api/v1/companies/list" => "companies#api_list"
 
   get "api/v1/title/:id" => "address_book_titles#api_show"

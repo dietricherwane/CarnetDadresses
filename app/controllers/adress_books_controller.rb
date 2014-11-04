@@ -1,6 +1,6 @@
 class AdressBooksController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  @@api_functions = [:api_find_per_first_letter, :api_persons_list, :api_person, :api_previous_jobs, :api_hobbies, :formations, :job]
+  @@api_functions = [:api_find_per_first_letter, :api_persons_list, :api_person, :api_previous_jobs, :api_hobbies, :api_formations, :api_job]
 
   before_filter :sign_out_disabled_users, except: @@api_functions
   prepend_before_filter :authenticate_user!, except: @@api_functions
