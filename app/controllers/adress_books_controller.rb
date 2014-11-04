@@ -621,7 +621,7 @@ class AdressBooksController < ApplicationController
   end
 
   def api_additional_fields_to_merge(adress_book)
-    return {avatar: "#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}", civility: (Civility.find_by_id(adress_book["civility_id"]).name rescue nil), marital_status: (MaritalStatus.find_by_id(adress_book["marital_status_id"]).name rescue nil), title: (AdressBookTitle.find_by_id(adress_book["adress_book_title_id"]).name rescue nil), company_name: (Company.find_by_id(adress_book["company_id"]).name rescue nil)}
+    return {avatar: "/#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}", civility: (Civility.find_by_id(adress_book["civility_id"]).name rescue nil), marital_status: (MaritalStatus.find_by_id(adress_book["marital_status_id"]).name rescue nil), title: (AdressBookTitle.find_by_id(adress_book["adress_book_title_id"]).name rescue nil), company_name: (Company.find_by_id(adress_book["company_id"]).name rescue nil)}
   end
 
   def api_fields_to_except
