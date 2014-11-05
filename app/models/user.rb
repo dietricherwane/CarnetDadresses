@@ -90,7 +90,10 @@ class User < ActiveRecord::Base
 
   def self.authenticate(email, password)
       user = User.find_for_authentication(email: email)
-      user.valid_password?(password) ? user : nil
+      if user
+        user = user.valid_password?(password) ? user : nil
+      end
+      return user
   end
 
   # Callbacks
