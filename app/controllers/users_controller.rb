@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   @@api_functions = [:get_authentication_token]
 
   before_filter :sign_out_disabled_users, except: @@api_functions
-  prepend_before_filter :authenticate_scope!, except: @@api_functions
+  prepend_before_filter :authenticate_user!, except: @@api_functions
 
   layout :layout_used
 
