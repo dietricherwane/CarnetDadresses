@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  @@api_functions = [:get_authentication_token]
+  @@api_functions = [:api_get_authentication_token]
 
   before_filter :sign_out_disabled_users, except: @@api_functions
   prepend_before_filter :authenticate_user!, except: @@api_functions
