@@ -1,13 +1,13 @@
-<%= notification_messages! %> 
+<%= notification_messages! %>
 
 <div class="page_title_wrapper">
   <div class="container sixteen columns">
-    <div class="page_title_inner">	      			       	
-      <span class="main_t_1"> 
+    <div class="page_title_inner">
+      <span class="main_t_1">
         Liste des entreprises du groupe </span><span class="main_t_2">&nbsp; - &nbsp;  Nom du Groupe: <%= link_to @holding.name, edit_holding_path(@holding.id) %> <%= @holding.shortcut.blank? ? "" : "[#{@holding.shortcut}]" %>
       </span>
-    </div>			
-  </div><!-- End container sixteen columns -->			
+    </div>
+  </div><!-- End container sixteen columns -->
 </div><!-- End page_title_wrapper -->
 
 <div class="content_shadow"></div>
@@ -15,90 +15,90 @@
 
 <div class = "container">
   <div class = "content_wrapper_inner">
-  
+
   <div class = "sixteen columns row">
     <div class = "one_half">
-      
+
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Informations du Groupe</h3>                                				   
+        <h3 class="pb_title1">Informations du Groupe</h3>
       </div>
-      <%= form_for @holding, url: update_holding_path, method: :post do |f| %>      
-        <%= holding_messages! %>                          
+      <%= form_for @holding, url: update_holding_path, method: :post do |f| %>
+        <%= holding_messages! %>
         <div class="form-group">
           <%= f.label :name %>
           <%= f.text_field :name, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom du groupe", readonly: true %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :shortcut %>
           <%= f.text_field :shortcut, class: "form-control", placeholder: "Veuillez entrer le sigle du groupe", readonly: true %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :number_of_companies %>
           <%= f.text_field :number_of_companies, class: "form-control", placeholder: "Veuillez entrer le nombre d'entreprises", readonly: true %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :phone_number %>
           <%= f.text_field :phone_number, class: "form-control", placeholder: "Veuillez entrer le numéro de téléphone", readonly: true %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :website %>
           <%= f.text_field :website, class: "form-control", placeholder: "Veuillez entrer le site web du groupe", readonly: true %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :email %>
           <%= f.text_field :email, class: "form-control", placeholder: "Veuillez entrer l'email du groupe", readonly: true %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :country_id %>
           <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "Veuillez choisir le pays", selected: (Country.find_by_name("Côte D'ivoire").id rescue nil)}, html_options = {class: "form-control", disabled: true} %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :city %>
           <%= f.text_field :city, class: "form-control", placeholder: "Veuillez entrer la ville", readonly: true %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :geographical_address %>
           <%= f.text_field :geographical_address, class: "form-control", placeholder: "Veuillez entrer l'adresse géographique", readonly: true %>
-        </div> 
-        
+        </div>
+
         <div class="form-group">
           <%= f.label :postal_address %>
           <%= f.text_field :postal_address, class: "form-control", placeholder: "Veuillez entrer l'adresse postale", readonly: true %>
-        </div> 
-        
+        </div>
+
         <div class="form-group">
           <%= f.label :activities %>
           <%= f.text_area :activities, class: "form-control", placeholder: "Veuillez entrer le détail des activités", readonly: true %>
-        </div> 
+        </div>
       <% end %>
     </div><!-- End one_half -->
-    
+
     <div class = "one_half lastcolumn">
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Liste des Entreprises</h3>                                				   
+        <h3 class="pb_title1">Liste des Entreprises</h3>
       </div>
       <div class="accordion-items">
-        <% unless @adress_books.blank? %>
-          <% @adress_books.each do |adress_book| %>
+        <% unless @companies.blank? %>
+          <% @companies.each do |company| %>
             <div class="accordion-item">
-              <%= render "companies_list", adress_book: adress_book %>
+              <%= render "companies_list", company: company %>
             </div>
           <% end %>
-            		
-          <%= paginate @adress_books, :params => {:controller => :holdings, :action => :companies_per_holding} %>
+
+          <%= paginate @companies, :params => {:controller => :holdings, :action => :companies_per_holding} %>
         <% end %>
       </div>
-			 
+
     </div><!-- End one_half lastcolumn -->
   </div>
-  
+
   </div><!-- End content_wrapper_inner -->
 </div><!-- End container -->

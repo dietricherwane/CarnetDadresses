@@ -90,7 +90,7 @@ class HoldingsController < ApplicationController
     if @holding.blank?
       render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
     else
-      @adress_books = @holding.adress_books.page(params[:page]).per(10)
+      @companies = @holding.companies.page(params[:page]).per(10)
       @countries = Country.all
     end
   end
