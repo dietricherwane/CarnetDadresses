@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Profile.create([{ name: 'Décideur', shortcut: 'DEC' }, { name: 'Entreprise', shortcut: 'ENT' }, { name: 'Administrateur', shortcut: 'ADM' }])
+Profile.create([{ name: 'Décideur', shortcut: 'DEC' }, { name: 'Entreprise', shortcut: 'ENT' }, { name: 'Administrateur', shortcut: 'ADM' }, { name: 'Super Administrateur', shortcut: 'S-ADM' }])
 
 SalesArea.create([{name: "Informatique / Télécoms", user_id: 1}, {name: "Marketing", user_id: 1}])
 

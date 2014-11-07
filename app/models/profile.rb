@@ -43,6 +43,10 @@ class Profile < ActiveRecord::Base
     return Profile.find_by_shortcut("ADM").id rescue nil
   end
 
+  def self.super_admin_id
+    return Profile.find_by_shortcut("S-ADM").id rescue nil
+  end
+
   def self.user_id
     return Profile.find_by_shortcut("UTI").id rescue nil
   end

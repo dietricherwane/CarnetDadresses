@@ -35,15 +35,12 @@ class AdressBooksController < ApplicationController
   end
 
   def search_person
-    search(["firstname", "lastname", "company_name", "trading_identifier", "phone_number", "mobile_number", "email"], params[:terms], "person_id")
+    search(["firstname", "lastname", "phone_number", "email"], params[:terms])
 
     render "persons"
   end
 
-  def fetch_from_side_table(table, term)
-    results = eval(table[0]).where("name ILIKE '%#{term}%'")
-    return results.blank? ? "" : "#{table[1]} IN #{results.map{|t| t.id}.to_s.sub('[', '(').sub(']', ')')} OR "
-  end
+
 
   def edit_person
     @adress_book = AdressBook.find_by_id(params[:id])
@@ -119,7 +116,6 @@ class AdressBooksController < ApplicationController
 
     @holdings = Holding.where(published: [nil, true])
     @social_statuses = SocialStatus.where(published: [nil, true])
-
   end
 
   def init_edit_adress_book
@@ -129,6 +125,7 @@ class AdressBooksController < ApplicationController
   end
 
   def init_adress_book
+    @countries = Country.all
     @sales_areas = SalesArea.all
     @civilities = Civility.all
     @companies = Company.where(published: [nil, true])
@@ -137,7 +134,7 @@ class AdressBooksController < ApplicationController
     @adress_books = AdressBook.all.page(params[:page]).per(10)
   end
 
-  def search(fields, terms, adress_book_type)
+  def search(fields, terms)
 =begin
     @sectors = Sector.where(published: [true, nil])
     @social_statuses = SocialStatus.where(published: [nil, true])
@@ -154,14 +151,18 @@ class AdressBooksController < ApplicationController
     @holding = Holding.new
     init_create_adress_book
 
-    @tables = [["Sector", "sector_id"], ["SalesArea", "sales_area_id"], ["SocialStatus", "social_status_id"]]
+    @tables = [["Sector", "sector_id"]]
     @fields = fields
-    @terms = terms.strip.split
+    (terms.strip.length == 1) ? @terms = terms.strip : @terms = terms.strip.split
 
-    # Executes a search function in application_controller to return results
-    complex_search_function
+    if @terms.length == 1
+      @adress_books = AdressBook.where("firstname ILIKE '#{@terms}%'").order("firstname ASC")
+    else
+      # Executes a search function in application_controller to return results
+      complex_search_function
 
-    @adress_books = AdressBook.where(@sql + "#{@sql.blank? ? "" : " AND "}profile_id = #{Profile.send(adress_book_type)}")
+      @adress_books = AdressBook.where(@sql).order("firstname ASC")
+    end
     flash.now[:success] = "#{@adress_books.count} résultat#{@adress_books.count > 1 ? "s" : ""} de recherche."
     @adress_books = @adress_books.page(params[:page]).per(10)
   end

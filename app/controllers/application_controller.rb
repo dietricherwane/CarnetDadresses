@@ -39,7 +39,13 @@ class ApplicationController < ActionController::Base
 	end
 
 	def after_sign_in_path_for(resource_or_scope)
-		admin_dashboard_path
+	  if current_user.admin?
+		  admin_dashboard_path
+		else
+		  if current_user.super_admin?
+		    super_admin_dashboard_path
+		  end
+		end
 	end
 
 	def sign_out_disabled_users
@@ -69,14 +75,19 @@ class ApplicationController < ActionController::Base
       @fields.each do |field|
         @sql << "#{field} ILIKE '%#{term}%' OR "
       end
-      #@tables.each do |table|
-        #@sql << fetch_from_side_table(table, term)
-      #end
+      @tables.each do |table|
+        @sql << fetch_from_side_table(table, term)
+      end
 
       @sql = @sql[0..-4] << ") AND "
     end
     @sql = @sql[0..-5]
 	end
+
+	def fetch_from_side_table(table, term)
+    results = eval(table[0]).where("name ILIKE '%#{term}%'")
+    return results.blank? ? "" : "#{table[1]} IN #{results.map{|t| t.id}.to_s.sub('[', '(').sub(']', ')')} OR "
+  end
 
 	def authenticate_user_from_token!(authentication_token)
 	  user = User.find_by_authentication_token(authentication_token)

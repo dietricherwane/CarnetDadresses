@@ -88,6 +88,11 @@
         <div class="border_divider"></div>
 
         <div class="form-group">
+          <%= f.label :country_id %>
+          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "-Veuillez choisir le pays-"}, html_options = {class: "form-control"} %>
+        </div>
+
+        <div class="form-group">
           <%= f.label :city %>
           <%= f.text_field :city, class: "form-control", placeholder: "Veuillez entrer la ville" %>
         </div>

@@ -128,6 +128,7 @@ class CompaniesController < ApplicationController
     @social_statuses = SocialStatus.where(published: [nil, true])
     @sales_areas = SalesArea.where(published: [nil, true])
     @company = Company.new
+    @holding = Holding.new
     @countries = Country.all
     @holdings = Holding.where(published: [nil, true])
     @countries = Country.all

@@ -90,7 +90,7 @@
 
 <div class="contact_head">
    <div class="top_home_wrapper">
-    <div class="top_home_icon"></div><h6><%= current_user.company? ?	"#{user.company_full_name} - #{@social_status}"	: current_user.full_name %></h6>
+    <div class="top_home_icon"></div><h6><%= current_user ? current_user.full_name : false %></h6>
 	<div class="clear"></div>
    </div>
 </div>
@@ -111,17 +111,19 @@
           <div class="main_menu">
             <nav id="dropdown">
 	            <ul class="sf-menu clearfix">
-	              <li>
-	                <a href="#" class="trigger"><span><i class="icon-home"></i>Dashboard</span></a>
-	                <ul>
-		                <li>
-		                  <a href="/users/sign_up">Administrateurs</a>
-		                </li>
-		                <li>
-		                  <a href="/users/dashboard">Abonnés</a>
-		                </li>
-		              </ul>
-		            </li>
+	              <% if current_user.super_admin? %>
+	                <li>
+	                  <a href="#" class="trigger"><span><i class="icon-home"></i>Dashboard</span></a>
+	                  <ul>
+		                  <li>
+		                    <a href="/users/sign_up">Administrateurs</a>
+		                  </li>
+		                  <li>
+		                    <a href="/users/dashboard">Abonnés</a>
+		                  </li>
+		                </ul>
+		              </li>
+		            <% end %>
 		            <li>
 		              <a href="#" class="trigger"><span><i class="icon-staff"></i>Annuaire</span></a>
 		              <ul>

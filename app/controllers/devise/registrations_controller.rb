@@ -9,9 +9,9 @@ class Devise::RegistrationsController < DeviseController
 
   # GET /resource/sign_up
   def new
-    @profiles = Profile.where(published: [nil, true], shortcut: "ADM")
+    @profiles = Profile.where(published: [nil, true], shortcut: ["ADM", "S-ADM"])
     @social_statuses = SocialStatus.where(published: [nil, true])
-    @users = User.where(profile_id: Profile.admin_id).page(params[:page]).per(10)
+    @users = User.where(profile_id: [Profile.admin_id, Profile.super_admin_id]).page(params[:page]).per(10)
 
     build_resource({})
     respond_with self.resource

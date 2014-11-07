@@ -64,11 +64,7 @@ class User < ActiveRecord::Base
 
   # Utils
   def full_name
-    return "</b>#{lastname} #{firstname}</b>".html_safe
-  end
-
-  def company_full_name
-    return "<b>[#{Profile.find_by_id(profile_id).shortcut}]</b> #{company_name}".html_safe
+    return "</b>#{lastname} #{firstname} [#{profile.name}]</b>".html_safe
   end
 
   def published?
@@ -81,7 +77,11 @@ class User < ActiveRecord::Base
   end
 
   def admin?
-    profile.name == "Administrateur"
+    profile.shortcut == "Administrateur"
+  end
+
+  def super_admin?
+    profile.name == "Super Administrateur"
   end
 
   def last_registration

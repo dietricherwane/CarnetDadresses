@@ -1,13 +1,13 @@
-<%= notification_messages! %> 
+<%= notification_messages! %>
 
 <div class="page_title_wrapper">
   <div class="container sixteen columns">
-    <div class="page_title_inner">	      			       	
-      <span class="main_t_1"> 
-        Compléter le profil des Décideurs </span><span class="main_t_2">&nbsp; - &nbsp;  Compléter le profil de <%= link_to @adress_book.full_name, edit_person_path(@adress_book.id) %> 
+    <div class="page_title_inner">
+      <span class="main_t_1">
+        Compléter le profil des Décideurs </span><span class="main_t_2">&nbsp; - &nbsp;  Compléter le profil de <%= link_to @adress_book.full_name, edit_person_path(@adress_book.id) %>
       </span>
-    </div>			
-  </div><!-- End container sixteen columns -->			
+    </div>
+  </div><!-- End container sixteen columns -->
 </div><!-- End page_title_wrapper -->
 
 <div class="content_shadow"></div>
@@ -15,45 +15,26 @@
 
 <div class = "container">
   <div class = "content_wrapper_inner">
-  
+
   <div class = "sixteen columns row">
     <div class = "one_half">
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Ajouter un hobby</h3>                                				   
+        <h3 class="pb_title1">Ajouter une formation</h3>
       </div>
-      <%= form_for @adress_book_hobby, url: create_person_hobby_path, method: :post do |f| %>      
-        <%= adress_book_hobby_messages! %>   
-        <%= hidden_field_tag :adress_book_id, @adress_book.id %>                     
-        <div class="form-group">
-          <%= f.label :hobby_id %>
-          <%= f.collection_select :hobby_id, @hobbies, :id, :name, options ={prompt: "Veuillez choisir un hobby"}, html_options = {class: "form-control"} %>
-        </div>
-
-        <div class="form-group">
-          <%= f.submit "Valider" %>
-        </div>
-      <% end %>
-      
-      <div class="border_divider"></div>
-      
-      
-      <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Ajouter une formation</h3>                                				   
-      </div>
-      <%= form_for @formation, url: create_person_formation_path, method: :post do |f| %>      
-        <%= formation_messages! %>   
-        <%= hidden_field_tag :adress_book_id, @adress_book.id %>                     
+      <%= form_for @formation, url: create_person_formation_path, method: :post do |f| %>
+        <%= formation_messages! %>
+        <%= hidden_field_tag :adress_book_id, @adress_book.id %>
         <div class="form-group">
           <%= f.label :formation_year %>
           <br />
           <%= f.date_select :formation_year, start_year: (Date.today.year - 90), end_year: Date.today.year, discard_day: true, discard_month: true, class: "form-control" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :school %>
           <%= f.text_field :school, class: "form-control", placeholder: "Veuillez entrer le nom de l'école ou université" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :diploma %>
           <%= f.text_area :diploma, class: "form-control", placeholder: "Veuillez entrer le diplôme obtenu" %>
@@ -63,37 +44,37 @@
           <%= f.submit "Valider" %>
         </div>
       <% end %>
-      
+
       <div class="border_divider"></div>
-      
+
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Expérience</h3>                                				   
+        <h3 class="pb_title1">Expérience</h3>
       </div>
-      <%= form_for @previous_job_experience, url: create_person_previous_experience_path, method: :post do |f| %>      
-        <%= previous_job_experience_messages! %>   
-        <%= hidden_field_tag :adress_book_id, @adress_book.id %>                     
+      <%= form_for @previous_job_experience, url: create_person_previous_experience_path, method: :post do |f| %>
+        <%= previous_job_experience_messages! %>
+        <%= hidden_field_tag :adress_book_id, @adress_book.id %>
         <div class="form-group">
             <%= f.label :begin_date %>
             <br />
             <%= f.date_select :begin_date, start_year: (Date.today.year - 90), end_year: Date.today.year, discard_day: true, class: "form-control" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :end_date %>
             <br />
             <%= f.date_select :end_date, start_year: (Date.today.year - 90), end_year: Date.today.year, discard_day: true, class: "form-control" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :company_name %>
             <%= f.text_field :company_name, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :role %>
             <%= f.text_field :role, class: "form-control", placeholder: "Veuillez entrer votre fonction" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :membership_id %>
             <%= f.collection_select :membership_id, @memberships, :id, :name, options ={prompt: "Veuillez définir l'appartenance"}, html_options = {class: "form-control"} %>
@@ -103,124 +84,124 @@
           <%= f.submit "Valider" %>
         </div>
       <% end %>
-      
+
       <% if @job_experiences.count < 1 %>
         <div class="border_divider"></div>
-        
+
         <div class="pb_title_wrapper">
-          <h3 class="pb_title1">Fonction</h3>                                				   
+          <h3 class="pb_title1">Fonction</h3>
         </div>
-        <%= form_for @job_experience, url: create_person_experience_path, method: :post do |f| %>      
-          <%= job_experience_messages! %>   
-          <%= hidden_field_tag :adress_book_id, @adress_book.id %>                     
+        <%= form_for @job_experience, url: create_person_experience_path, method: :post do |f| %>
+          <%= job_experience_messages! %>
+          <%= hidden_field_tag :adress_book_id, @adress_book.id %>
           <div class="form-group">
             <%= f.label :begin_date %>
             <br />
             <%= f.date_select :begin_date, start_year: (Date.today.year - 90), end_year: Date.today.year, discard_day: true, class: "form-control" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :end_date %>
             <br />
             <%= f.date_select :end_date, start_year: (Date.today.year - 90), end_year: Date.today.year, discard_day: true, class: "form-control" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :company %>
             <%= f.text_field :company, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :team_members %>
             <%= f.text_field :team_members, class: "form-control", placeholder: "Le nombre de membres de l''équipe" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :role %>
             <%= f.text_field :role, class: "form-control", placeholder: "Veuillez entrer la fonction" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :missions %>
             <%= f.text_area :missions, class: "form-control", placeholder: "Veuillez entrer les missions" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :hiring_type_id %>
             <%= f.collection_select :hiring_type_id, @hiring_types, :id, :name, options ={prompt: "Veuillez choisir le type dembauche"}, html_options = {class: "form-control"} %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :hiring_status_id %>
             <%= f.collection_select :hiring_status_id, @hiring_statuses, :id, :name, options ={prompt: "Veuillez choisir le statut de l'embauche"}, html_options = {class: "form-control"} %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :phone_number %>
             <%= f.text_field :phone_number, class: "form-control", placeholder: "Veuillez entrer le numéro de téléphone" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :email %>
             <%= f.text_field :email, class: "form-control", placeholder: "Veuillez entrer l'email" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :predecessor_firstname %>
             <%= f.text_field :predecessor_firstname, class: "form-control", placeholder: "Veuillez entrer le nom du prédécesseur" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :predecessor_lastname %>
             <%= f.text_field :predecessor_lastname, class: "form-control", placeholder: "Veuillez entrer le prénom du prédécesseur" %>
           </div>
-          
+
           <div class="border_divider"></div>
-          
+
           <div class="form-group">
             <%= f.label :assistant_firstname %>
             <%= f.text_field :assistant_firstname, class: "form-control", placeholder: "Veuillez entrer le nom de l'assistant(e)" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :assistant_lastname %>
             <%= f.text_field :assistant_lastname, class: "form-control", placeholder: "Veuillez entrer le prénom de l'assistant(e)" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :assistant_phone_number %>
             <%= f.text_field :assistant_phone_number, class: "form-control", placeholder: "Veuillez entrer le numéro de téléphone de l'assistant(e)" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :assistant_email %>
             <%= f.text_field :assistant_email, class: "form-control", placeholder: "Veuillez entrer l'email de l'assistant(e)" %>
           </div>
-          
+
           <div class="border_divider"></div>
-          
+
           <div class="form-group">
             <%= f.label :superior_title %>
             <%= f.text_field :superior_title, class: "form-control", placeholder: "Veuillez entrer le titre du supérieur" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :superior_firstname %>
             <%= f.text_field :superior_firstname, class: "form-control", placeholder: "Veuillez entrer le nom du supérieur" %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :superior_lastname %>
             <%= f.text_field :superior_lastname, class: "form-control", placeholder: "Veuillez entrer le prénom du supérieur" %>
-          </div>       
-                  
+          </div>
+
           <div class="border_divider"></div>
-          
+
           <div class="form-group">
             <%= f.label :membership_id %>
             <%= f.collection_select :membership_id, @memberships, :id, :name, options ={prompt: "Veuillez définir l'appartenance"}, html_options = {class: "form-control"} %>
           </div>
-          
+
           <div class="form-group">
             <%= f.label :misc %>
             <%= f.text_area :misc, class: "form-control", placeholder: "Veuillez entrer d'autres informations pertinentes" %>
@@ -231,78 +212,97 @@
           </div>
         <% end %>
       <% end %>
+
+      <div class="border_divider"></div>
+
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Ajouter un hobby</h3>
+      </div>
+      <%= form_for @adress_book_hobby, url: create_person_hobby_path, method: :post do |f| %>
+        <%= adress_book_hobby_messages! %>
+        <%= hidden_field_tag :adress_book_id, @adress_book.id %>
+        <div class="form-group">
+          <%= f.label :hobby_id %>
+          <%= f.collection_select :hobby_id, @hobbies, :id, :name, options ={prompt: "Veuillez choisir un hobby"}, html_options = {class: "form-control"} %>
+        </div>
+
+        <div class="form-group">
+          <%= f.submit "Valider" %>
+        </div>
+      <% end %>
+
     </div><!-- End one_half -->
-    
-    
+
+
     <div class = "one_half lastcolumn">
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Liste des Hobby</h3>                                				   
-      </div>                 
-      <div class="accordion-items">  
-        <% unless @adress_book_hobbies.blank? %>       
-          <% @adress_book_hobbies.each do |adress_book_hobby| %>    
-            <div class="accordion-item">    
-              <%= render "adress_book_hobbies_list", adress_book_hobby: adress_book_hobby %>
-            </div>
-          <% end %>
-                                	
-            <%= paginate @adress_book_hobbies, :params => {:controller => :adress_books, :action => :complete_profile} %>   
-        <% end %>    
+        <h3 class="pb_title1">Liste des Formations</h3>
       </div>
-      
-      <div class="border_divider"></div>
-      
-      <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Liste des Formations</h3>                                				   
-      </div>                 
-      <div class="accordion-items">  
-        <% unless @formations.blank? %>       
-          <% @formations.each do |formation| %>    
-            <div class="accordion-item">    
+      <div class="accordion-items">
+        <% unless @formations.blank? %>
+          <% @formations.each do |formation| %>
+            <div class="accordion-item">
               <%= render "formations_list", formation: formation %>
             </div>
           <% end %>
-                                	
-            <%= paginate @formations, :params => {:controller => :adress_books, :action => :complete_profile} %>   
-        <% end %>    
+
+            <%= paginate @formations, :params => {:controller => :adress_books, :action => :complete_profile} %>
+        <% end %>
       </div>
-      
+
       <div class="border_divider"></div>
-      
+
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Expériences</h3>                                				   
-      </div>                 
-      <div class="accordion-items">  
-        <% unless @previous_job_experiences.blank? %>       
-          <% @previous_job_experiences.each do |previous_job_experience| %>    
-            <div class="accordion-item">    
+        <h3 class="pb_title1">Expériences</h3>
+      </div>
+      <div class="accordion-items">
+        <% unless @previous_job_experiences.blank? %>
+          <% @previous_job_experiences.each do |previous_job_experience| %>
+            <div class="accordion-item">
               <%= render "previous_job_experiences_list", previous_job_experience: previous_job_experience %>
             </div>
           <% end %>
-                                	
-            <%= paginate @previous_job_experiences, :params => {:controller => :adress_books, :action => :complete_profile} %>   
-        <% end %>    
+
+            <%= paginate @previous_job_experiences, :params => {:controller => :adress_books, :action => :complete_profile} %>
+        <% end %>
       </div>
-      
+
       <div class="border_divider"></div>
-      
+
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Fonction</h3>                                				   
-      </div>                 
-      <div class="accordion-items">  
-        <% unless @job_experiences.blank? %>       
-          <% @job_experiences.each do |job_experience| %>    
-            <div class="accordion-item">    
+        <h3 class="pb_title1">Fonction</h3>
+      </div>
+      <div class="accordion-items">
+        <% unless @job_experiences.blank? %>
+          <% @job_experiences.each do |job_experience| %>
+            <div class="accordion-item">
               <%= render "job_experiences_list", job_experience: job_experience %>
             </div>
           <% end %>
-                                	
-            <%= paginate @job_experiences, :params => {:controller => :adress_books, :action => :complete_profile} %>   
-        <% end %>    
+
+            <%= paginate @job_experiences, :params => {:controller => :adress_books, :action => :complete_profile} %>
+        <% end %>
       </div>
-      			 
+
+      <div class="border_divider"></div>
+
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Liste des Hobby</h3>
+      </div>
+      <div class="accordion-items">
+        <% unless @adress_book_hobbies.blank? %>
+          <% @adress_book_hobbies.each do |adress_book_hobby| %>
+            <div class="accordion-item">
+              <%= render "adress_book_hobbies_list", adress_book_hobby: adress_book_hobby %>
+            </div>
+          <% end %>
+
+            <%= paginate @adress_book_hobbies, :params => {:controller => :adress_books, :action => :complete_profile} %>
+        <% end %>
+      </div>
+
     </div><!-- End one_half lastcolumn -->
   </div>
-  
+
   </div><!-- End content_wrapper_inner -->
 </div><!-- End container -->

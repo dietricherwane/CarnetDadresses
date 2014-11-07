@@ -2,9 +2,9 @@ class Devise::SessionsController < DeviseController
   prepend_before_filter :require_no_authentication, :only => [ :new, :create ]
   prepend_before_filter :allow_params_authentication!, :only => :create
   prepend_before_filter { request.env["devise.skip_timeout"] = true }
-  
+
   layout :layout_used
-  
+
   # GET /resource/sign_in
   def new
     self.resource = resource_class.new(sign_in_params)
@@ -17,7 +17,11 @@ class Devise::SessionsController < DeviseController
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:notice, :signed_in) if is_navigational_format?
     sign_in(resource_name, resource)
-    respond_with resource, :location => after_sign_in_path_for(resource)
+    if current_user.super_admin?
+      respond_with resource, :location => after_sign_in_path_for(resource)
+    else
+      redirect_to admin_dashboard_path
+    end
   end
 
   # DELETE /resource/sign_out

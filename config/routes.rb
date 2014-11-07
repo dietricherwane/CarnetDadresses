@@ -12,7 +12,7 @@ CarnetDadresse::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "devise/registrations", :sessions => "devise/sessions", :passwords => "devise/passwords", :confirmations => "devise/confirmations"}
 
   devise_scope :user do
-  	get 'users/sign_up' => 'devise/registrations#new', :as => :admin_dashboard
+  	get 'users/sign_up' => 'devise/registrations#new', :as => :super_admin_dashboard
   	get "admin/edit/:id" => "devise/registrations#edit_admin", as: :edit_admin
   	patch "admin/update/:id" => "devise/registrations#update_admin", as: :update_admin
   	post "admin/search" => "devise/registrations#search_admin", as: :search_admin
@@ -35,6 +35,7 @@ CarnetDadresse::Application.routes.draw do
   get "registration/admin_create/:user_id" => "registrations#admin_create", as: :admin_create_registration
 
   get "persons" => "adress_books#persons", as: :persons
+  get "persons" => "adress_books#persons", as: :admin_dashboard
   post "person/create" => "adress_books#create_person", as: :create_person
   post "person/search" => "adress_books#search_person", as: :search_person
   get "person/edit/:id" => "adress_books#edit_person", as: :edit_person

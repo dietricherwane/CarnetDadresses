@@ -12,6 +12,11 @@ $(document).on('ready page:load', function(){
   $("#myGroupModalId").click(function() {
     $('#myModal').modal('hide');
   });
+
+  $('#myGroupModal').on('hidden.bs.modal', function () {
+    $('#myModal').modal('show');
+  });
+
 });
 
 $.fn.getComboBoxValues = function(selected_value, target_tag, url) {
@@ -56,6 +61,7 @@ $(document).on("ajax:error", "#new_holding", function(event, xhr, status, error)
     $(event.data).render_form_errors($.parseJSON(xhr.responseText), "holding");
   }
 });
+
 //////////////////////Create Holding modal/////////////////////////////////////
 
 $.fn.render_form_errors = function(errors, model){
