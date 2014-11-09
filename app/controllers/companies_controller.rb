@@ -16,6 +16,7 @@ class CompaniesController < ApplicationController
     init_company
 
     @company = Company.new(params[:company].merge(created_by: current_user.id, sector_id: Sector.find_by_name("Privé").id, country_id: Country.find_by_name("Côte D'ivoire").id))
+
     if @company.save
       @company = Company.new
       # Creates an entry in the logs
@@ -91,6 +92,8 @@ class CompaniesController < ApplicationController
     @sectors = Sector.where(published: [true, nil])
     @social_statuses = SocialStatus.where(published: [nil, true])
     @sales_areas = SalesArea.all
+    @employees_amount = employees_amount
+    @capital = capital
   end
 
   def js_create
@@ -191,5 +194,13 @@ class CompaniesController < ApplicationController
 
   def api_fields_to_except
     return ["published", "created_at", "sector_id", "created_by", "validated_by", "updated_at", "country_id", "logo_file_name", "logo_content_type", "logo_file_size", "logo_updated_at"]
+  end
+
+  def employees_amount
+    return ["> 200", "> 100", "> 50", "> 100", "60 < x < 200", "50 < x < 100", "30 < x < 50", "30 < x < 100"]
+  end
+
+  def capital
+    return ["> 2000", "> 1000", "> 500", "500 < x < 2000", "30 < x < 1000", "15 < x < 500"]
   end
 end

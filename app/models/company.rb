@@ -33,7 +33,7 @@ class Company < ActiveRecord::Base
     :geographical_address => "Adresse géographique",
     :postal_address => "Adresse postale",
     :shortcut => "Sigle",
-    :capital => "Capital (FCFA)",
+    :capital => "Capital (Millions de FCFA)",
     :employees_amount => "Nombre d'employés",
     :turnover => "Chiffre d'affaires",
     :holding_id => "Filiale d'un groupe",

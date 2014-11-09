@@ -66,12 +66,12 @@
 
         <div class="form-group">
           <%= f.label :employees_amount %>
-          <%= f.text_field :employees_amount, class: "form-control", placeholder: "Veuillez entrer le nombre d'employés" %>
+          <%= select "company", "employees_amount", @employees_amount, options ={prompt: "Veuillez entrer le nombre d'employés", selected: @company.employees_amount}, html_options = {class: "form-control"} %>
         </div>
 
         <div class="form-group">
           <%= f.label :capital %>
-          <%= f.text_field :capital, class: "form-control", placeholder: "Veuillez entrer le capital de l'entreprise" %>
+          <%= select "company", "capital", @capital, options ={prompt: "Veuillez entrer le capital de l'entreprise", selected: @company.capital}, html_options = {class: "form-control"} %>
         </div>
 
         <div class="form-group">
