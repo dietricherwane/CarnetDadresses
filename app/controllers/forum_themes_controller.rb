@@ -82,7 +82,7 @@ class ForumThemesController < ApplicationController
     forum_themes = ForumThemes.where("published IS NOT FALSE").as_json
     my_hash = "["
     forum_themes.each do |forum_theme|
-      my_hash << forum_theme.merge!(number_of_posts: (ForumThemes.find_by_id(forum_theme["id"]).forum_posts.count rescue 0)).except!(*api_fields_to_except).to_json << ","
+      my_hash << forum_theme.merge!(number_of_posts: (ForumThemes.find_by_id(forum_theme["id"]).forum_posts.count rescue 0), posted_by: User.find_by_id(forum_theme["user_id"]).full_name).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
     my_hash << "]"
@@ -114,6 +114,6 @@ class ForumThemesController < ApplicationController
   end
 
   def api_fields_to_except
-    return ["published", "updated_at", "validated_by", "validated_at", "unpublished_by", "unpublished_at", "user_id", "sector_id", "sales_area_id"]
+    return ["published", "updated_at", "validated_by", "validated_at", "unpublished_by", "unpublished_at", "sector_id", "sales_area_id"]
   end
 end

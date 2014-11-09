@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
 
   # Utils
   def full_name
-    return "</b>#{lastname} #{firstname} [#{profile.name}]</b>".html_safe
+    return "#{lastname} #{firstname} [#{profile.name}]".html_safe
   end
 
   def published?

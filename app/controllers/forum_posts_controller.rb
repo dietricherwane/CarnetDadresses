@@ -32,7 +32,7 @@ class ForumPostsController < ApplicationController
     forum_posts = ForumPost.where("forum_themes_id = #{params[:forum_theme_id].to_i} AND published IS NOT FALSE").as_json
     my_hash = "["
     forum_posts.each do |forum_post|
-      my_hash << forum_post.except!(*api_fields_to_except).to_json << ","
+      my_hash << forum_post.merge!(posted_by: User.find_by_id(forum_post["user_id"]).full_name).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
     my_hash << "]"
@@ -64,6 +64,6 @@ class ForumPostsController < ApplicationController
   end
 
   def api_fields_to_except
-    return ["id", "published", "updated_at", "unpublished_by", "unpublished_at", "user_id", "forum_theme_id"]
+    return ["id", "published", "updated_at", "unpublished_by", "unpublished_at", "forum_theme_id"]
   end
 end
