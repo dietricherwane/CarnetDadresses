@@ -22,7 +22,9 @@ class Devise::PasswordsController < DeviseController
   end
 
   def api_send_reset_password_instructions
-    user = User.find_by_authentication_token(params[:token])
+    user = User.find_by_authentication_token(params[:token_or_email])
+
+    if user.blank? then user = User.find_by_email(params[:token_or_email]) end
 
     if user
       user.send_reset_password_instructions
