@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end
 
-  attr_accessible :email, :firstname, :lastname, :phone_number, :mobile_number, :profile_id, :published, :social_status_id, :trading_identifier, :company_name, :created_by, :password, :password_confirmation, :confirmation_token, :sector_id, :sales_area_id, :comment, :role, :validated_by, :validated_at, :unpublished_by, :unpublished_at, :authentication_token
+  attr_accessible :email, :firstname, :lastname, :phone_number, :mobile_number, :profile_id, :published, :social_status_id, :trading_identifier, :company_name, :created_by, :password, :password_confirmation, :confirmation_token, :sector_id, :sales_area_id, :comment, :role, :validated_by, :validated_at, :unpublished_by, :unpublished_at, :authentication_token, :company, :job
 
   # Validations
   validates :firstname, :lastname, presence: true

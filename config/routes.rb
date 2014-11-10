@@ -19,8 +19,13 @@ CarnetDadresse::Application.routes.draw do
   	get "admin/disable/:id" => "devise/registrations#disable_user", as: :disable_admin
   	get "admin/enable/:id" => "devise/registrations#enable_user", as: :enable_admin
 
-  	get "api/v1/user/:firstname/:lastname/:email/:phone_number/:mobile_number/:password/:password_confirmation" => "devise/registrations#api_create", :constraints => {:email => /[^\/]+/}
-  	get "api/v1/user/:firstname/:lastname/:email/:mobile_number/:password/:password_confirmation" => "devise/registrations#api_create", :constraints => {:email => /[^\/]+/}
+  	get "api/v1/user/:firstname/:lastname/:company/:job/:email/:phone_number/:mobile_number/:password/:password_confirmation" => "devise/registrations#api_create", :constraints => {:email => /[^\/]+/}
+  	get "api/v1/user/:firstname/:lastname/:company/:job/:email/:mobile_number/:password/:password_confirmation" => "devise/registrations#api_create", :constraints => {:email => /[^\/]+/}
+  	get "api/v1/user/update/:token/:firstname/:lastname/:company/:job/:phone_number/:mobile_number" => "devise/registrations#api_update"
+  	get "api/v1/user/update/:token/:firstname/:lastname/:company/:job/:mobile_number" => "devise/registrations#api_update"
+
+  	get "api/v1/user/password/send_reset_instructions/:token" => "devise/passwords#api_send_reset_password_instructions"
+  	get "api/v1/user/password/reset/:reset_token/:password/:password_confirmation" => "devise/passwords#api_reset_password"
   	#get 'users' => 'devise/registrations#new'
   	#get "user/edit_profile/:id" => "devise/registrations#edit", :as => :edit_user_profile
   	#patch 'user/update_profile' => 'devise/registrations#update_profile', :as => :update_user_profile

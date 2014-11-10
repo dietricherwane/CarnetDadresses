@@ -1,6 +1,6 @@
 class Devise::RegistrationsController < DeviseController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  @@api_functions = [:api_create]
+  @@api_functions = [:api_create, :api_update]
 
   before_filter :sign_out_disabled_users, except: @@api_functions
   prepend_before_filter :authenticate_scope!, except: @@api_functions
@@ -86,6 +86,23 @@ class Devise::RegistrationsController < DeviseController
       @users = User.all.page(params[:page]).per(10)
       render :edit_admin, id: @user.id
     end
+  end
+
+  def api_update
+    user = User.find_by_authentication_token(params[:token])
+
+    if user
+      user.update_attributes(params)
+      if  user.errors.empty?
+        message = "[" << user.as_json.except(*api_fields_to_except).to_json << "]"
+      else
+        message = "[" << {errors: user.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
+      end
+    else
+      message = "[" << {errors: "Le token n'est pas valide."}.to_json.to_s << "]"
+    end
+
+    render json: message
   end
 
   # Search an admin

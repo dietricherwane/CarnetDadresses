@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     user = User.authenticate(params[:email], params[:password])
     if user
       if user.confirmation_token.blank?
-        message = user.authentication_token
+        message = "[" << {token: user.authentication_token, firstname: user.firstname, lastname: user.lastname}.to_json.to_s << "]"
       else
         message = "[" << {errors: "Veuillez activer votre compte en cliquant sur le lien de confirmation reçu par mail."}.to_json.to_s << "]"
       end

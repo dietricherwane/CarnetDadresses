@@ -2,9 +2,9 @@ class Devise::PasswordsController < DeviseController
   prepend_before_filter :require_no_authentication
   # Render the #edit only if coming from a reset password email link
   append_before_filter :assert_reset_token_passed, :only => :edit
-  
+
   layout :layout_used
-  
+
   # GET /resource/password/new
   def new
     self.resource = resource_class.new
@@ -19,6 +19,35 @@ class Devise::PasswordsController < DeviseController
     else
       respond_with(resource)
     end
+  end
+
+  def api_send_reset_password_instructions
+    user = User.find_by_authentication_token(params[:token])
+
+    if user
+      user.send_reset_password_instructions
+      message = "[" << {message: "Un email de réinitialisation de mot de passe vient d'être envoyé à l'utilisateur."}.to_json.to_s << "]"
+    else
+      message = "[" << {errors: "Le token n'est pas valide."}.to_json.to_s << "]"
+    end
+
+    render json: message
+  end
+
+  def api_reset_password
+    if params[:password] != params[:password_confirmation]
+      message = "[" << {errors: "Le mot de passe et sa confirmation ne sont pas identiques."}.to_json.to_s << "]"
+    else
+      user = User.reset_password_by_token(reset_password_token: params[:reset_token], password: params[:password], confirmation: params[:password_confirmation])
+
+      if user.errors.empty?
+        message = "[" << {message: "Le mot de passe a été mis à jour."}.to_json.to_s << "]"
+      else
+        message = "[" << {errors: user.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
+      end
+    end
+
+    render json: message
   end
 
   # GET /resource/password/edit?reset_password_token=abcdef
