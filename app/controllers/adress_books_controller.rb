@@ -523,7 +523,7 @@ class AdressBooksController < ApplicationController
 
   def api_find_per_first_letter
     adress_books = AdressBook.where("firstname ILIKE '#{params[:letter]}%' AND published IS NOT FALSE").as_json
-    my_hash = "{"'"product"'":["
+    my_hash = "{"'"data"'":["
     adress_books.each do |adress_book|
       my_hash << adress_book.merge(api_additional_fields_to_merge(adress_book)).except!(*api_fields_to_except).to_json << ","
     end
