@@ -116,7 +116,8 @@ CarnetDadresse::Application.routes.draw do
   post "sales_area/update/:id" => "sales_areas#update", as: :update_sales_area
   get "sales_area/disable/:id" => "sales_areas#disable_sales_area", as: :disable_sales_area
   get "sales_area/enable/:id" => "sales_areas#enable_sales_area", as: :enable_sales_area
-  get "sales_area/sub_sales_areas" => "sales_areas#sub_sales_areas"
+  get "sales_area/companies_sub_sales_areas" => "sales_areas#companies_sub_sales_areas"
+  get "sales_area/forum_themes_sub_sales_areas" => "sales_areas#forum_themes_sub_sales_areas"
 
   get "address_book_titles" => "address_book_titles#titles"
 
@@ -148,9 +149,11 @@ CarnetDadresse::Application.routes.draw do
 
   get "api/v1/holding/:id" => "holdings#api_show"
 
-  get "api/v1/sales_area/:id" => "sales_areas#api_show"
+  get "api/v1/sales_area/show/:id" => "sales_areas#api_show"
+  get "api/v1/sales_area/list" => "sales_areas#api_list"
+  get "api/v1/sales_area/sub_sales_areas/:sales_area_id" => "sales_areas#api_sub_sales_areas"
 
-  get "api/v1/sub_sales_area/:id" => "sub_sales_areas#api_show"
+  get "api/v1/sub_sales_area/show/:id" => "sub_sales_areas#api_show"
 
   get "api/v1/hiring_status/:id" => "hiring_statuses#api_show"
 
@@ -162,7 +165,8 @@ CarnetDadresse::Application.routes.draw do
 
   get "api/v1/forum_themes" => "forum_themes#api_show"
   get "api/v1/forum_themes/:user_id" => "forum_themes#api_show_per_user"
-  get "api/v1/forum_theme/create/:title/:content/:authentication_token" => "forum_themes#api_create"
+  get "api/v1/forum_theme/create/:title/:sales_area_id/:sub_sales_area_id/:content/:authentication_token" => "forum_themes#api_create"
+  get "api/v1/forum_theme/create/:title/:sales_area_id/:content/:authentication_token" => "forum_themes#api_create"
 
   get "api/v1/forum_posts/:forum_theme_id" => "forum_posts#api_list"
   get "api/v1/forum_posts/:forum_theme_id/:user_id" => "forum_posts#api_list_per_user"

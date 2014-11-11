@@ -20,6 +20,12 @@
     <b><%= ForumThemes.human_attribute_name("title") %>:</b> <%= forum_theme.title %>
   </p>
   <p>
+    <b><%= ForumThemes.human_attribute_name("sales_area_id") %>:</b> <%= forum_theme.sales_area.name rescue nil %>
+  </p>
+  <p>
+    <b><%= ForumThemes.human_attribute_name("sub_sales_area_id") %>:</b> <%= forum_theme.sub_sales_area.name rescue nil %>
+  </p>
+  <p>
     <b><%= ForumThemes.human_attribute_name("content") %>:</b> <%= simple_format(forum_theme.content) %>
   </p>
   <p>

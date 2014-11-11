@@ -10,11 +10,13 @@ class ForumThemesController < ApplicationController
 
   def index
     @forum_theme = ForumThemes.new
+    @sales_areas = SalesArea.where(published: [nil, true])
     @forum_themes = ForumThemes.all.page(params[:page]).per(10)
   end
 
   def create
     @forum_themes = ForumThemes.all.page(params[:page]).per(10)
+    @sales_areas = SalesArea.where(published: [nil, true])
 
     @forum_theme = ForumThemes.new(params[:forum_themes].merge(user_id: current_user.id, validated_by: (current_user.admin? ? current_user.id : nil), validated_at: (current_user.admin? ? DateTime.now : nil)))
     if @forum_theme.save
@@ -30,6 +32,8 @@ class ForumThemesController < ApplicationController
   def edit
     @forum_theme = ForumThemes.find_by_id(params[:id])
     @forum_themes = ForumThemes.all.page(params[:page]).per(10)
+    @sales_areas = SalesArea.where(published: [nil, true])
+    @sub_sales_areas = @forum_theme.sales_area.sub_sales_areas rescue []
 
     unless @forum_theme
       render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
@@ -38,12 +42,15 @@ class ForumThemesController < ApplicationController
 
   def update
     @forum_theme = ForumThemes.find_by_id(params[:id])
+
     if @forum_theme.blank?
       render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
     else
       @forum_theme.update_attributes(params[:forum_themes])
       @forum_theme.errors.full_messages.blank? ? flash.now[:success] = "Le thème a été mis à jour." : flash.now[:error] = @forum_theme.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join
       @forum_themes = ForumThemes.all.page(params[:page]).per(10)
+      @sales_areas = SalesArea.where(published: [nil, true])
+      @sub_sales_areas = @forum_theme.sales_area.sub_sales_areas rescue []
 
       render :edit, id: @forum_theme.id
     end
@@ -81,8 +88,9 @@ class ForumThemesController < ApplicationController
   def api_show
     forum_themes = ForumThemes.where("published IS NOT FALSE").as_json
     my_hash = "["
-    forum_themes.each do |forum_theme|
-      my_hash << forum_theme.merge!(number_of_posts: (ForumThemes.find_by_id(forum_theme["id"]).forum_posts.count rescue 0), posted_by: User.find_by_id(forum_theme["user_id"]).full_name).except!(*api_fields_to_except).to_json << ","
+    forum_themes.each do |forum_theme_object|
+      @forum_theme = ForumThemes.find_by_id(forum_theme_object["id"])
+      my_hash << forum_theme_object.merge!(api_fields_to_merge).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
     my_hash << "]"
@@ -93,8 +101,9 @@ class ForumThemesController < ApplicationController
   def api_show_per_user
     forum_themes = ForumThemes.where("user_id = #{params[:user_id].to_i} AND published IS NOT FALSE").as_json
     my_hash = "["
-    forum_themes.each do |forum_theme|
-      my_hash << forum_theme.merge!(number_of_posts: (ForumThemes.find_by_id(forum_theme["id"]).forum_posts.count rescue 0)).except!(*api_fields_to_except).to_json << ","
+    forum_themes.each do |forum_theme_object|
+      @forum_theme = ForumThemes.find_by_id(forum_theme_object["id"])
+      my_hash << forum_theme_object.merge!(api_fields_to_merge).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
     my_hash << "]"
@@ -103,17 +112,21 @@ class ForumThemesController < ApplicationController
   end
 
   def api_create
-    forum_theme = ForumThemes.new(title: URI.unescape(params[:title]), content: URI.unescape(params[:content]), published: false, user_id: (User.find_by_authentication_token(params[:authentication_token]).id rescue nil))
-    if forum_theme.save
-      message = "[" << forum_theme.as_json.except(*api_fields_to_except).to_json << "]"
+    @forum_theme = ForumThemes.new(title: URI.unescape(params[:title]), sales_area_id: params[:sales_area_id].to_i, sub_sales_area_id: params[:sub_sales_area_id].to_i, content: URI.unescape(params[:content]), published: false, user_id: (User.find_by_authentication_token(params[:authentication_token]).id rescue nil))
+    if @forum_theme.save
+      message = "[" << @forum_theme.as_json.merge!(api_fields_to_merge).except(*api_fields_to_except).to_json << "]"
     else
-      message = "[" << {errors: forum_theme.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
+      message = "[" << {errors: @forum_theme.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
     end
 
     render json: message
   end
 
   def api_fields_to_except
-    return ["published", "updated_at", "validated_by", "validated_at", "unpublished_by", "unpublished_at", "sector_id", "sales_area_id"]
+    return ["published", "updated_at", "validated_by", "validated_at", "unpublished_by", "unpublished_at", "sector_id", "sales_area_id", "sub_sales_area_id"]
+  end
+
+  def api_fields_to_merge
+    return {number_of_posts: (@forum_theme.forum_posts.count rescue 0), posted_by: (@forum_theme.user.full_name rescue nil), sales_area: (@forum_theme.sales_area.name rescue nil), sub_sales_area: (@forum_theme.sub_sales_area.name rescue nil)}
   end
 end

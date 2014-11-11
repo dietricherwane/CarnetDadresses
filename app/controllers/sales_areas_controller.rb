@@ -70,8 +70,16 @@ class SalesAreasController < ApplicationController
     end
   end
 
-  def sub_sales_areas
-    @sub_sales_areas_options = "<select id = 'company_sub_sales_area_id' class = 'form-control' name = 'company[sub_sales_area_id]'><option>-Veuillez choisir un sous domaine-</option>"
+  def companies_sub_sales_areas
+    sub_sales_areas("company")
+  end
+
+  def forum_themes_sub_sales_areas
+    sub_sales_areas("forum_themes")
+  end
+
+  def sub_sales_areas(model_name)
+    @sub_sales_areas_options = "<select id = '#{model_name}_sub_sales_area_id' class = 'form-control' name = '#{model_name}[sub_sales_area_id]'><option>-Veuillez choisir un sous domaine-</option>"
     @sub_sales_areas = SubSalesArea.where("sales_area_id = #{params.first.first.to_s.to_i}")
     unless @sub_sales_areas.blank?
       @sub_sales_areas.each do |sub_sales_area|
@@ -85,11 +93,39 @@ class SalesAreasController < ApplicationController
     sales_area = SalesArea.find_by_id(params[:id]).as_json
 
     if sales_area
-      sales_area = "[" << sales_area.except!(*["published", "user_id", "id", "created_at", "updated_at"]).to_json << "]"
+      sales_area = "[" << sales_area.except!(*api_fields_to_except).to_json << "]"
     else
       sales_area = []
     end
 
     render json: sales_area
+  end
+
+  def api_list
+    sales_areas = SalesArea.where("published IS NOT FALSE").as_json
+    my_hash = "["
+    sales_areas.each do |sales_area|
+      my_hash << sales_area.except!(*api_fields_to_except).to_json << ","
+    end
+    my_hash = my_hash[0..(my_hash.length - 2)]
+    my_hash << "]"
+
+    render json: my_hash
+  end
+
+  def api_sub_sales_areas
+    sub_sales_areas = SubSalesArea.where("published IS NOT FALSE AND sales_area_id = #{params[:sales_area_id].to_i}").as_json
+    my_hash = "["
+    sub_sales_areas.each do |sub_sales_area|
+      my_hash << sub_sales_area.except!(*api_fields_to_except).to_json << ","
+    end
+    my_hash = my_hash[0..(my_hash.length - 2)]
+    my_hash << "]"
+
+    render json: my_hash
+  end
+
+  def api_fields_to_except
+    return ["published", "user_id", "created_at", "updated_at", "sales_area_id"]
   end
 end

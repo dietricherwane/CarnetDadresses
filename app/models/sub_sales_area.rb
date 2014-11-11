@@ -2,6 +2,7 @@ class SubSalesArea < ActiveRecord::Base
   # Relationships
   has_many :companies
   belongs_to :sales_area
+  has_many :forum_themes
 
   # Scopes
   default_scope {order("name ASC")}

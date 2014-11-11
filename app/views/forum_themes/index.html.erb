@@ -1,3 +1,5 @@
+<%= javascript_include_tag "forum_themes"  if CarnetDadresse::Application.assets.find_asset("forum_themes.js") %>
+
 <%= notification_messages! %>
 
 <div class="page_title_wrapper">
@@ -27,6 +29,17 @@
         <div class="form-group">
           <%= f.label :title %>
           <%= f.text_field :title, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le thème du post" %>
+        </div>
+
+        <div class="form-group">
+            <%= f.label :sales_area_id %>
+            <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir votre secteur d'activités-"}, html_options = {class: "form-control"} %>
+        </div>
+
+        <div class="form-group">
+          <div id = "sub_sales_areas">
+
+          </div>
         </div>
 
         <div class="form-group">

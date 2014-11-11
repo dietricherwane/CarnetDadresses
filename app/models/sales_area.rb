@@ -8,6 +8,7 @@ class SalesArea < ActiveRecord::Base
   belongs_to :user
   has_many :companies
   has_many :sub_sales_areas
+  has_many :forum_themes
 
   attr_accessible :name, :user_id, :published, :created_at
 
