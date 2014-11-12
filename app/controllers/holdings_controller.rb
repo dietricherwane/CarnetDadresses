@@ -108,14 +108,9 @@ class HoldingsController < ApplicationController
 
   def api_show
     holding = Holding.find_by_id(params[:id]).as_json
+    my_hash = api_render_object(holding, {}, ["published", "updated_at", "created_at", "id", "user_id", "created_by", "validated_by"])
 
-    if holding
-      holding = "[" << holding.except!(*["published", "updated_at", "created_at", "id", "user_id", "created_by", "validated_by"]).to_json << "]"
-    else
-      holding = []
-    end
-
-    render json: holding
+    render json: my_hash
   end
 
 end

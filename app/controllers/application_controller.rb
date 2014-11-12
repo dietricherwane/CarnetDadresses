@@ -99,4 +99,49 @@ class ApplicationController < ActionController::Base
 	  end
 	end
 
+  def api_render_several_objects(my_objects, fields_to_merge, fields_to_except)
+    my_hash = "{"'"data"'":["
+    unless my_objects.empty?
+	    my_objects.each do |my_object|
+        my_hash << my_object.merge(fields_to_merge).except!(*fields_to_except).to_json << ","
+      end
+      my_hash = my_hash[0..(my_hash.length - 2)]
+    end
+    my_hash << "]}"
+
+    return my_hash
+	end
+
+	def api_render_several_merged_objects(my_objects, fields_to_except, controller_name, method_name)
+    my_hash = "{"'"data"'":["
+    unless my_objects.empty?
+	    my_objects.each do |my_object|
+        my_hash << my_object.merge(controller_name.send :"#{method_name}", my_object).except!(*fields_to_except).to_json << ","
+      end
+      my_hash = my_hash[0..(my_hash.length - 2)]
+    end
+    my_hash << "]}"
+
+    return my_hash
+	end
+
+	def api_render_object(my_object, fields_to_merge, fields_to_except)
+	  if my_object
+      my_hash = "{"'"data"'":[" << my_object.except!(*fields_to_except).to_json << "]}"
+    else
+      my_hash = "{"'"data"'":[]}"
+    end
+
+    return my_hash
+	end
+
+  def api_render_merged_object(my_object, fields_to_except, controller_name, method_name)
+	  if my_object != nil
+      my_hash = "{"'"data"'":[" << my_object.as_json.merge(controller_name.send :"#{method_name}", my_object).except!(*fields_to_except).to_json << "]}"
+    else
+      my_hash = "{"'"data"'":[]}"
+    end
+
+    return my_hash
+	end
 end

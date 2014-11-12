@@ -9,13 +9,8 @@ class MembershipsController < ApplicationController
 
   def api_show
     membership = Membership.find_by_id(params[:id]).as_json
+    my_hash = api_render_object(membership, {}, ["published", "updated_at", "created_at", "id"])
 
-    if membership
-      membership = "[" << membership.except!(*["published", "updated_at", "created_at", "id"]).to_json << "]"
-    else
-      membership = []
-    end
-
-    render json: membership
+    render json: my_hash
   end
 end

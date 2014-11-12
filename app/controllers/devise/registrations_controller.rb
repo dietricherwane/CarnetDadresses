@@ -51,10 +51,10 @@ class Devise::RegistrationsController < DeviseController
 
     if resource.save
       resource.ensure_authentication_token!
-      message = "[" << resource.as_json.except(*api_fields_to_except).to_json << "]"
+      message = "{"'"data"'":[" << resource.as_json.except(*api_fields_to_except).to_json << "]}"
     else
       expire_session_data_after_sign_in!
-      message = "[" << {errors: resource.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
+      message = "{"'"data"'":[" << {errors: resource.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]}"
     end
     clean_up_passwords resource
 
@@ -94,12 +94,12 @@ class Devise::RegistrationsController < DeviseController
     if user
       user.update_attributes(params)
       if  user.errors.empty?
-        message = "[" << user.as_json.except(*api_fields_to_except).to_json << "]"
+        message = "{"'"data"'":[" << user.as_json.except(*api_fields_to_except).to_json << "]}"
       else
-        message = "[" << {errors: user.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
+        message = "{"'"data"'":[" << {errors: user.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]}"
       end
     else
-      message = "[" << {errors: "Le token n'est pas valide."}.to_json.to_s << "]"
+      message = "{"'"data"'":[" << {errors: "Le token n'est pas valide."}.to_json.to_s << "]}"
     end
 
     render json: message

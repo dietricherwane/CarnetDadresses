@@ -1,6 +1,6 @@
 class SalesAreasController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  @@api_functions = [:api_show]
+  @@api_functions = [:api_show, :api_list, :api_sub_sales_areas]
 
   before_filter :sign_out_disabled_users, except: @@api_functions
   prepend_before_filter :authenticate_user!, except: @@api_functions
@@ -91,36 +91,21 @@ class SalesAreasController < ApplicationController
 
   def api_show
     sales_area = SalesArea.find_by_id(params[:id]).as_json
+    my_hash = api_render_object(sales_area, {}, api_fields_to_except)
 
-    if sales_area
-      sales_area = "[" << sales_area.except!(*api_fields_to_except).to_json << "]"
-    else
-      sales_area = []
-    end
-
-    render json: sales_area
+    render json: my_hash
   end
 
   def api_list
     sales_areas = SalesArea.where("published IS NOT FALSE").as_json
-    my_hash = "["
-    sales_areas.each do |sales_area|
-      my_hash << sales_area.except!(*api_fields_to_except).to_json << ","
-    end
-    my_hash = my_hash[0..(my_hash.length - 2)]
-    my_hash << "]"
+    my_hash = api_render_several_objects(sales_areas, {}, api_fields_to_except)
 
     render json: my_hash
   end
 
   def api_sub_sales_areas
     sub_sales_areas = SubSalesArea.where("published IS NOT FALSE AND sales_area_id = #{params[:sales_area_id].to_i}").as_json
-    my_hash = "["
-    sub_sales_areas.each do |sub_sales_area|
-      my_hash << sub_sales_area.except!(*api_fields_to_except).to_json << ","
-    end
-    my_hash = my_hash[0..(my_hash.length - 2)]
-    my_hash << "]"
+    my_hash = api_render_several_objects(sub_sales_areas, {}, api_fields_to_except)
 
     render json: my_hash
   end

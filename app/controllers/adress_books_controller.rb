@@ -499,38 +499,23 @@ class AdressBooksController < ApplicationController
 
   def api_person
     adress_book = AdressBook.find_by_id(params[:id])
-    my_hash = "["
-    if adress_book
-      adress_book = adress_book.as_json
-      my_hash << adress_book.merge(api_additional_fields_to_merge(adress_book)).except!(*api_fields_to_except).to_json
-    end
-    my_hash << "]"
+    my_hash = api_render_merged_object(adress_book, api_fields_to_except, AdressBooksController, "api_additional_fields_to_merge")
 
-    api_render(my_hash)
+    render json: my_hash
   end
 
   def api_persons_list
     adress_books = AdressBook.where("published IS NOT FALSE").as_json
-    my_hash = "["
-    adress_books.each do |adress_book|
-      my_hash << adress_book.merge(api_additional_fields_to_merge(adress_book)).except!(*api_fields_to_except).to_json << ","
-    end
-    my_hash = my_hash[0..(my_hash.length - 2)]
-    my_hash << "]"
+    my_hash = api_render_several_merged_objects(adress_books, api_fields_to_except, AdressBooksController, "api_additional_fields_to_merge")
 
-    api_render(my_hash)
+    render json: my_hash
   end
 
   def api_find_per_first_letter
     adress_books = AdressBook.where("firstname ILIKE '#{params[:letter]}%' AND published IS NOT FALSE").as_json
-    my_hash = "{"'"data"'":["
-    adress_books.each do |adress_book|
-      my_hash << adress_book.merge(api_additional_fields_to_merge(adress_book)).except!(*api_fields_to_except).to_json << ","
-    end
-    my_hash = my_hash[0..(my_hash.length - 2)]
-    my_hash << "]}"
+    my_hash = api_render_several_merged_objects(adress_books, api_fields_to_except, AdressBooksController, "api_additional_fields_to_merge")
 
-    api_render(my_hash)
+    render json: my_hash
   end
 
   def api_render(rendered_object)
@@ -541,18 +526,9 @@ class AdressBooksController < ApplicationController
     adress_book = AdressBook.find_by_id(params[:id])
     if adress_book
       hobbies = adress_book.hobbies.where(published: [true, nil]).as_json rescue nil
-      if hobbies
-        my_hash = "["
-        hobbies.each do |hobby|
-          my_hash << hobby.except!(*["published", "id", "created_at", "updated_at"]).to_json << ","
-        end
-        my_hash = my_hash[0..(my_hash.length - 2)]
-        my_hash << "]"
-      else
-        my_hash = []
-      end
+      my_hash = api_render_several_objects(hobbies, {}, ["published", "id", "created_at", "updated_at"])
     else
-      my_hash = []
+      my_hash = "{"'"data"'":[]}"
     end
 
     render json: my_hash
@@ -562,18 +538,9 @@ class AdressBooksController < ApplicationController
     adress_book = AdressBook.find_by_id(params[:id])
     if adress_book
       formations = adress_book.formations.where(published: [true, nil]).as_json rescue nil
-      if formations
-        my_hash = "["
-        formations.each do |formation|
-          my_hash << formation.except!(*["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"]).to_json << ","
-        end
-        my_hash = my_hash[0..(my_hash.length - 2)]
-        my_hash << "]"
-      else
-        my_hash = []
-      end
+      my_hash = api_render_several_objects(formations, {}, ["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"])
     else
-      my_hash = []
+      my_hash = "{"'"data"'":[]}"
     end
 
     render json: my_hash
@@ -583,18 +550,9 @@ class AdressBooksController < ApplicationController
     adress_book = AdressBook.find_by_id(params[:id])
     if adress_book
       jobs = adress_book.job_experiences.where(published: [true, nil]).as_json rescue nil
-      if jobs
-        my_hash = "["
-        jobs.each do |job|
-          my_hash << job.except!(*["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"]).to_json << ","
-        end
-        my_hash = my_hash[0..(my_hash.length - 2)]
-        my_hash << "]"
-      else
-        my_hash = []
-      end
+      my_hash = api_render_several_objects(jobs, {}, ["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"])
     else
-      my_hash = []
+      my_hash = "{"'"data"'":[]}"
     end
 
     render json: my_hash
@@ -604,25 +562,24 @@ class AdressBooksController < ApplicationController
     adress_book = AdressBook.find_by_id(params[:id])
     if adress_book
       previous_jobs = adress_book.previous_job_experiences.where(published: [true, nil]).as_json rescue nil
-      if previous_jobs
-        my_hash = "["
-        previous_jobs.each do |previous_job|
-          my_hash << previous_job.except!(*["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"]).to_json << ","
-        end
-        my_hash = my_hash[0..(my_hash.length - 2)]
-        my_hash << "]"
-      else
-        my_hash = []
-      end
+      my_hash = api_render_several_objects(previous_jobs, {}, ["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"])
     else
-      my_hash = []
+      my_hash = "{"'"data"'":[]}"
     end
 
     render json: my_hash
   end
 
   def api_additional_fields_to_merge(adress_book)
-    return {avatar: "#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}", civility: (Civility.find_by_id(adress_book["civility_id"]).name rescue nil), marital_status: (MaritalStatus.find_by_id(adress_book["marital_status_id"]).name rescue nil), title: (AdressBookTitle.find_by_id(adress_book["adress_book_title_id"]).name rescue nil), company_name: (Company.find_by_id(adress_book["company_id"]).name rescue nil)}
+    return additional_fields_to_merge(adress_book)
+  end
+
+  def self.api_additional_fields_to_merge(adress_book)
+    return additional_fields_to_merge(adress_book)
+  end
+
+  def self.additional_fields_to_merge(adress_book)
+    return {avatar: ("#{Rails.root}#{AdressBook.find_by_id(adress_book["id"]).avatar.url(:thumb)}" rescue nil), civility: (Civility.find_by_id(adress_book["civility_id"]).name rescue nil), marital_status: (MaritalStatus.find_by_id(adress_book["marital_status_id"]).name rescue nil), title: (AdressBookTitle.find_by_id(adress_book["adress_book_title_id"]).name rescue nil), company_name: (Company.find_by_id(adress_book["company_id"]).name rescue nil)}
   end
 
   def api_fields_to_except

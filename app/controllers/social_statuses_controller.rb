@@ -9,13 +9,8 @@ class SocialStatusesController < ApplicationController
 
   def api_show
     social_status = SocialStatus.find_by_id(params[:id]).as_json
+    my_hash = api_render_object(social_status, {}, ["published", "updated_at", "created_at", "id"])
 
-    if social_status
-      social_status = "[" << social_status.except!(*["published", "updated_at", "created_at", "id"]).to_json << "]"
-    else
-      social_status = []
-    end
-
-    render json: social_status
+    render json: my_hash
   end
 end

@@ -8,12 +8,8 @@ class MaritalStatusesController < ApplicationController
   def api_show
     marital_status = MaritalStatus.find_by_id(params[:id]).as_json
 
-    if marital_status
-      marital_status = "[" << marital_status.except!(*["published", "updated_at", "created_at", "id"]).to_json << "]"
-    else
-      marital_status = []
-    end
+    my_hash = api_render_object(marital_status, {}, ["published", "updated_at", "created_at", "id"])
 
-    render json: marital_status
+    render json: my_hash
   end
 end

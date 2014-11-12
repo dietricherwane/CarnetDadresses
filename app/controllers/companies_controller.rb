@@ -150,12 +150,7 @@ class CompaniesController < ApplicationController
 
   def api_find_per_first_letter
     companies = Company.where("name ILIKE '#{params[:letter]}%' AND published IS NOT FALSE").as_json
-    my_hash = "["
-    companies.each do |company|
-      my_hash << company.merge(api_additional_fields_to_merge(company)).except!(*api_fields_to_except).to_json << ","
-    end
-    my_hash = my_hash[0..(my_hash.length - 2)]
-    my_hash << "]"
+    my_hash = api_render_several_merged_objects(companies, api_fields_to_except, CompaniesController, "api_additional_fields_to_merge")
 
     render json: my_hash
   end
@@ -166,29 +161,27 @@ class CompaniesController < ApplicationController
 
   def api_show
     company = Company.find_by_id(params[:id]).as_json
+    my_hash = api_render_merged_object(company, api_fields_to_except, CompaniesController, "api_additional_fields_to_merge")
 
-    if company
-      company = "[" << company.merge(api_additional_fields_to_merge(company)).except!(*api_fields_to_except).to_json << "]"
-    else
-      company = []
-    end
-
-    render json: company
+    render json: my_hash
   end
 
   def api_list
     companies = Company.where("published IS NOT FALSE").as_json
-    my_hash = "["
-    companies.each do |company|
-      my_hash << company.merge(api_additional_fields_to_merge(company)).except!(*api_fields_to_except).to_json << ","
-    end
-    my_hash = my_hash[0..(my_hash.length - 2)]
-    my_hash << "]"
+    my_hash = api_render_several_merged_objects(companies, api_fields_to_except, CompaniesController, "api_additional_fields_to_merge")
 
     render json: my_hash
   end
 
   def api_additional_fields_to_merge(company)
+    return additional_fields_to_merge(company)
+  end
+
+  def self.api_additional_fields_to_merge(company)
+    return additional_fields_to_merge(company)
+  end
+
+  def self.additional_fields_to_merge(company)
     return {logo: "#{Rails.root}#{Company.find_by_id(company["id"]).logo.url(:thumb)}", social_status: (SocialStatus.find_by_id(company["social_status_id"]).name rescue nil), holding: (Holding.find_by_id(company["holding_id"]).name rescue nil), sales_area: (SalesArea.find_by_id(company["sales_area_id"]).name rescue nil), sub_sales_area: (SubSalesArea.find_by_id(company["sub_sales_area_id"]).name rescue nil)}
   end
 

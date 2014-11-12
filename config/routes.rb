@@ -127,50 +127,50 @@ CarnetDadresse::Application.routes.draw do
   ################################API###############################################
   get "api/v1/user/show/:token" => "users#api_show"
 
-  get "api/v1/person/:id" => "adress_books#api_person"
-  get "api/v1/persons/list" => "adress_books#api_persons_list"
-  get "api/v1/persons/find_per_first_letter/:letter" => "adress_books#api_find_per_first_letter"
-  get "api/v1/person/hobbies/:id" => "adress_books#api_hobbies"
-  get "api/v1/person/formations/:id" => "adress_books#api_formations"
-  get "api/v1/person/job/:id" => "adress_books#api_job"
-  get "api/v1/person/previous_jobs/:id" => "adress_books#api_previous_jobs"
+  get "api/v1/person/:id" => "adress_books#api_person" # done
+  get "api/v1/persons/list" => "adress_books#api_persons_list" # done
+  get "api/v1/persons/find_per_first_letter/:letter" => "adress_books#api_find_per_first_letter"# done
+  get "api/v1/person/hobbies/:id" => "adress_books#api_hobbies" #done
+  get "api/v1/person/formations/:id" => "adress_books#api_formations" #done
+  get "api/v1/person/job/:id" => "adress_books#api_job" # done
+  get "api/v1/person/previous_jobs/:id" => "adress_books#api_previous_jobs" #done
 
-  get "api/v1/civility/:id" => "civilities#api_show"
+  get "api/v1/civility/:id" => "civilities#api_show" # done
 
-  get "api/v1/marital_status/:id" => "marital_statuses#api_show"
+  get "api/v1/marital_status/:id" => "marital_statuses#api_show" # done
 
-  get "api/v1/company/:id" => "companies#api_show"
-  get "api/v1/companies/find_per_first_letter/:letter" => "companies#api_find_per_first_letter"
-  get "api/v1/companies/list" => "companies#api_list"
+  get "api/v1/company/:id" => "companies#api_show" # done
+  get "api/v1/companies/find_per_first_letter/:letter" => "companies#api_find_per_first_letter" # done
+  get "api/v1/companies/list" => "companies#api_list" # done
 
-  get "api/v1/title/:id" => "address_book_titles#api_show"
+  get "api/v1/title/:id" => "address_book_titles#api_show" # done
 
-  get "api/v1/social_status/:id" => "social_statuses#api_show"
+  get "api/v1/social_status/:id" => "social_statuses#api_show" # done
 
-  get "api/v1/holding/:id" => "holdings#api_show"
+  get "api/v1/holding/:id" => "holdings#api_show" # done
 
-  get "api/v1/sales_area/show/:id" => "sales_areas#api_show"
-  get "api/v1/sales_area/list" => "sales_areas#api_list"
-  get "api/v1/sales_area/sub_sales_areas/:sales_area_id" => "sales_areas#api_sub_sales_areas"
+  get "api/v1/sales_area/show/:id" => "sales_areas#api_show" # done
+  get "api/v1/sales_area/list" => "sales_areas#api_list" # done
+  get "api/v1/sales_area/sub_sales_areas/:sales_area_id" => "sales_areas#api_sub_sales_areas" # done
 
-  get "api/v1/sub_sales_area/show/:id" => "sub_sales_areas#api_show"
+  get "api/v1/sub_sales_area/show/:id" => "sub_sales_areas#api_show" # done
 
-  get "api/v1/hiring_status/:id" => "hiring_statuses#api_show"
+  get "api/v1/hiring_status/:id" => "hiring_statuses#api_show" # done
 
-  get "api/v1/hiring_type/:id" => "hiring_types#api_show"
+  get "api/v1/hiring_type/:id" => "hiring_types#api_show" # done
 
-  get "api/v1/membership/:id" => "memberships#api_show"
+  get "api/v1/membership/:id" => "memberships#api_show" # done
 
-  get "api/v1/news_feeds" => "news_feeds#api_show"
+  get "api/v1/news_feeds" => "news_feeds#api_show" # done
 
-  get "api/v1/forum_themes" => "forum_themes#api_show"
-  get "api/v1/forum_themes/:user_id" => "forum_themes#api_show_per_user"
-  get "api/v1/forum_theme/create/:title/:sales_area_id/:sub_sales_area_id/:content/:authentication_token" => "forum_themes#api_create"
-  get "api/v1/forum_theme/create/:title/:sales_area_id/:content/:authentication_token" => "forum_themes#api_create"
+  get "api/v1/forum_themes" => "forum_themes#api_show" # done
+  get "api/v1/forum_themes/:user_id" => "forum_themes#api_show_per_user" # done
+  get "api/v1/forum_theme/create/:title/:sales_area_id/:sub_sales_area_id/:content/:authentication_token" => "forum_themes#api_create" # done
+  get "api/v1/forum_theme/create/:title/:sales_area_id/:content/:authentication_token" => "forum_themes#api_create" # done
 
-  get "api/v1/forum_posts/:forum_theme_id" => "forum_posts#api_list"
-  get "api/v1/forum_posts/:forum_theme_id/:user_id" => "forum_posts#api_list_per_user"
-  get "api/v1/forum_post/create/:forum_theme_id/:comment/:authentication_token" => "forum_posts#api_create"
+  get "api/v1/forum_posts/:forum_theme_id" => "forum_posts#api_list" # done
+  get "api/v1/forum_posts/:forum_theme_id/:user_id" => "forum_posts#api_list_per_user" # done
+  get "api/v1/forum_post/create/:forum_theme_id/:comment/:authentication_token" => "forum_posts#api_create" # done
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

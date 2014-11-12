@@ -87,26 +87,26 @@ class ForumThemesController < ApplicationController
 
   def api_show
     forum_themes = ForumThemes.where("published IS NOT FALSE").as_json
-    my_hash = "["
+    my_hash = "{"'"data"'":["
     forum_themes.each do |forum_theme_object|
       @forum_theme = ForumThemes.find_by_id(forum_theme_object["id"])
       my_hash << forum_theme_object.merge!(api_fields_to_merge).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
-    my_hash << "]"
+    my_hash << "]}"
 
     render json: my_hash
   end
 
   def api_show_per_user
     forum_themes = ForumThemes.where("user_id = #{params[:user_id].to_i} AND published IS NOT FALSE").as_json
-    my_hash = "["
+    my_hash = "{"'"data"'":["
     forum_themes.each do |forum_theme_object|
       @forum_theme = ForumThemes.find_by_id(forum_theme_object["id"])
       my_hash << forum_theme_object.merge!(api_fields_to_merge).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
-    my_hash << "]"
+    my_hash << "]}"
 
     render json: my_hash
   end
@@ -114,9 +114,9 @@ class ForumThemesController < ApplicationController
   def api_create
     @forum_theme = ForumThemes.new(title: URI.unescape(params[:title]), sales_area_id: params[:sales_area_id].to_i, sub_sales_area_id: params[:sub_sales_area_id].to_i, content: URI.unescape(params[:content]), published: false, user_id: (User.find_by_authentication_token(params[:authentication_token]).id rescue nil))
     if @forum_theme.save
-      message = "[" << @forum_theme.as_json.merge!(api_fields_to_merge).except(*api_fields_to_except).to_json << "]"
+      message = "{"'"data"'":[" << @forum_theme.as_json.merge!(api_fields_to_merge).except(*api_fields_to_except).to_json << "]}"
     else
-      message = "[" << {errors: @forum_theme.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
+      message = "{"'"data"'":[" << {errors: @forum_theme.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]}"
     end
 
     render json: message

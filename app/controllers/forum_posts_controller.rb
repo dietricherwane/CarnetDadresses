@@ -30,24 +30,19 @@ class ForumPostsController < ApplicationController
 
   def api_list
     forum_posts = ForumPost.where("forum_themes_id = #{params[:forum_theme_id].to_i} AND published IS NOT FALSE").as_json
-    my_hash = "["
+    my_hash = "{"'"data"'":["
     forum_posts.each do |forum_post|
       my_hash << forum_post.merge!(posted_by: User.find_by_id(forum_post["user_id"]).full_name).except!(*api_fields_to_except).to_json << ","
     end
     my_hash = my_hash[0..(my_hash.length - 2)]
-    my_hash << "]"
+    my_hash << "]}"
 
     render json: my_hash
   end
 
   def api_list_per_user
     forum_posts = ForumPost.where("user_id = #{params[:user_id].to_i} AND forum_themes_id = #{params[:forum_theme_id].to_i} AND published IS NOT FALSE").as_json
-    my_hash = "["
-    forum_posts.each do |forum_post|
-      my_hash << forum_post.except!(*api_fields_to_except).to_json << ","
-    end
-    my_hash = my_hash[0..(my_hash.length - 2)]
-    my_hash << "]"
+    my_hash = api_render_several_objects(forum_posts, {}, api_fields_to_except)
 
     render json: my_hash
   end
@@ -55,9 +50,9 @@ class ForumPostsController < ApplicationController
   def api_create
     forum_post = ForumPost.new(forum_themes_id: params[:forum_theme_id].to_i, comment: URI.unescape(params[:comment]), user_id: (User.find_by_authentication_token(params[:authentication_token]).id rescue nil))
     if forum_post.save
-      message = "[" << forum_post.as_json.except(*api_fields_to_except).to_json << "]"
+      message = "{"'"data"'":[" << forum_post.as_json.except(*api_fields_to_except).to_json << "]}"
     else
-      message = "[" << {errors: forum_post.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
+      message = "{"'"data"'":[" << {errors: forum_post.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]}"
     end
 
     render json: message

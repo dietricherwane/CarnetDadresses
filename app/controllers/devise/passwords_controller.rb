@@ -28,9 +28,9 @@ class Devise::PasswordsController < DeviseController
 
     if user
       user.send_reset_password_instructions
-      message = "[" << {message: "Un email de réinitialisation de mot de passe vient d'être envoyé à l'utilisateur."}.to_json.to_s << "]"
+      message = "{"'"data"'":[" << {message: "Un email de réinitialisation de mot de passe vient d'être envoyé à l'utilisateur."}.to_json.to_s << "]}"
     else
-      message = "[" << {errors: "Le token n'est pas valide."}.to_json.to_s << "]"
+      message = "{"'"data"'":[" << {errors: "Le token n'est pas valide."}.to_json.to_s << "]}"
     end
 
     render json: message
@@ -38,14 +38,14 @@ class Devise::PasswordsController < DeviseController
 
   def api_reset_password
     if params[:password] != params[:password_confirmation]
-      message = "[" << {errors: "Le mot de passe et sa confirmation ne sont pas identiques."}.to_json.to_s << "]"
+      message = "{"'"data"'":[" << {errors: "Le mot de passe et sa confirmation ne sont pas identiques."}.to_json.to_s << "]}"
     else
       user = User.reset_password_by_token(reset_password_token: params[:reset_token], password: params[:password], confirmation: params[:password_confirmation])
 
       if user.errors.empty?
-        message = "[" << {message: "Le mot de passe a été mis à jour."}.to_json.to_s << "]"
+        message = "{"'"data"'":[" << {message: "Le mot de passe a été mis à jour."}.to_json.to_s << "]}"
       else
-        message = "[" << {errors: user.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]"
+        message = "{"'"data"'":[" << {errors: user.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]}"
       end
     end
 

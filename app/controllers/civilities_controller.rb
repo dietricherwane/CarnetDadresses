@@ -8,13 +8,9 @@ class CivilitiesController < ApplicationController
   def api_show
     civility = Civility.find_by_id(params[:id]).as_json
 
-    if civility
-      civility = "[" << civility.except!(*["published", "updated_at", "created_at", "id"]).to_json << "]"
-    else
-      civility = []
-    end
+    my_hash = api_render_object(civility, {}, ["published", "updated_at", "created_at", "id"])
 
-    render json: civility
+    render json: my_hash
   end
 
 end

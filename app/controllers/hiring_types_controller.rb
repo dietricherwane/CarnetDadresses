@@ -9,13 +9,8 @@ class HiringTypesController < ApplicationController
 
   def api_show
     hiring_type = HiringType.find_by_id(params[:id]).as_json
+    my_hash = api_render_object(hiring_type, {}, ["published", "updated_at", "created_at", "id"])
 
-    if hiring_type
-      hiring_type = "[" << hiring_type.except!(*["published", "updated_at", "created_at", "id"]).to_json << "]"
-    else
-      hiring_type = []
-    end
-
-    render json: hiring_type
+    render json: my_hash
   end
 end

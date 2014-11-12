@@ -12,12 +12,8 @@ class SubSalesAreasController < ApplicationController
     sales_areas = sub_sales_area.sales_area rescue nil
     sub_sales_area = sub_sales_area.as_json
 
-    if sub_sales_area
-      sub_sales_area = "[" << sub_sales_area.except!(*["published", "updated_at", "created_at", "id", "sales_area_id"]).merge!(sales_area_name: sales_areas.name).to_json << "]"
-    else
-      sub_sales_area = []
-    end
+    my_hash = api_render_object(sub_sales_area, {sales_area_name: sales_areas.name}, ["published", "updated_at", "created_at", "id", "sales_area_id"])
 
-    render json: sub_sales_area
+    render json: my_hash
   end
 end

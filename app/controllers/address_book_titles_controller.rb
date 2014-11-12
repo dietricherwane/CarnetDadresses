@@ -17,17 +17,13 @@ class AddressBookTitlesController < ApplicationController
   end
 
   def api_show
-    address_book_titles = AddressBookTitle.find_by_id(params[:id])
-    address_book_titles_category = address_book_titles.address_book_title_category rescue nil
-    address_book_titles = address_book_titles.as_json
+    address_book_title = AddressBookTitle.find_by_id(params[:id])
+    address_book_title_category = address_book_title.address_book_title_category rescue nil
+    address_book_title = address_book_title.as_json
 
-    if address_book_titles
-      address_book_titles = "[" << address_book_titles.except!(*["published", "updated_at", "created_at", "id", "address_book_title_category_id"]).merge!(category_name: address_book_titles_category.name).to_json << "]"
-    else
-      address_book_titles = []
-    end
+    my_hash = api_render_object(address_book_title, {category_name: (address_book_title_category.name rescue "")}, ["published", "updated_at", "created_at", "id", "address_book_title_category_id"])
 
-    render json: address_book_titles
+    render json: my_hash
   end
 
 end
