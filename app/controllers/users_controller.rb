@@ -49,12 +49,12 @@ class UsersController < ApplicationController
     user = User.authenticate(params[:email], params[:password])
     if user
       if user.confirmation_token.blank?
-        message = "[" << {token: user.authentication_token, firstname: user.firstname, lastname: user.lastname}.to_json.to_s << "]"
+        message = "{"'"data"'":[" << {token: user.authentication_token, firstname: user.firstname, lastname: user.lastname}.to_json.to_s << "]}"
       else
-        message = "[" << {errors: "Veuillez activer votre compte en cliquant sur le lien de confirmation reçu par mail."}.to_json.to_s << "]"
+        message = "{"'"data"'":[" << {errors: "Veuillez activer votre compte en cliquant sur le lien de confirmation reçu par mail."}.to_json.to_s << "]}"
       end
     else
-      message = "[" << {errors: "Veuillez vérifier la combinaison login/mot de passe."}.to_json.to_s << "]"
+      message = "{"'"data"'":[" << {errors: "Veuillez vérifier la combinaison login/mot de passe."}.to_json.to_s << "]}"
     end
 
     render json: message
@@ -64,9 +64,9 @@ class UsersController < ApplicationController
     user = User.find_by_authentication_token(params[:token])
 
     if user
-      message = "[" << user.as_json.except(*api_fields_to_except).to_json << "]"
+      message = "{"'"data"'":[" << user.as_json.except(*api_fields_to_except).to_json << "]}"
     else
-      message = "[" << {errors: "Le token n'est pas valide."}.to_json.to_s << "]"
+      message = "{"'"data"'":[" << {errors: "Le token n'est pas valide."}.to_json.to_s << "]}"
     end
 
     render json: message
