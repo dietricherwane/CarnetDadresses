@@ -70,7 +70,7 @@ class NewsFeedsController < ApplicationController
 
   def api_show
     news_feeds = NewsFeed.where("published IS NOT FALSE").limit(5).as_json
-    my_hash = api_render_several_objects(news_feeds, {}, ["user_id", "published", "id", "picture", "created_at", "updated_at"])
+    my_hash = api_render_several_objects(news_feeds, {}, ["user_id", "published", "picture", "created_at", "updated_at"])
 
     render json: my_hash
   end

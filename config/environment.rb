@@ -10,6 +10,5 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   else
     html = html_tag.html_safe
   end
-  form_fields = ['textarea', 'input', 'select']
   html
 end
