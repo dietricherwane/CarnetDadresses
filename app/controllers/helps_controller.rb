@@ -1,7 +1,9 @@
 class HelpsController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  before_filter :sign_out_disabled_users
-  prepend_before_filter :authenticate_user!
+  @@api_functions = [:api_show_website_help]
+
+  before_filter :sign_out_disabled_users, except: @@api_functions
+  prepend_before_filter :authenticate_user!, except: @@api_functions
 
   layout :layout_used
 
