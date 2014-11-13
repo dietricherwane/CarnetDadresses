@@ -172,6 +172,8 @@ CarnetDadresse::Application.routes.draw do
   get "api/v1/forum_posts/:forum_theme_id/:user_id" => "forum_posts#api_list_per_user" # done
   get "api/v1/forum_post/create/:forum_theme_id/:comment/:authentication_token" => "forum_posts#api_create" # done
 
+  get "api/v1/help/website" => "helps#api_show_website_help" # done
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

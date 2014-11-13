@@ -182,7 +182,7 @@ class CompaniesController < ApplicationController
   end
 
   def self.additional_fields_to_merge(company)
-    return {logo: "#{Rails.root}#{Company.find_by_id(company["id"]).logo.url(:thumb)}", social_status: (SocialStatus.find_by_id(company["social_status_id"]).name rescue nil), holding: (Holding.find_by_id(company["holding_id"]).name rescue nil), sales_area: (SalesArea.find_by_id(company["sales_area_id"]).name rescue nil), sub_sales_area: (SubSalesArea.find_by_id(company["sub_sales_area_id"]).name rescue nil)}
+    return {logo: "http://41.189.40.193:6556#{Company.find_by_id(company["id"]).logo.url(:thumb)}", social_status: (SocialStatus.find_by_id(company["social_status_id"]).name rescue nil), holding: (Holding.find_by_id(company["holding_id"]).name rescue nil), sales_area: (SalesArea.find_by_id(company["sales_area_id"]).name rescue nil), sub_sales_area: (SubSalesArea.find_by_id(company["sub_sales_area_id"]).name rescue nil)}
   end
 
   def api_fields_to_except
