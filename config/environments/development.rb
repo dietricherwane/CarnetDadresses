@@ -8,8 +8,9 @@ CarnetDadresse::Application.configure do
 
   # Do not eager load code on boot.
   config.eager_load = false
-  
-  config.action_mailer.default_url_options = { :host => '41.189.40.193:6556' }
+
+  #config.action_mailer.default_url_options = { :host => '41.189.40.193:6556' }
+  config.action_mailer.default_url_options = { :host => 'localhost:6556' }
   ActionMailer::Base.smtp_settings = {
   	:openssl_verify_mode => 'none',
 		:address => "smtp.gmail.com",
@@ -17,7 +18,7 @@ CarnetDadresse::Application.configure do
 		:port => 587,
 		:authentication => :plain,
 		:user_name => "dietricherwane@gmail.com",
-		:password => '20dianapopoulos12'		
+		:password => '20dianapopoulos12'
 	}
 
   # Show full error reports and disable caching.
@@ -37,6 +38,6 @@ CarnetDadresse::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
-  
+
   Paperclip.options[:command_path] = "/usr/bin/"
 end
