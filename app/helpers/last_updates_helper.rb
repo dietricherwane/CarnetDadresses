@@ -1,0 +1,2 @@
+module LastUpdatesHelper
+end

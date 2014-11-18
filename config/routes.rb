@@ -174,6 +174,8 @@ CarnetDadresse::Application.routes.draw do
 
   get "api/v1/help/website" => "helps#api_show_website_help" # done
 
+  get "api/v1/recent_updates" => "last_updates#api_last_updates" # done
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
