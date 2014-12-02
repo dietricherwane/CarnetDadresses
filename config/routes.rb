@@ -19,8 +19,8 @@ CarnetDadresse::Application.routes.draw do
   	get "admin/disable/:id" => "devise/registrations#disable_user", as: :disable_admin
   	get "admin/enable/:id" => "devise/registrations#enable_user", as: :enable_admin
 
-  	get "api/v1/user/:firstname/:lastname/:company/:job/:email/:phone_number/:mobile_number/:password/:password_confirmation" => "devise/registrations#api_create", :constraints => {:email => /[^\/]+/}
-  	get "api/v1/user/:firstname/:lastname/:company/:job/:email/:mobile_number/:password/:password_confirmation" => "devise/registrations#api_create", :constraints => {:email => /[^\/]+/}
+  	get "api/v1/user/create/:firstname/:lastname/:company/:job/:email/:phone_number/:mobile_number/:password/:password_confirmation" => "devise/registrations#api_create", :constraints => {:email => /[^\/]+/}
+  	get "api/v1/user/create/:firstname/:lastname/:company/:job/:email/:mobile_number/:password/:password_confirmation" => "devise/registrations#api_create", :constraints => {:email => /[^\/]+/}
   	get "api/v1/user/update/:token/:firstname/:lastname/:company/:job/:phone_number/:mobile_number" => "devise/registrations#api_update"
   	get "api/v1/user/update/:token/:firstname/:lastname/:company/:job/:mobile_number" => "devise/registrations#api_update"
 
