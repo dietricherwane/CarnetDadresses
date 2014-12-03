@@ -173,6 +173,7 @@ CarnetDadresse::Application.routes.draw do
   get "api/v1/forum_post/create/:forum_theme_id/:comment/:authentication_token" => "forum_posts#api_create" # done
 
   get "api/v1/help/website" => "helps#api_show_website_help" # done
+  get "api/v1/help/wallet" => "helps#api_show_wallet_help" # done
 
   get "api/v1/recent_updates" => "last_updates#api_last_updates" # done
 

@@ -13,6 +13,7 @@ class Company < ActiveRecord::Base
   has_many :adress_books
   belongs_to :country
   belongs_to :holding
+  has_many :last_updates
 
   # Scopes
   default_scope {order("created_at DESC")}

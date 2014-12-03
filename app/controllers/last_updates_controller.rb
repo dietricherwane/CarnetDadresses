@@ -8,11 +8,11 @@ class LastUpdatesController < ApplicationController
   end
 
   def api_additional_fields_to_merge(last_update)
-    return {name: "#{(AdressBook.find_by_id(last_update["user_id"]).full_name rescue '')}"}
+    return {name: "#{(AdressBook.find_by_id(last_update["user_id"]).full_name rescue '')}", company: "#{(Company.find_by_id(last_update['company_id']).name rescue '')}"}
   end
 
   def self.api_additional_fields_to_merge(last_update)
-    return {name: "#{(AdressBook.find_by_id(last_update["user_id"]).full_name rescue '')}"}
+    return {name: "#{(AdressBook.find_by_id(last_update["user_id"]).full_name rescue '')}", company: "#{(Company.find_by_id(last_update['company_id']).name rescue '')}"}
   end
 
   def api_fields_to_except
