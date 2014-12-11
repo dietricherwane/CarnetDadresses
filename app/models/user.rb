@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
   end
 
   def admin?
-    profile.shortcut == "Administrateur"
+    profile.name == "Administrateur"
   end
 
   def super_admin?

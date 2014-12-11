@@ -39,11 +39,17 @@ class ApplicationController < ActionController::Base
 	end
 
 	def after_sign_in_path_for(resource_or_scope)
-	  if current_user.admin?
-		  admin_dashboard_path
-		else
-		  if current_user.super_admin?
-		    super_admin_dashboard_path
+	  if current_user.admin? == false and current_user.super_admin? == false
+	    sign_out(current_user)
+      flash[:notice] = "Seuls les administrateurs ont accès à cette section."
+      new_user_session_path
+	  else
+	    if current_user.admin? == true
+		    admin_dashboard_path
+		  else
+		    if current_user.super_admin? == true
+		      super_admin_dashboard_path
+		    end
 		  end
 		end
 	end

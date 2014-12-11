@@ -17,11 +17,11 @@ class Devise::SessionsController < DeviseController
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:notice, :signed_in) if is_navigational_format?
     sign_in(resource_name, resource)
-    if current_user.super_admin?
+    #if current_user.super_admin?
       respond_with resource, :location => after_sign_in_path_for(resource)
-    else
-      redirect_to admin_dashboard_path
-    end
+    #else
+      #redirect_to admin_dashboard_path
+    #end
   end
 
   # DELETE /resource/sign_out
