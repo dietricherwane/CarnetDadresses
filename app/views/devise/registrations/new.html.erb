@@ -1,13 +1,15 @@
+<%= javascript_include_tag "devise/registration/new"  if CarnetDadresse::Application.assets.find_asset("devise/registration/new.js") %>
+
 <%= flash_messages! %>
 
 <div class="page_title_wrapper">
   <div class="container sixteen columns">
-    <div class="page_title_inner">	      			       	
-      <span class="main_t_1"> 
-        Création et visualisation des comptes utilisateurs </span><span class="main_t_2">&nbsp; - &nbsp;  Ajouter des utilisateurs au système 
+    <div class="page_title_inner">
+      <span class="main_t_1">
+        Création et visualisation des comptes utilisateurs </span><span class="main_t_2">&nbsp; - &nbsp;  Ajouter des utilisateurs au système
       </span>
-    </div>			
-  </div><!-- End container sixteen columns -->			
+    </div>
+  </div><!-- End container sixteen columns -->
 </div><!-- End page_title_wrapper -->
 
 <div class="content_shadow"></div>
@@ -15,43 +17,55 @@
 
 <div class = "container">
   <div class = "content_wrapper_inner">
-  
+
   <div class = "sixteen columns row">
     <div class = "one_half">
-      
+
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Créer un compte</h3>                                				   
+        <h3 class="pb_title1">Créer un compte</h3>
       </div>
       <%= devise_error_messages! %>
-      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>        
+      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
         <div class="form-group">
           <%= f.label :profile_id %>
-          <%= f.collection_select :profile_id, @profiles, :id, :name, options ={prompt: "-Veuillez choisir un profil-"}, html_options = {class: "form-control", onchange: "$(this).hideNameSection()"} %>
+          <%= f.collection_select :profile_id, @profiles, :id, :name, options ={prompt: "-Veuillez choisir un profil-"}, html_options = {class: "form-control"} %>
         </div>
-                         
+
         <div class="form-group">
           <%= f.label :firstname %>
           <%= f.text_field :firstname, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer votre nom" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :lastname %>
-          <%= f.text_field :lastname, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer votre prénom" %>
+          <%= f.text_field :lastname, class: "form-control", placeholder: "Veuillez entrer votre prénom" %>
         </div>
-        
+
+        <div id = "company_section">
+          <div class="form-group">
+            <%= f.label :company %>
+            <%= f.text_field :company, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :job %>
+            <%= f.text_field :job, class: "form-control", placeholder: "Veuillez entrer le nom de l'emploi" %>
+          </div>
+        </div>
+
         <div class="form-group">
           <%= f.label :phone_number %>
-          <%= f.text_field :phone_number, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer votre adresse numéro fixe" %>
+          <%= f.text_field :phone_number, class: "form-control", placeholder: "Veuillez entrer votre adresse numéro fixe" %>
         </div>
-        
+
         <div class="form-group">
           <%= f.label :mobile_number %>
-          <%= f.text_field :mobile_number, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer votre adresse numéro mobile" %>
-        </div>        
-                  
+          <%= f.text_field :mobile_number, class: "form-control", placeholder: "Veuillez entrer votre adresse numéro mobile" %>
+        </div>
+
         <div class="form-group">
           <%= f.label :email %>
-          <%= f.email_field :email, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer votre adresse email" %>
+          <%= f.email_field :email, class: "form-control", placeholder: "Veuillez entrer votre adresse email" %>
         </div>
 
         <div class="form-group">
@@ -62,37 +76,37 @@
         <div class="form-group">
           <%= f.label :password_confirmation %>
           <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Veuillez confirmer votre mot de passe" %>
-        </div>               
+        </div>
 
         <div class="form-group">
           <%= f.submit "Valider" %>
         </div>
       <% end %>
     </div><!-- End one_half -->
-    
+
     <div class = "one_half lastcolumn">
       <div class="pb_title_wrapper">
-        <h3 class="pb_title1">Liste des utilisateurs</h3>                                				   
+        <h3 class="pb_title1">Liste des utilisateurs</h3>
       </div>
-      
+
       <!-- Search form -->
-      <%= render "search_form", :locals => {terms: @terms} %>      
-      <!-- Search form -->      
-      
+      <%= render "search_form", :locals => {terms: @terms} %>
+      <!-- Search form -->
+
       <div class="accordion-items">
         <% unless @users.blank? %>
           <% @users.each do |user| %>
 	          <div class="accordion-item">
               <%= render user.company? ? "company_profile_details" : "profile_details", user: user %>
-            </div>	
-	        <% end %>		
-	        
+            </div>
+	        <% end %>
+
           <%= paginate @users %>
         <% end %>
       </div>
-			 
+
     </div><!-- End one_half lastcolumn -->
   </div>
-  
+
   </div><!-- End content_wrapper_inner -->
 </div><!-- End container -->

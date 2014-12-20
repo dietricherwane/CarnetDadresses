@@ -73,7 +73,7 @@ class UsersController < ApplicationController
   end
 
   def api_fields_to_except
-    return ["id", "profile_id", "published", "updated_at", "created_by", "validated_by", "validated_at", "unpublished_by", "unpublished_at"]
+    return ["id", "profile_id", "updated_at", "created_by", "validated_by", "validated_at", "unpublished_by", "unpublished_at"]
   end
 
 end

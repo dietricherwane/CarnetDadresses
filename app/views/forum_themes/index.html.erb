@@ -32,6 +32,11 @@
         </div>
 
         <div class="form-group">
+            <%= f.label :job_category %>
+            <%= f.collection_select :job_category, @jobs, :job_role, :job_role, options ={prompt: "-Veuillez choisir la fonction-"}, html_options = {class: "form-control"} %>
+        </div>
+
+        <div class="form-group">
             <%= f.label :sales_area_id %>
             <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir votre secteur d'activités-"}, html_options = {class: "form-control"} %>
         </div>

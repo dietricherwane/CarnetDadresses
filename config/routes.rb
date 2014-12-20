@@ -165,8 +165,10 @@ CarnetDadresse::Application.routes.draw do
 
   get "api/v1/forum_themes" => "forum_themes#api_show" # done
   get "api/v1/forum_themes/:user_id" => "forum_themes#api_show_per_user" # done
-  get "api/v1/forum_theme/create/:title/:sales_area_id/:sub_sales_area_id/:content/:authentication_token" => "forum_themes#api_create" # done
-  get "api/v1/forum_theme/create/:title/:sales_area_id/:content/:authentication_token" => "forum_themes#api_create" # done
+  #get "api/v1/forum_theme/create/:title/:sales_area_id/:sub_sales_area_id/:content/:authentication_token" => "forum_themes#api_create" # done
+  #get "api/v1/forum_theme/create/:title/:sales_area_id/:content/:authentication_token" => "forum_themes#api_create" # done
+  get "api/v1/forum_theme/create/:title/:job_category/:sales_area_id/:sub_sales_area_id/:content/:authentication_token" => "forum_themes#api_create" # done
+  get "api/v1/forum_theme/create/:title/:job_category/:content/:authentication_token" => "forum_themes#api_create"
 
   get "api/v1/forum_posts/:forum_theme_id" => "forum_posts#api_list" # done
   get "api/v1/forum_posts/:forum_theme_id/:user_id" => "forum_posts#api_list_per_user" # done
@@ -176,6 +178,8 @@ CarnetDadresse::Application.routes.draw do
   get "api/v1/help/wallet" => "helps#api_show_wallet_help" # done
 
   get "api/v1/recent_updates" => "last_updates#api_last_updates" # done
+
+  get "api/v1/job_categories" => "adress_books#job_categories" # done
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

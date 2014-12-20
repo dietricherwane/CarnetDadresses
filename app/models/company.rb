@@ -16,7 +16,7 @@ class Company < ActiveRecord::Base
   has_many :last_updates
 
   # Scopes
-  default_scope {order("created_at DESC")}
+  default_scope {order("published ASC", "name ASC")}
 
   # Renaming attributes into more friendly text
   HUMANIZED_ATTRIBUTES = {

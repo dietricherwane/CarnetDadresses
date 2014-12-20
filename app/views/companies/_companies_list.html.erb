@@ -10,9 +10,11 @@
     <a class = "form-action-link" href = "<%= edit_company_path(company.id) %>">
       <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
     </a>
-    <a class = "form-action-link" href = "<%= company.published? ? disable_company_path(company.id) : enable_company_path(company.id) %>">
-      <img src = "/images/forms/<%= company.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= company.published? ? 'Désactiver' : 'Activer' %>" />
-    </a>
+    <% if (can_enable rescue nil) %>
+      <a class = "form-action-link" href = "<%= company.published? ? disable_company_path(company.id) : enable_company_path(company.id) %>">
+        <img src = "/images/forms/<%= company.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= company.published? ? 'Désactiver' : 'Activer' %>" />
+      </a>
+    <% end %>
   </p>
   <p>
     <%= image_tag company.logo.url(:thumb) rescue nil %>

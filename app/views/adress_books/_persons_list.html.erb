@@ -10,9 +10,11 @@
     <a class = "form-action-link" href = "<%= edit_person_path(adress_book.id) %>">
       <img src = "/images/forms/edit.png" class = "form-action-image" title = "Modifier" />
     </a>
-    <a class = "form-action-link" href = "<%= adress_book.published? ? disable_person_path(adress_book.id) : enable_person_path(adress_book.id) %>">
-      <img src = "/images/forms/<%= adress_book.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= adress_book.published? ? 'Désactiver' : 'Activer' %>" />
-    </a>
+    <% if (can_enable rescue nil) %>
+      <a class = "form-action-link" href = "<%= adress_book.published? ? disable_person_path(adress_book.id) : enable_person_path(adress_book.id) %>">
+        <img src = "/images/forms/<%= adress_book.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= adress_book.published? ? 'Désactiver' : 'Activer' %>" />
+      </a>
+    <% end %>
   </p>
   <p>
     <%= image_tag adress_book.avatar.url(:thumb) rescue nil %>

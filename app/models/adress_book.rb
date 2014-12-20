@@ -27,7 +27,7 @@ class AdressBook < ActiveRecord::Base
 
 
   # Scopes
-  default_scope {order("created_at DESC")}
+  default_scope {order("published ASC", "created_at DESC")}
 
   # Renaming attributes into more friendly text
   HUMANIZED_ATTRIBUTES = {

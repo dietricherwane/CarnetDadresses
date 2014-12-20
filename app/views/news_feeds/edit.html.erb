@@ -54,9 +54,10 @@
       </div>
       <div class="accordion-items">
         <% unless @news_feeds.blank? %>
+          <% current_user.admin? ? (can_enable = false) : (can_enable = true) %>
           <% @news_feeds.each do |news_feed| %>
             <div class="accordion-item">
-              <%= render "news_feeds_list", news_feed: news_feed %>
+              <%= render "news_feeds_list", news_feed: news_feed, can_enable: can_enable %>
             </div>
           <% end %>
 

@@ -12,12 +12,13 @@ class ForumThemesController < ApplicationController
     @forum_theme = ForumThemes.new
     @sales_areas = SalesArea.where(published: [nil, true])
     @forum_themes = ForumThemes.all.page(params[:page]).per(10)
+    @jobs = AdressBook.unscoped.select("DISTINCT job_role")
   end
 
   def create
     @forum_themes = ForumThemes.all.page(params[:page]).per(10)
     @sales_areas = SalesArea.where(published: [nil, true])
-
+    @jobs = AdressBook.unscoped.select("DISTINCT job_role")
     @forum_theme = ForumThemes.new(params[:forum_themes].merge(user_id: current_user.id, validated_by: (current_user.admin? ? current_user.id : nil), validated_at: (current_user.admin? ? DateTime.now : nil)))
     if @forum_theme.save
       @forum_theme = ForumThemes.new
@@ -34,6 +35,7 @@ class ForumThemesController < ApplicationController
     @forum_themes = ForumThemes.all.page(params[:page]).per(10)
     @sales_areas = SalesArea.where(published: [nil, true])
     @sub_sales_areas = @forum_theme.sales_area.sub_sales_areas rescue []
+    @jobs = AdressBook.unscoped.select("DISTINCT job_role")
 
     unless @forum_theme
       render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
@@ -51,6 +53,7 @@ class ForumThemesController < ApplicationController
       @forum_themes = ForumThemes.all.page(params[:page]).per(10)
       @sales_areas = SalesArea.where(published: [nil, true])
       @sub_sales_areas = @forum_theme.sales_area.sub_sales_areas rescue []
+      @jobs = AdressBook.unscoped.select("DISTINCT job_role")
 
       render :edit, id: @forum_theme.id
     end
@@ -112,7 +115,7 @@ class ForumThemesController < ApplicationController
   end
 
   def api_create
-    @forum_theme = ForumThemes.new(title: URI.unescape(params[:title]), sales_area_id: params[:sales_area_id].to_i, sub_sales_area_id: params[:sub_sales_area_id].to_i, content: URI.unescape(params[:content]), published: false, user_id: (User.find_by_authentication_token(params[:authentication_token]).id rescue nil))
+    @forum_theme = ForumThemes.new(title: URI.unescape(params[:title]), job_category: URI.unescape(params[:job_category]), sales_area_id: params[:sales_area_id].to_i, sub_sales_area_id: params[:sub_sales_area_id].to_i, content: URI.unescape(params[:content]), published: false, user_id: (User.find_by_authentication_token(params[:authentication_token]).id rescue nil))
     if @forum_theme.save
       message = "{"'"data"'":[" << @forum_theme.as_json.merge!(api_fields_to_merge).except(*api_fields_to_except).to_json << "]}"
     else

@@ -91,9 +91,10 @@
       </div>
       <div class="accordion-items">
         <% unless @holdings.blank? %>
+          <% current_user.admin? ? (can_enable = false) : (can_enable = true) %>
           <% @holdings.each do |holding| %>
             <div class="accordion-item">
-              <%= render "holdings_list", holding: holding %>
+              <%= render "holdings_list", holding: holding, can_enable: can_enable %>
             </div>
           <% end %>
 

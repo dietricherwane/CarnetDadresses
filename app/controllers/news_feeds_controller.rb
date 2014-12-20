@@ -15,6 +15,10 @@ class NewsFeedsController < ApplicationController
   def create
     @news_feeds = NewsFeed.all.page(params[:page]).per(10)
 
+    if current_user.admin?
+      params[:news_feed].merge!(published: false)
+    end
+
     @news_feed = NewsFeed.new(params[:news_feed].merge(user_id: current_user.id))
     if @news_feed.save
       @news_feed = NewsFeed.new

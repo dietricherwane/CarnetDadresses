@@ -17,6 +17,10 @@ class AdressBooksController < ApplicationController
 
   # Create a person
   def create_person
+    if current_user.admin?
+      params[:adress_book].merge!(published: false)
+    end
+
     @adress_book = AdressBook.new(params[:adress_book].merge(created_by: current_user.id, profile_id: Profile.person_id, sector_id: Sector.find_by_name("Privé").id, country_id: Country.find_by_name("Côte D'ivoire").id))
     if @adress_book.save
       # Creates an entry in the logs
@@ -563,6 +567,17 @@ class AdressBooksController < ApplicationController
     if adress_book
       previous_jobs = adress_book.previous_job_experiences.where(published: [true, nil]).as_json rescue nil
       my_hash = api_render_several_objects(previous_jobs, {}, ["published", "id", "created_at", "updated_at", "user_id", "adress_book_id"])
+    else
+      my_hash = "{"'"data"'":[]}"
+    end
+
+    render json: my_hash
+  end
+
+  def job_categories
+    jobs = AdressBook.unscoped.select("DISTINCT job_role").map{|j| j.job_role}
+    if !jobs.blank?
+      my_hash = %Q/{"data":#{jobs.to_s}}/
     else
       my_hash = "{"'"data"'":[]}"
     end

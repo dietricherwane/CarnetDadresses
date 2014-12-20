@@ -144,17 +144,19 @@
 		            <li>
 		              <a href="/news_feeds" class="trigger"><span><i class="icon-service"></i>Actualités</span></a>
 		            </li>
-		            <li>
-		              <a href="/forum_themes" class="trigger"><span><i class="icon-blog"></i>Forum</span></a>
-		            </li>
-		            <li>
-		              <a href="#" class="trigger"><span><i class="icon-feature"></i>Paramètres</span></a>
-		              <ul>
-		                <li>
-		                  <%= link_to "Aide", help_path %>
-		                </li>
-		              </ul>
-		            </li>
+		            <% unless current_user.admin? %>
+		              <li>
+		                <a href="/forum_themes" class="trigger"><span><i class="icon-blog"></i>Forum</span></a>
+		              </li>
+		              <li>
+		                <a href="#" class="trigger"><span><i class="icon-feature"></i>Paramètres</span></a>
+		                <ul>
+		                  <li>
+		                    <%= link_to "Aide", help_path %>
+		                  </li>
+		                </ul>
+		              </li>
+		            <% end %>
 		            <li>
 		            </li>
 	            </ul>

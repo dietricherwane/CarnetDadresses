@@ -15,6 +15,10 @@ class CompaniesController < ApplicationController
   def create
     init_company
 
+    if current_user.admin?
+      params[:company].merge!(published: false)
+    end
+
     @company = Company.new(params[:company].merge(created_by: current_user.id, sector_id: Sector.find_by_name("Privé").id, country_id: Country.find_by_name("Côte D'ivoire").id))
 
     if @company.save
@@ -97,6 +101,9 @@ class CompaniesController < ApplicationController
   end
 
   def js_create
+    if current_user.admin?
+      params[:company].merge!(published: false)
+    end
     @company = Company.new(params[:company].merge(created_by: current_user.id, sector_id: Sector.find_by_name("Privé").id, country_id: Country.find_by_name("Côte D'ivoire").id, sales_area_id: 1))
     respond_to do |format|
       if @company.save

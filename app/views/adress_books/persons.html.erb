@@ -142,9 +142,10 @@
 
       <div class="accordion-items">
         <% unless @adress_books.blank? %>
+          <% current_user.admin? ? (can_enable = false) : (can_enable = true) %>
           <% @adress_books.each do |adress_book| %>
             <div class="accordion-item">
-              <%= render "persons_list", adress_book: adress_book %>
+              <%= render "persons_list", adress_book: adress_book, can_enable: can_enable %>
             </div>
           <% end %>
 

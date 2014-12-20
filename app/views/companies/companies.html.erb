@@ -155,9 +155,10 @@
 
       <div class="accordion-items">
         <% unless @companies.blank? %>
+          <% current_user.admin? ? (can_enable = false) : (can_enable = true) %>
           <% @companies.each do |company| %>
             <div class="accordion-item">
-              <%= render "companies_list", company: company %>
+              <%= render "companies_list", company: company, can_enable: can_enable %>
             </div>
           <% end %>
 

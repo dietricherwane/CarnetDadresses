@@ -17,10 +17,14 @@ class HoldingsController < ApplicationController
     @holdings = Holding.all.page(params[:page]).per(10)
     @countries = Country.all
 
+    if current_user.admin?
+      params[:holding].merge!(published: false)
+    end
+
     @holding = Holding.new(params[:holding].merge(user_id: current_user.id, country_id: Country.find_by_name("Côte D'ivoire").id))
     if @holding.save
       @holding = Holding.new
-      flash.now[:success] = "Le groupe a été correctement créée."
+      flash.now[:success] = "Le groupe a été correctement créé."
     else
       flash.now[:error] = @holding.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join
     end
@@ -29,6 +33,10 @@ class HoldingsController < ApplicationController
   end
 
   def js_create
+    if current_user.admin?
+      params[:holding].merge!(published: false)
+    end
+
     @holding = Holding.new(params[:holding].merge(user_id: current_user.id, country_id: Country.find_by_name("Côte D'ivoire").id))
     respond_to do |format|
       if @holding.save

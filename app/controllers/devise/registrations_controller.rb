@@ -9,7 +9,7 @@ class Devise::RegistrationsController < DeviseController
 
   # GET /resource/sign_up
   def new
-    @profiles = Profile.where(published: [nil, true], shortcut: ["ADM", "S-ADM"])
+    @profiles = Profile.where(published: [nil, true], shortcut: ["ADM", "S-ADM", "UTI"])
     @social_statuses = SocialStatus.where(published: [nil, true])
     @users = User.where(profile_id: [Profile.admin_id, Profile.super_admin_id]).page(params[:page]).per(10)
 
@@ -19,18 +19,19 @@ class Devise::RegistrationsController < DeviseController
 
   # POST /resource
   def create
-    @profiles = Profile.where(published: [nil, true], shortcut: "ADM")
+    @profiles = Profile.where(published: [nil, true], shortcut: ["ADM", "S-ADM", "UTI"])
     @users = User.all.page(params[:page]).per(10)
 
-    build_resource(params[:user])
+    build_resource(params[:user].merge(published: (Profile.find_by_id(params[:user][:profile_id]).shortcut == 'UTI' ? false : nil)))
     #build_resource(sign_up_params)
 
     if resource.save
       resource.ensure_authentication_token!
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
-        sign_up(resource_name, resource)
-        respond_with resource, :location => after_sign_up_path_for(resource)
+        #sign_up(resource_name, resource)
+        #respond_with resource, :location => after_sign_up_path_for(resource)
+        redirect_to admin_dashboard_path
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
         expire_session_data_after_sign_in!
@@ -47,7 +48,7 @@ class Devise::RegistrationsController < DeviseController
   def api_create
     user_profile = Profile.find_by_id(Profile.user_id) rescue nil
 
-    build_resource(params.merge(profile_id: user_profile.id))
+    build_resource(params.merge(profile_id: user_profile.id, published: false))
 
     if resource.save
       resource.ensure_authentication_token!
@@ -62,7 +63,7 @@ class Devise::RegistrationsController < DeviseController
   end
 
   def api_fields_to_except
-    return ["id", "profile_id", "published", "updated_at", "created_by", "validated_by", "validated_at", "unpublished_by", "unpublished_at"]
+    return ["id", "profile_id", "updated_at", "created_by", "validated_by", "validated_at", "unpublished_by", "unpublished_at"]
   end
 
   # Edit an admin profile
