@@ -26,6 +26,8 @@ CarnetDadresse::Application.routes.draw do
 
   	get "api/v1/user/password/send_reset_instructions/:token_or_email" => "devise/passwords#api_send_reset_password_instructions", :constraints => {:token_or_email => /[^\/]+/}
   	get "api/v1/user/password/reset/:reset_token/:password/:password_confirmation" => "devise/passwords#api_reset_password"
+
+  	get "api/v1/confirmation/:confirmation_token" => "devise/confirmations#api_show"
   	#get 'users' => 'devise/registrations#new'
   	#get "user/edit_profile/:id" => "devise/registrations#edit", :as => :edit_user_profile
   	#patch 'user/update_profile' => 'devise/registrations#update_profile', :as => :update_user_profile
@@ -36,6 +38,8 @@ CarnetDadresse::Application.routes.draw do
   get "user/disable/:id" => "users#disable_user", as: :disable_user
   get "user/registrations/:user_id" => "users#registrations", as: :user_registrations
   get "api/v1/user/authentication_token/:email/:password" => "users#api_get_authentication_token", :constraints => {:email => /[^\/]+/}
+
+
 
   get "registration/admin_create/:user_id" => "registrations#admin_create", as: :admin_create_registration
 

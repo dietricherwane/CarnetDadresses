@@ -46,13 +46,19 @@ class UsersController < ApplicationController
   end
 
   def api_get_authentication_token
-    user = User.authenticate(params[:email], params[:password])
+    my_user = User.find_by_email(params[:email])
+    if my_user && my_user.sign_in_count == 0
+      user = User.authenticate(params[:email], 'carnetdadresses')
+    else
+      user = User.authenticate(params[:email], params[:password])
+    end
+
     if user
-      if user.confirmation_token.blank?
+      #if user.confirmation_token.blank?
         message = "{"'"data"'":[" << {token: user.authentication_token, firstname: user.firstname, lastname: user.lastname}.to_json.to_s << "]}"
-      else
-        message = "{"'"data"'":[" << {errors: "Veuillez activer votre compte en cliquant sur le lien de confirmation reçu par mail."}.to_json.to_s << "]}"
-      end
+      #else
+        #message = "{"'"data"'":[" << {errors: "Veuillez activer votre compte en cliquant sur le lien de confirmation reçu par mail."}.to_json.to_s << "]}"
+      #end
     else
       message = "{"'"data"'":[" << {errors: "Veuillez vérifier la combinaison login/mot de passe."}.to_json.to_s << "]}"
     end

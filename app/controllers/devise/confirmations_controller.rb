@@ -1,7 +1,7 @@
 class Devise::ConfirmationsController < DeviseController
-  
+
   layout :layout_used
-  
+
   # GET /resource/confirmation/new
   def new
     self.resource = resource_class.new
@@ -29,6 +29,18 @@ class Devise::ConfirmationsController < DeviseController
     else
       respond_with_navigational(resource.errors, :status => :unprocessable_entity){ render :new }
     end
+  end
+
+  def api_show
+    user = User.confirm_by_token(params[:confirmation_token])
+
+    if user.errors.empty?
+      message = "{"'"data"'":[" << {token: user.authentication_token, firstname: user.firstname, lastname: user.lastname}.to_json.to_s << "]}"
+    else
+      message = "{"'"data"'":[" << {errors: user.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]}"
+    end
+
+    render json: message
   end
 
   protected

@@ -22,7 +22,15 @@ class Devise::RegistrationsController < DeviseController
     @profiles = Profile.where(published: [nil, true], shortcut: ["ADM", "S-ADM", "UTI"])
     @users = User.all.page(params[:page]).per(10)
 
-    build_resource(params[:user].merge(published: (Profile.find_by_id(params[:user][:profile_id]).shortcut == 'UTI' ? false : nil)))
+    if Profile.find_by_id(params[:user][:profile_id]).shortcut == 'UTI'
+      published = false
+      password_hash = {password: 'carnetdadresses', password_confirmation: 'carnetdadresses'}
+    else
+      published = nil
+      password_hash = {}
+    end
+
+    build_resource(params[:user].merge(published: published).merge(password_hash))
     #build_resource(sign_up_params)
 
     if resource.save
