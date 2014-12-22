@@ -31,7 +31,7 @@ class ForumThemes < ActiveRecord::Base
   end
 
   # Validations
-  validates :title, :content, :user_id, :job_category, presence: true
+  validates :title, :content, :user_id, presence: true
 
   # Custom functions
   def published?

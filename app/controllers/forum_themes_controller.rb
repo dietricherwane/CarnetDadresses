@@ -20,11 +20,17 @@ class ForumThemesController < ApplicationController
     @sales_areas = SalesArea.where(published: [nil, true])
     @jobs = AdressBook.unscoped.select("DISTINCT job_role")
     @forum_theme = ForumThemes.new(params[:forum_themes].merge(user_id: current_user.id, validated_by: (current_user.admin? ? current_user.id : nil), validated_at: (current_user.admin? ? DateTime.now : nil)))
-    if @forum_theme.save
-      @forum_theme = ForumThemes.new
-      flash.now[:success] = "Le thème a été correctement créé."
-    else
+
+    if params[:forum_themes][:job_category].blank? && params[:forum_themes][:sales_area_id].blank?
+      @forum_theme.errors[:base] << "Veuillez choisir une catégorie professionnelle ou un domaine d'activités."
       flash.now[:error] = @forum_theme.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join
+    else
+      if @forum_theme.save
+        @forum_theme = ForumThemes.new
+        flash.now[:success] = "Le thème a été correctement créé."
+      else
+        flash.now[:error] = @forum_theme.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join
+      end
     end
 
     render :index

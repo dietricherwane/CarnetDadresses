@@ -64,7 +64,7 @@ class UsersController < ApplicationController
     user = User.find_by_authentication_token(params[:token])
 
     if user
-      message = "{"'"data"'":[" << user.as_json.except(*api_fields_to_except).to_json << "]}"
+      message = "{"'"data"'":[" << user.as_json.merge!(sign_in_count: user.sign_in_count).except(*api_fields_to_except).to_json << "]}"
     else
       message = "{"'"data"'":[" << {errors: "Le token n'est pas valide."}.to_json.to_s << "]}"
     end

@@ -13,12 +13,19 @@ CarnetDadresse::Application.configure do
   #config.action_mailer.default_url_options = { :host => 'localhost:6556' }
   ActionMailer::Base.smtp_settings = {
   	:openssl_verify_mode => 'none',
-		:address => "hp75.hostpapa.com",
+		:address => "smtp.gmail.com",
 		:enable_starttls_auto => true,
-		:port => 465,
+		:port => 587,
 		:authentication => :plain,
-		:user_name => "infos@carnetdadresses.ci",
-		:password => 'infos2014'
+		:user_name => "mensah.dietrich@gmail.com",
+		:password => '20dianapopoulos12'
+  	#:openssl_verify_mode => 'none',
+		#:address => "hp75.hostpapa.com",
+		#:enable_starttls_auto => true,
+		#:port => 465,
+		#:authentication => :plain,
+		#:user_name => "infos@carnetdadresses.ci",
+		#:password => 'infos2014'
 	}
 
   # Show full error reports and disable caching.
