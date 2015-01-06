@@ -185,6 +185,8 @@ CarnetDadresse::Application.routes.draw do
 
   get "api/v1/job_categories" => "adress_books#job_categories" # done
 
+  get "cordial" => "users#cordial"
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

