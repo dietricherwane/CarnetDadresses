@@ -47,11 +47,11 @@ class UsersController < ApplicationController
 
   def api_get_authentication_token
     my_user = User.find_by_email(params[:email])
-    if my_user && my_user.sign_in_count == 0
-      user = User.authenticate(params[:email], 'carnetdadresses')
-    else
+    #if my_user && my_user.sign_in_count == 0
+      #user = User.authenticate(params[:email], 'carnetdadresses')
+    #else
       user = User.authenticate(params[:email], params[:password])
-    end
+    #end
 
     if user
       #if user.confirmation_token.blank?
