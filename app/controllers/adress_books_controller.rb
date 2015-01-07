@@ -575,9 +575,13 @@ class AdressBooksController < ApplicationController
   end
 
   def job_categories
-    jobs = AdressBook.unscoped.select("DISTINCT job_role").map{|j| "{'"'name'"': '"'#{j.job_role}'"'}"}
+    jobs = AdressBook.unscoped.select("DISTINCT job_role")#.map{|j|  %Q/"name": "#{j.job_role}"/ + "}"}
     if !jobs.blank?
-      my_hash = %Q/{"data":#{jobs.to_s}}/
+      my_container = ""
+      jobs.each do |job|
+        my_container << ("{" + %Q/"name":"#{job.job_role}"/ + "},")
+      end
+      my_hash = %Q/{"data":[#{my_container.chop}]}/
     else
       my_hash = "{"'"data"'":[]}"
     end
