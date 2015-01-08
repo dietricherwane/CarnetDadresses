@@ -50,7 +50,7 @@
               <div class="eight columns row offset-by-one omega">
                 <div class="p_content">
                   <p>
-                    <b><%= ForumPost.human_attribute_name("user_id") %></b> <%= forum_post.user.full_name rescue nil %> le <%= forum_post.created_at.strftime("%d-%m-%Y") + " à " + forum_post.created_at.strftime("%Hh %Mmn") %>
+                    <b><%= ForumPost.human_attribute_name("user_id") %></b> <%= forum_post.user.full_name %> le <%= forum_post.created_at.strftime("%d-%m-%Y") + " à " + forum_post.created_at.strftime("%Hh %Mmn") %>
                     <a class = "form-action-link" href = "<%= forum_post.published? ? disable_forum_post_path(forum_post.id) : enable_forum_post_path(forum_post.id) %>">
       <img src = "/images/forms/<%= forum_post.published? ? 'disable' : 'enable' %>.png" class = "form-action-image" title = "<%= forum_post.published? ? 'Désactiver' : 'Activer' %>" />
     </a>
