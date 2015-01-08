@@ -32,7 +32,7 @@
     <b><%= ForumThemes.human_attribute_name("content") %>:</b> <%= simple_format(forum_theme.content) %>
   </p>
   <p>
-    <b><%= ForumThemes.human_attribute_name("user_id") %>:</b> <%= forum_theme.user.full_name %>
+    <b><%= ForumThemes.human_attribute_name("user_id") %>:</b> <%= forum_theme.user.full_name rescue nil %>
   </p>
   <p>
     <b><%= ForumThemes.human_attribute_name("created_at") %>:</b> <%= forum_theme.created_at.strftime("%d-%m-%Y") + " à " + forum_theme.created_at.strftime("%Hh %Mmn") %>
