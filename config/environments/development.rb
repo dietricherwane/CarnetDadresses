@@ -9,8 +9,8 @@ CarnetDadresse::Application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-  config.action_mailer.default_url_options = { :host => '41.189.40.193:6556' }
-  #config.action_mailer.default_url_options = { :host => 'localhost:6556' }
+  #config.action_mailer.default_url_options = { :host => '41.189.40.193:6556' }
+  config.action_mailer.default_url_options = { :host => 'localhost:6556' }
   ActionMailer::Base.smtp_settings = {
   	:openssl_verify_mode => 'none',
 		:address => "smtp.gmail.com",
