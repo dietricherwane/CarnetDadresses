@@ -150,4 +150,9 @@ class ApplicationController < ActionController::Base
 
     return my_hash
 	end
+
+	def supadmins
+	  admin_profile = Profile.find_by_name("Super Administrateur")
+    return User.where(profile_id: admin_profile.id, published: [nil, true])
+	end
 end

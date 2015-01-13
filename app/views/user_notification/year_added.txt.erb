@@ -1,0 +1,9 @@
+Bonjour, <%= @user.firstname %> <%= @user.lastname %>
+
+
+Votre abonnement au site Carnet d'Adresses CI a été prolongé de 1 an.
+
+La date d'expiration de votre abonnement est passée de: <%= @last_registration.expires_at.strftime("%d-%m-%Y") %> à <%= @expires_at.strftime("%d-%m-%Y") %>
+
+
+A bientôt.

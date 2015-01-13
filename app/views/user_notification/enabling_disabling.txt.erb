@@ -1,0 +1,11 @@
+Bonjour, <%= @user.firstname %> <%= @user.lastname %>
+
+
+Votre abonnement au site Carnet d'Adresses CI a été <%= @status ? 'activé' : 'suspendu' %>.
+
+<% if @status == false %>
+Veuillez contacter l'administrateur.
+<% end %>
+
+
+A bientôt.

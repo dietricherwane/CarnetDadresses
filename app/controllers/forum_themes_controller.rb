@@ -26,6 +26,11 @@ class ForumThemesController < ApplicationController
       flash.now[:error] = @forum_theme.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join
     else
       if @forum_theme.save
+        # Notification email
+        unless supadmins.blank?
+          AdminNotification.new_forum(supadmins.map{ |sa| sa.email}, @forum_theme).deliver
+        end
+
         @forum_theme = ForumThemes.new
         flash.now[:success] = "Le thème a été correctement créé."
       else
@@ -123,6 +128,10 @@ class ForumThemesController < ApplicationController
   def api_create
     @forum_theme = ForumThemes.new(title: URI.unescape(params[:title]), job_category: URI.unescape(params[:job_category]), sales_area_id: params[:sales_area_id].to_i, sub_sales_area_id: params[:sub_sales_area_id].to_i, content: URI.unescape(params[:content]), published: false, user_id: (User.find_by_authentication_token(params[:authentication_token]).id rescue nil))
     if @forum_theme.save
+      # Notification email
+      unless supadmins.blank?
+        AdminNotification.new_forum(supadmins.map{ |sa| sa.email}, @forum_theme).deliver
+      end
       message = "{"'"data"'":[" << @forum_theme.as_json.merge!(api_fields_to_merge).except(*api_fields_to_except).to_json << "]}"
     else
       message = "{"'"data"'":[" << {errors: @forum_theme.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join}.to_json.to_s << "]}"

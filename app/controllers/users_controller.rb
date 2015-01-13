@@ -28,6 +28,13 @@ class UsersController < ApplicationController
         flash.now[:alert] = "Vous ne pouvez pas modifier votre propre compte."
       else
         @user.update_attributes(published: status)
+
+        #Notification email
+        UserNotification.enabling_disabling(@user, status).deliver
+        unless supadmins.blank?
+          AdminNotification.enabling_disabling(supadmins.map{ |sa| sa.email}, @user, status).deliver
+        end
+
         flash.now[:success] = "Le compte a été #{message}."
       end
       @users = User.where(profile_id: Profile.user_id).page(params[:page]).per(10)

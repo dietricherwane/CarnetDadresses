@@ -11,7 +11,14 @@ class RegistrationsController < ApplicationController
     last_registration ? (expires_at = last_registration.expires_at + 1.year) : (expires_at = Date.today + 1.year)
     if user
       user.registrations.create(created_by: current_user.id, transaction_id: DateTime.now.to_i, expires_at: expires_at)
-      flash[:success] = "L'enregistrement a été effectué."
+      #Notification email
+      UserNotification.year_added(user, last_registration, expires_at).deliver
+
+      unless supadmins.blank?
+        AdminNotification.year_added(supadmins.map{ |sa| sa.email}, user, last_registration, expires_at).deliver
+      end
+
+      flash[:success] = "L'ajout a été effectué."
     else
       render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
     end

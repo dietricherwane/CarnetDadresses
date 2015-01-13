@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h4>Bonjour, <%= @user.firstname %> <%= @user.lastname %></h4>
+    <p>
+      Votre abonnement au site Carnet d'Adresses CI a été <%= @status ? 'activé' : 'suspendu' %>.
+    </p>
+
+    <% if @status == false %>
+      <p>
+        Veuillez contacter l'administrateur.
+      </p>
+    <% end %>
+
+    <p>
+      A bientôt.
+    </p>
+  </body>
+</html>
