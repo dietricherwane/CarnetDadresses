@@ -39,12 +39,12 @@
     <b><%= User.human_attribute_name("validated_by") %>:</b> <%= User.find_by_id(user.validated_by).full_name rescue nil %>
   </p>
   <p>
-    <b><%= User.human_attribute_name("validated_at") %>:</b> <%= (user.validated_at.strftime("%d-%m-%Y") rescue nil) %>  <% (user.validated_at.strftime("%Hh %Mmn") rescue nil) %>
+    <b><%= User.human_attribute_name("validated_at") %>:</b> <%= (user.validated_at.strftime("%d-%m-%Y") rescue nil) %>  <%= ("à " + user.validated_at.strftime("%Hh %Mmn") rescue nil) %>
   </p>
   <p>
     <b><%= User.human_attribute_name("unpublished_by") %>:</b> <%= User.find_by_id(user.unpublished_by).full_name rescue nil %>
   </p>
   <p>
-    <b><%= User.human_attribute_name("unpublished_at") %>:</b> <%= (user.unpublished_at.strftime("%d-%m-%Y") rescue nil) %>  <% (user.unpublished_at.strftime("%Hh %Mmn") rescue nil) %>
+    <b><%= User.human_attribute_name("unpublished_at") %>:</b> <%= (user.unpublished_at.strftime("%d-%m-%Y") rescue nil) %>  <%= ("à " + user.unpublished_at.strftime("%Hh %Mmn") rescue nil) %>
   </p>
 </div>

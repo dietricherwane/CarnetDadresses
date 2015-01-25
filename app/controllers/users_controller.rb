@@ -27,7 +27,14 @@ class UsersController < ApplicationController
       if @user.id == current_user.id
         flash.now[:alert] = "Vous ne pouvez pas modifier votre propre compte."
       else
-        @user.update_attributes(published: status)
+
+        if status
+          update_hash = {published: true, validated_by: current_user.id, validated_at: DateTime.now}
+        else
+          update_hash = {published: false, unpublished_by: current_user.id, unpublished_at: DateTime.now}
+        end
+
+        @user.update_attributes(update_hash)
 
         #Notification email
         UserNotification.enabling_disabling(@user, status).deliver
