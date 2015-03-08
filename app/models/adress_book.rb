@@ -61,13 +61,14 @@ class AdressBook < ActiveRecord::Base
   attr_accessible :email, :firstname, :lastname, :phone_number, :profile_id, :published, :company_name, :created_by, :sector_id, :comment, :civility_id, :birthdate, :marital_status_id, :childrens, :job_role, :geographical_address, :postal_address, :city, :country_id, :address_book_title_id, :company_id, :avatar
 
   # Validations
-  validates :firstname, :lastname, :email, :civility_id, :birthdate, :marital_status_id, :childrens, :job_role, :city, :country_id, :comment, :company_id, presence: true, unless: :company?
+  #validates :firstname, :lastname, :email, :civility_id, :birthdate, :marital_status_id, :childrens, :job_role, :city, :country_id, :comment, :company_id, presence: true, unless: :company?
+  validates :firstname, :lastname, :job_role, :company_id, presence: true
   validates :firstname, :lastname, :company_name, length: {in: 2..50, allow_blank: true}
-  validates :profile_id, :created_by, :sector_id, presence: true
-  validates :childrens, numericality: {greater_than: -1}, unless: :company?
-  validates :phone_number, length: {in: 6..15, allow_blank: true}
-  validates :email, format: {with: /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i, multiline: true}
-  validates :email, uniqueness: true
+  #validates :profile_id, :created_by, :sector_id, presence: true
+  #validates :childrens, numericality: {greater_than: -1}, unless: :company?
+  #validates :phone_number, length: {in: 6..15, allow_blank: true}
+  validates :email, format: {with: /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i, multiline: true, allow_blank: true}
+  #validates :email, uniqueness: true
 
   # Utils
   def full_name

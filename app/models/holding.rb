@@ -31,9 +31,10 @@ class Holding < ActiveRecord::Base
   attr_accessible :name, :shortcut, :number_of_companies, :phone_number, :website, :email, :geographical_address, :postal_address, :country_id, :city, :activities, :user_id, :created_at, :published, :validated_by, :created_by
 
   # Validations
-  validates :name, :number_of_companies, :phone_number, :country_id, :city, :geographical_address, :postal_address, :activities, :user_id, presence: true
+  validates :name, :user_id, presence: true
+  #validates :name, :number_of_companies, :phone_number, :country_id, :city, :geographical_address, :postal_address, :activities, :user_id, presence: true
   validates :name, uniqueness: true
-  validates :number_of_companies, numericality: {greater_than: -1}
+  validates :number_of_companies, numericality: {greater_than: -1, allow_blank: true}
   validates :email, format: {with: /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i, multiline: true, allow_blank: true}
   validates :website, format: {with: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, multiline: true, allow_blank: true}
 

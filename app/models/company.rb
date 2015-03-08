@@ -54,10 +54,11 @@ class Company < ActiveRecord::Base
 
   # Validations
   validates :created_by, :sector_id, presence: true
-  validates :name, :phone_number, :activities, :city, :country_id, :shortcut, :sales_area_id, :social_status_id, :trading_identifier, :fax, :geographical_address, :postal_address, presence: true
-  validates :phone_number, :fax, :trading_identifier, length: {in: 6..15, allow_blank: true}
+  validates :name, :sales_area_id, presence: true
+  #validates :name, :phone_number, :activities, :city, :country_id, :shortcut, :sales_area_id, :social_status_id, :trading_identifier, :fax, :geographical_address, :postal_address, presence: true
+  #validates :phone_number, :fax, :trading_identifier, length: {in: 6..15, allow_blank: true}
   validates :email, format: {with: /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i, multiline: true, allow_blank: true}
-  validates :email, uniqueness: {allow_blank: true}
+  #validates :email, uniqueness: {allow_blank: true}
   validates :name, uniqueness: {scope: :country_id}
   validates :website, format: {with: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, multiline: true, allow_blank: true}
 
