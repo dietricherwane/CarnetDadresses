@@ -72,6 +72,7 @@ CarnetDadresse::Application.routes.draw do
   get "person/hobby/disable/:id" => "adress_books#disable_hobby", as: :disable_person_hobby
   get "person/hobby/enable/:id" => "adress_books#enable_hobby", as: :enable_person_hobby
   post "person/hobby/update/:id" => "adress_books#update_hobby", as: :update_person_hobby
+  get "persons/load_file" => "adress_books#load_file", as: :load_address_books_file
 
   get "holdings" => "holdings#index", as: :holdings
   post "holding/create" => "holdings#create", as: :create_holding
@@ -82,6 +83,8 @@ CarnetDadresse::Application.routes.draw do
   get "holding/enable/:id" => "holdings#enable_holding", as: :enable_holding
   get "holding/companies/:id" => "holdings#companies", as: :holding_companies
   get "js_holdings" => "holdings#get_holdings"
+  get "holding/load_file" => "holdings#load_file", as: :load_holdings_file
+  post "holding/save_loaded_file" => "holdings#save_loaded_file", as: :save_holdings_loaded_file
 
   get "companies" => "companies#companies", as: :companies
   post "company/create" => "companies#create", as: :create_company
@@ -92,6 +95,7 @@ CarnetDadresse::Application.routes.draw do
   get "company/disable/:id" => "companies#disable_company", as: :disable_company
   get "company/enable/:id" => "companies#enable_company", as: :enable_company
   get "js_companies" => "companies#get_companies"
+  get "company/load_file" => "companies#load_file", as: :load_companies_file
 
   get "adress_book/edit/:id" => "adress_books#edit", as: :edit_adress_book
   post "adress_book/update/:id" => "adress_book#update", as: :update_adress_book

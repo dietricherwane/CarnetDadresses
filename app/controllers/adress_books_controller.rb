@@ -5,7 +5,7 @@ class AdressBooksController < ApplicationController
   before_filter :sign_out_disabled_users, except: @@api_functions
   prepend_before_filter :authenticate_user!, except: @@api_functions
 
-  layout :layout_used
+  layout "back_office"
 
   # List persons and display create form
   def persons
@@ -603,6 +603,10 @@ class AdressBooksController < ApplicationController
 
   def api_fields_to_except
     return ["profile_id", "created_by", "sector_id", "country_id", "employment_company", "avatar_file_name", "avatar_content_type", "avatar_file_size", "avatar_updated_at", "sub_sales_area_id"]
+  end
+
+  def load_file
+
   end
 
 end

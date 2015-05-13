@@ -121,4 +121,53 @@ class HoldingsController < ApplicationController
     render json: my_hash
   end
 
+  def load_file
+
+  end
+
+  def save_loaded_file
+    inserted = false
+    @holdings_file = params[:holdings_file]
+    validate_holdings_file
+
+    unless @error
+      @spreadsheet = Spreadsheet.open(@holdings_file.path).worksheet(0)
+      @spreadsheet.each do |row|
+        @name = row[0]
+        shortcut = row[1]
+        number_of_companies = row[2]
+        phone_number = row[3]
+        website = row[4]
+        email = row[5]
+        city = row[6]
+        geographical_address = row[7]
+        postal_address = row[8]
+        activities = row[9]
+
+        holding = Holding.new(name: @name, shortcut: shortcut, number_of_companies: number_of_companies, phone_number: phone_number, website: website, email: email, city: city, geographical_address: geographical_address, postal_address: postal_address, activities: activities, user_id: current_user.id, country_id: Country.find_by_name("Côte D'ivoire").id)
+        if holding.save
+          inserted = true
+        end
+      end
+    end
+
+    inserted == true ? flash.now[:success] = "Les données ont été insérées." : flash.now[:error] = "Aucune donnée n'a été insérée."
+
+    render :load_file
+  end
+
+  # Make sure the user uploads an xls or xlsx file
+  def validate_holdings_file
+    if @holdings_file.blank? || (@holdings_file.content_type != "application/vnd.ms-excel" && @holdings_file.content_type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+      flash.now[:error] = "Veuillez choisir un fichier Excel contenant une liste de groupes."
+      @error = true
+    end
+  end
+
+  def validate_name
+    if @name.blank?
+      @error = true
+    end
+  end
+
 end

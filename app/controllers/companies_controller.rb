@@ -203,4 +203,8 @@ class CompaniesController < ApplicationController
   def capital
     return ["> 2000", "> 1000", "> 500", "500 < x < 2000", "30 < x < 1000", "15 < x < 500"]
   end
+
+  def load_file
+
+  end
 end

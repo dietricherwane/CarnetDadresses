@@ -53,6 +53,8 @@ gem 'taps'
 
 gem 'heroku'
 
+gem 'spreadsheet', '~> 1.0.3'
+
 group :production, :staging do
   #gem 'pg'
   gem 'rails_12factor'
