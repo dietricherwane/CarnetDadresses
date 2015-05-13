@@ -207,4 +207,55 @@ class CompaniesController < ApplicationController
   def load_file
 
   end
+
+  def save_loaded_file
+    inserted = false
+    @companies_file = params[:companies_file]
+    validate_companies_file
+
+    unless @error
+      @spreadsheet = Spreadsheet.open(@companies_file.path).worksheet(0)
+      @spreadsheet.each do |row|
+        @holding_name = row[0]
+        get_holding_id
+        name = row[1]
+        shortcut = row[2]
+        sales_area_id = SalesArea.find_by_name(row[3]).id rescue nil
+        social_status_id = SocialStatus.find_by_name(row[4]).id rescue nil
+        trading_identifier = row[5]
+        employees_amount = row[6]
+        capital = row[7]
+        turnover = row[8]
+        phone_number = row[9]
+        fax = row[10]
+        website = row[11]
+        email = row[12]
+        city = row[13]
+        geographical_address = row[14]
+        postal_address = row[15]
+        activities = row[16]
+
+        company = Company.new(holding_id: @holding_id, name: name, shortcut: shortcut, sales_area_id: sales_area_id, social_status_id: social_status_id, trading_identifier: trading_identifier, employees_amount: employees_amount, capital: capital, turnover: turnover, phone_number: phone_number, fax: fax, website: website, email: email, city: city, geographical_address: geographical_address, postal_address: postal_address, activities: activities,created_by: current_user.id, sector_id: Sector.find_by_name("Privé").id, country_id: Country.find_by_name("Côte D'ivoire").id)
+        if company.save
+          inserted = true
+        end
+      end
+    end
+
+    inserted == true ? flash.now[:success] = "Les données ont été insérées." : flash.now[:error] = "Aucune donnée n'a été insérée."
+
+    render :load_file
+  end
+
+  # Make sure the user uploads an xls or xlsx file
+  def validate_companies_file
+    if @companies_file.blank? || (@companies_file.content_type != "application/vnd.ms-excel" && @companies_file.content_type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+      flash.now[:error] = "Veuillez choisir un fichier Excel contenant une liste d'entreprises."
+      @error = true
+    end
+  end
+
+  def get_holding_id
+    @holding_id = Holding.find_by_name(@holding_name).id rescue nil
+  end
 end
