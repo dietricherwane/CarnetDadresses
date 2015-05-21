@@ -24,7 +24,7 @@
       </div>
       <%= form_tag save_companies_loaded_file_path, method: :post, multipart: true do |f| %>
         <div class="form-group">
-          <label>Fichier de groupes</label>
+          <label>Fichier des entreprises</label>
           <%= file_field_tag 'companies_file', accept: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' %>
         </div>
 

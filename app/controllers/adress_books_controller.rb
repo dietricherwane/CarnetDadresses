@@ -609,4 +609,56 @@ class AdressBooksController < ApplicationController
 
   end
 
+  def save_loaded_file
+    inserted = false
+    @address_books_file = params[:address_books_file]
+    validate_address_books_file
+
+    unless @error
+      @spreadsheet = Spreadsheet.open(@address_books_file.path).worksheet(0)
+      @spreadsheet.each do |row|
+        address_book_title_id = AddressBookTitle.find_by_name(row[0]).id rescue nil
+        civility_id = Civility.find_by_name(row[1]).id rescue nil
+        firstname = row[2]
+        lastname = row[3]
+        birthdate = Date.parse(row[4]) rescue nil
+        marital_status_id = MaritalStatus.find_by_name(row[5]).id rescue nil
+        childrens = row[6]
+        company_id = Company.find_by_name(row[7]).id rescue nil
+        job_role = row[8]
+        city = row[9]
+        geographical_address = row[10]
+        postal_address = row[11]
+        phone_number = row[12]
+        email = row[13]
+        comment = row[14]
+        #hobby_id = Hobby.find_by_name(row[15]).id rescue nil
+
+        @address_book = AdressBook.new(address_book_title_id: address_book_title_id, civility_id: civility_id, firstname: firstname, lastname: lastname, birthdate: birthdate, marital_status_id: marital_status_id, childrens: childrens, company_id: company_id, job_role: job_role, city: city, geographical_address: geographical_address, postal_address: postal_address, phone_number: phone_number, email: email, comment: comment, created_by: current_user.id, profile_id: Profile.person_id, sector_id: Sector.find_by_name("Privé").id, country_id: Country.find_by_name("Côte D'ivoire").id)
+        #render text: @address_book.inspect
+        if @address_book.save
+          inserted = true
+          #@address_book.adress_book_hobbies.create(hobby_id: hobby_id, user_id: current_user.id)
+          #address_book_hobby.save
+        end
+      end
+    end
+
+    inserted == true ? flash.now[:success] = "Les données ont été insérées." : flash.now[:error] = @address_book.errors.full_messages.map{|msg| "<p>#{msg}</p>"}.join#"Aucune donnée n'a été insérée."
+
+    render :load_file
+  end
+
+  # Make sure the user uploads an xls or xlsx file
+  def validate_address_books_file
+    if @address_books_file.blank? || (@address_books_file.content_type != "application/vnd.ms-excel" && @address_books_file.content_type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+      flash.now[:error] = "Veuillez choisir un fichier Excel contenant une liste d'entreprises."
+      @error = true
+    end
+  end
+
+  def get_holding_id
+    @holding_id = Holding.find_by_name(@holding_name).id rescue nil
+  end
+
 end

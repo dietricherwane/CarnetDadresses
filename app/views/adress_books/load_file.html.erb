@@ -1,0 +1,43 @@
+<%= flash_messages! %>
+
+<div class="page_title_wrapper">
+  <div class="container sixteen columns">
+    <div class="page_title_inner">
+      <span class="main_t_1">
+        Charger un fichier </span><span class="main_t_2">&nbsp; - &nbsp;  Ajouter des Décideurs au système à partir d'un fichier Excel
+      </span>
+    </div>
+  </div><!-- End container sixteen columns -->
+</div><!-- End page_title_wrapper -->
+
+<div class="content_shadow"></div>
+<div class="clear"></div>
+
+<div class = "container">
+  <div class = "content_wrapper_inner">
+
+  <div class = "sixteen columns row">
+    <div class = "one_half">
+
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Charger un fichier contenant des décideurs</h3>
+      </div>
+      <%= form_tag save_address_books_loaded_file_path, method: :post, multipart: true do |f| %>
+        <div class="form-group">
+          <label>Fichier des décideurs</label>
+          <%= file_field_tag 'address_books_file', accept: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' %>
+        </div>
+
+        <div class="form-group">
+          <%= submit_tag "Valider" %>
+        </div>
+      <% end %>
+    </div><!-- End one_half -->
+
+    <div class = "one_half lastcolumn">
+
+    </div><!-- End one_half lastcolumn -->
+  </div>
+
+  </div><!-- End content_wrapper_inner -->
+</div><!-- End container -->
