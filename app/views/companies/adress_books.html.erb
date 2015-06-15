@@ -1,0 +1,148 @@
+<%= notification_messages! %>
+
+<div class="page_title_wrapper">
+  <div class="container sixteen columns">
+    <div class="page_title_inner">
+      <span class="main_t_1">
+        Liste des décideurs de l'entreprise </span><span class="main_t_2">&nbsp; - &nbsp;  Nom de l'entreprise: <%= link_to @company.name, edit_company_path(@company.id) %>
+      </span>
+    </div>
+  </div><!-- End container sixteen columns -->
+</div><!-- End page_title_wrapper -->
+
+<div class="content_shadow"></div>
+<div class="clear"></div>
+
+<div class = "container">
+  <div class = "content_wrapper_inner">
+
+  <div class = "sixteen columns row">
+    <div class = "one_half">
+
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Informations de l'entreprise</h3>
+      </div>
+      <%= form_for @company, url: update_company_path, method: :post do |f| %>
+        <%= company_messages! %>
+        <div class="form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, :autofocus => true, class: "form-control", placeholder: "Veuillez entrer le nom de l'entreprise", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :shortcut %>
+          <%= f.text_field :shortcut, class: "form-control", placeholder: "Veuillez entrer le sigle de l'entreprise", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <div id = "companies">
+            <%= f.label :sales_area_id %>
+            <%= f.collection_select :sales_area_id, @sales_areas, :id, :name, options ={prompt: "-Veuillez choisir votre secteur d'activités-"}, html_options = {class: "form-control", disabled: true} %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div id = "sub_sales_areas">
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :social_status_id %>
+          <%= f.collection_select :social_status_id, @social_statuses, :id, :name, options ={prompt: "-Veuillez choisir le type d'entreprise-"}, html_options = {class: "form-control", disabled: true} %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :trading_identifier %>
+          <%= f.text_field :trading_identifier, class: "form-control", placeholder: "Veuillez entrer le registre de commerce", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :employees_amount %>
+          <%= select "company", "employees_amount", @employees_amount, options ={prompt: "Veuillez entrer le nombre d'employés", selected: @company.employees_amount}, html_options = {class: "form-control", disabled: true} %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :capital %>
+          <%= select "company", "capital", @capital, options ={prompt: "Veuillez entrer le capital de l'entreprise", selected: @company.capital}, html_options = {class: "form-control", disabled: true} %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :turnover %>
+          <%= f.text_field :turnover, class: "form-control", placeholder: "Veuillez entrer le chiffre d'affaires", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :phone_number %>
+          <%= f.text_field :phone_number, class: "form-control", placeholder: "Veuillez entrer le numéro de téléphone", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :fax %>
+          <%= f.text_field :fax, class: "form-control", placeholder: "Veuillez entrer le numéro de fax", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :website %>
+          <%= f.email_field :website, class: "form-control", placeholder: "Veuillez entrer le site web", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.email_field :email, class: "form-control", placeholder: "Veuillez entrer l'adresse email", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :country_id %>
+          <%= f.collection_select :country_id, @countries, :id, :name, options ={prompt: "-Veuillez choisir le pays-"}, html_options = {class: "form-control", disabled: true} %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :city %>
+          <%= f.text_field :city, class: "form-control", placeholder: "Veuillez entrer la ville", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :geographical_address %>
+          <%= f.text_field :geographical_address, class: "form-control", placeholder: "Veuillez entrer l'adresse géographique", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :postal_address %>
+          <%= f.text_field :postal_address, class: "form-control", placeholder: "Veuillez entrer l'adresse postale", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :holding_id %>
+          <%= f.collection_select :holding_id, @holdings, :id, :name, options ={prompt: "-Veuillez choisir le groupe-"}, html_options = {class: "form-control", disabled: true} %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :activities %>
+          <%= f.text_area :activities, class: "form-control", placeholder: "Veuillez détailler les activités", readonly: true %>
+        </div>
+      <% end %>
+    </div><!-- End one_half -->
+
+    <div class = "one_half lastcolumn">
+      <div class="pb_title_wrapper">
+        <h3 class="pb_title1">Liste des décideurs</h3>
+      </div>
+      <div class="accordion-items">
+        <% unless @adress_books.blank? %>
+          <% current_user.admin? ? (can_enable = false) : (can_enable = true) %>
+          <% @adress_books.each do |adress_book| %>
+            <div class="accordion-item">
+              <%= render "persons_list", adress_book: adress_book, can_enable: can_enable %>
+            </div>
+          <% end %>
+
+          <%= paginate @adress_books, :params => {:controller => :companies, :action => :adress_books} %>
+        <% end %>
+      </div>
+
+    </div><!-- End one_half lastcolumn -->
+  </div>
+
+  </div><!-- End content_wrapper_inner -->
+</div><!-- End container -->

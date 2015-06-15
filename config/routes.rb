@@ -98,6 +98,7 @@ CarnetDadresse::Application.routes.draw do
   get "js_companies" => "companies#get_companies"
   get "company/load_file" => "companies#load_file", as: :load_companies_file
   post "companies/save_loaded_file" => "companies#save_loaded_file", as: :save_companies_loaded_file
+  get "company/persons/:id" => "companies#adress_books", as: :company_persons
 
   get "adress_book/edit/:id" => "adress_books#edit", as: :edit_adress_book
   post "adress_book/update/:id" => "adress_book#update", as: :update_adress_book

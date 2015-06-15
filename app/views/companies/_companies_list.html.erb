@@ -81,6 +81,9 @@
     <b><%= Company.human_attribute_name("activities") %>:</b> <%= simple_format(company.activities) %>
   </p>
   <p>
+    <%= link_to "La liste des décideurs", company_persons_path(company.id) %>
+  </p>
+  <p>
     <b>Créé le:</b> <%= company.created_at.strftime("%d-%m-%Y") + " à " + company.created_at.strftime("%Hh %Mmn") %>
   </p>
 </div>

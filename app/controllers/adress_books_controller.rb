@@ -39,6 +39,7 @@ class AdressBooksController < ApplicationController
   end
 
   def search_person
+    init_create_adress_book
     search(["firstname", "lastname", "phone_number", "email"], params[:terms])
 
     render "persons"
@@ -139,17 +140,6 @@ class AdressBooksController < ApplicationController
   end
 
   def search(fields, terms)
-=begin
-    @sectors = Sector.where(published: [true, nil])
-    @social_statuses = SocialStatus.where(published: [nil, true])
-    @sales_areas = SalesArea.where(published: [nil, true])
-    @adress_book = AdressBook.new
-    @civilities = Civility.all
-    @marital_statuses = MaritalStatus.all
-    @countries = Country.all
-    @holdings = Holding.where(published: [nil, true])
-    @countries = Country.all
-=end
     @adress_book = AdressBook.new
     @company = Company.new
     @holding = Holding.new
@@ -157,16 +147,13 @@ class AdressBooksController < ApplicationController
 
     @tables = [["Sector", "sector_id"]]
     @fields = fields
-    (terms.strip.length == 1) ? @terms = terms.strip : @terms = terms.strip.split
+    @terms = terms.strip.split
 
-    if @terms.length == 1
-      @adress_books = AdressBook.where("firstname ILIKE '#{@terms}%'").order("firstname ASC")
-    else
-      # Executes a search function in application_controller to return results
-      complex_search_function
+    # Executes a search function in application_controller to return results
+    complex_search_function
 
-      @adress_books = AdressBook.where(@sql).order("firstname ASC")
-    end
+    @adress_books = AdressBook.where(@sql).order("firstname ASC")
+
     flash.now[:success] = "#{@adress_books.count} résultat#{@adress_books.count > 1 ? "s" : ""} de recherche."
     @adress_books = @adress_books.page(params[:page]).per(10)
   end

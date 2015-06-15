@@ -100,6 +100,17 @@ class CompaniesController < ApplicationController
     @capital = capital
   end
 
+  def init_search
+    @holding = Holding.new
+    @holdings = Holding.where(published: [nil, true])
+    @countries = Country.all
+    @sectors = Sector.where(published: [true, nil])
+    @social_statuses = SocialStatus.where(published: [nil, true])
+    @sales_areas = SalesArea.all
+    @employees_amount = employees_amount
+    @capital = capital
+  end
+
   def js_create
     if current_user.admin?
       params[:company].merge!(published: false)
@@ -128,6 +139,7 @@ class CompaniesController < ApplicationController
   end
 
   def search_company
+    init_search
     search(["name", "trading_identifier", "phone_number", "email"], params[:terms], "company_id")
 
     render "companies"
@@ -242,7 +254,7 @@ class CompaniesController < ApplicationController
       end
     end
 
-    inserted == true ? flash.now[:success] = "Les données ont été insérées." : flash.now[:error] = "Aucune donnée n'a été insérée."
+    inserted == true ? flash.now[:success] = "Les données ont été insérées." : flash.now[:error] = "Aucune donnée n'a été insérée." + company.errors.full_messages.map { |msg| "<p>#{msg}</p>" }.join
 
     render :load_file
   end
@@ -257,5 +269,15 @@ class CompaniesController < ApplicationController
 
   def get_holding_id
     @holding_id = Holding.find_by_name(@holding_name).id rescue nil
+  end
+
+  def adress_books
+    @company = Company.find_by_id(params[:id])
+    if @company.blank?
+      render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
+    else
+      init_company
+      @adress_books = @company.adress_books.page(params[:page]).per(10)
+    end
   end
 end
